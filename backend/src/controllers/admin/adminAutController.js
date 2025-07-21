@@ -31,36 +31,39 @@ class AdminAuthController {
                 return this.standardResponse(res, 400, `Admin secret validation failed`);
             }
 
-            //3: check if admin already exists with same credentials
-            const admin = await UserModel.findOne({ $or: [{ email }, { phone }] })
+            //3: check if admin already exists 
+            const admin = await UserModel.findOne({role:"admin"})
             if (admin) {
-                return this.standardResponse(res, 400, "Admin user already exists")
+                return this.standardResponse(res, 400, "Admin  already exists")
             }
 
             //4: hash password
             const salt = await bcrypt.genSalt(10);
             const hashPassword = await bcrypt.hash(password, salt);
-            //4: create user if not exists
+
+            //5: create user if not exists
             const newAdmin = new UserModel({
                 name,
                 email,
                 phone,
                 password: hashPassword,
+                isVerified:true,
                 role: "admin",
             })
 
             const isCreated = await newAdmin.save();
-            return this.standardResponse(res, 200, "Admin created successfully",{
-                name:isCreated.name,
-                email:isCreated.email,
-                role:isCreated.role,
-                isVerified:isCreated.isVerified,
-                profilePicture:isCreated.profilePicture
+            return this.standardResponse(res, 200, "Admin created successfully", {
+                name: isCreated.name,
+                email: isCreated.email,
+                role: isCreated.role,
+                isVerified: isCreated.isVerified,
+                profilePicture: isCreated.profilePicture
             })
 
 
         } catch (error) {
-
+            console.log("error in registering admin======")
+            return this.standardResponse(res, 400, "Internal server error")
         }
 
     }
