@@ -3,8 +3,13 @@ const app = express();
 
 import { configDotenv } from "dotenv";
 import connectDb from "../configs/dbConnect.js";
+import adminRouter from "./routes/adminRoutes.js";
 configDotenv()
 
+// root middlewares======================
+app.use(express.json())
+// importing routes
+app.use("/admin",adminRouter);
 
 
 

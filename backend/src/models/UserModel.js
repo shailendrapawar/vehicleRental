@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        trim: true
+        trim: true,
+        select: false,
+        required:true
     },
     role: {
         type: String,
@@ -28,11 +30,12 @@ const userSchema = new mongoose.Schema({
     },
     isVerified: {
       type: Boolean,
-      default: false
+      default: false,
+      select: false
     },
-    profilePic: {
-        url:{ type: String },
-        publicId:{ type: String }
+    profilePicture: {
+        url:{ type: String,default:"" },
+        publicId:{ type: String,default:"" }
     },
 
 
