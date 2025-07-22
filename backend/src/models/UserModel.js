@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
         select: false,
-        required:true
+        required: true
     },
     role: {
         type: String,
@@ -29,18 +29,22 @@ const userSchema = new mongoose.Schema({
         default: "customer"
     },
     isVerified: {
-      type: Boolean,
-      default: false,
-      select: false
+        type: Boolean,
+        default: false,
+        select: false
     },
+    
     profilePicture: {
-        url:{ type: String,default:"" },
-        publicId:{ type: String,default:"" }
+        url: {
+            type: String,
+            default: "https://as1.ftcdn.net/v2/jpg/15/53/26/50/1000_F_1553265086_LRdX34X7hnx5EQ8GMmmohIQttweIbRRP.jpg"
+        },
+        publicId: { type: String, default: "" }
     },
 
 
-},{
-    timestamps:true
+}, {
+    timestamps: true
 })
 const UserModel = mongoose.model("User", userSchema);
 export default UserModel;

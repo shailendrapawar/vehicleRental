@@ -12,3 +12,10 @@ export const intialAdminRegisterSchema=Joi.object({
     phone:Joi.string().pattern(mobileRegex).required(),
     secretCode:Joi.string().required()
 })
+
+//2: admin login schema
+
+export const adminLoginSchema=Joi.object({
+    email:Joi.string().email().required(),
+    password:Joi.string().required()
+})

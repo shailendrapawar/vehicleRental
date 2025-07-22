@@ -1,8 +1,9 @@
 // import UserModel from "../../models/UserModel.js"
 import UserModel from "../../models/UserModel.js"
-import { intialAdminRegisterSchema } from "../../validations/admin/adminAuthSchema.js"
+import { adminLoginSchema, intialAdminRegisterSchema } from "../../validations/admin/adminAuthSchema.js"
 import { configDotenv } from "dotenv"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 configDotenv()
 class AdminAuthController {
@@ -32,7 +33,7 @@ class AdminAuthController {
             }
 
             //3: check if admin already exists 
-            const admin = await UserModel.findOne({role:"admin"})
+            const admin = await UserModel.findOne({ role: "admin" })
             if (admin) {
                 return this.standardResponse(res, 400, "Admin  already exists")
             }
@@ -47,11 +48,12 @@ class AdminAuthController {
                 email,
                 phone,
                 password: hashPassword,
-                isVerified:true,
+                isVerified: true,
                 role: "admin",
             })
 
             const isCreated = await newAdmin.save();
+
             return this.standardResponse(res, 200, "Admin created successfully", {
                 name: isCreated.name,
                 email: isCreated.email,
@@ -60,13 +62,64 @@ class AdminAuthController {
                 profilePicture: isCreated.profilePicture
             })
 
-
         } catch (error) {
-            console.log("error in registering admin======")
+            console.log("error in registering admin ")
             return this.standardResponse(res, 400, "Internal server error")
         }
+    }
 
+    // B: admin login
+    static adminLogin = async (req, res) => {
+        try {
+            const { error, value } = adminLoginSchema.validate(req.body);
+
+            if (error) {
+                return this.standardResponse(res, 400, `Validation error:=- ${error.message}`)
+            }
+
+            const { email, password } = value;
+
+            //1: check for admin in users
+            const isExist = await UserModel.findOne({ email }).select("email password role profilePicture");
+            // console.log(isExist)
+            if (!isExist) {
+                return this.standardResponse(res, 400, "This user does not exists");
+            }
+
+            //2: check for valid password
+            const isValid = await bcrypt.compare(password, isExist.password)
+            if (!isValid) {
+                return this.standardResponse(res, 400, "Invalid credentials");
+            }
+
+            //3: delete password
+            const user = isExist.toObject();
+            delete user.password;
+
+            //4: generate token
+            const token = jwt.sign({
+                id: user._id,
+                role: user.role
+            }, process.env.SECRET_TOKEN, { expiresIn: "1d" })
+
+            //5:set cookies
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production", //only in production
+                maxAge: 7 * 24 * 60 * 60 * 1000 //7 days
+            })
+
+
+            return this.standardResponse(res, 200, "User logged in", user)
+
+
+        } catch (error) {
+            console.log("error in registering admin ")
+            return this.standardResponse(res, 400, "Internal server error")
+        }
     }
 }
+
+
 
 export default AdminAuthController
