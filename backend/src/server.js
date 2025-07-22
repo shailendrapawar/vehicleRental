@@ -4,12 +4,14 @@ const app = express();
 import { configDotenv } from "dotenv";
 import connectDb from "../configs/dbConnect.js";
 import adminRouter from "./routes/adminRoutes.js";
+import authRouter from "./routes/authRoutes.js";
 configDotenv()
 
 // root middlewares======================
 app.use(express.json())
 // importing routes
 app.use("/admin",adminRouter);
+app.use("/auth",authRouter);
 
 
 

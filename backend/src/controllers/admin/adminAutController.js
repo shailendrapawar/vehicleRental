@@ -64,7 +64,7 @@ class AdminAuthController {
 
         } catch (error) {
             console.log("error in registering admin ")
-            return this.standardResponse(res, 400, "Internal server error")
+            return this.standardResponse(res, 500, "Internal server error")
         }
     }
 
@@ -114,8 +114,8 @@ class AdminAuthController {
 
 
         } catch (error) {
-            console.log("error in registering admin ")
-            return this.standardResponse(res, 400, "Internal server error")
+            console.log("error in login admin ")
+            return this.standardResponse(res, 500, "Internal server error")
         }
     }
 }
