@@ -3,6 +3,7 @@ import { sendOtpSchema, verifyOtpSchema } from "../validations/authValidation.js
 import OtpModel from "../models/OtpModel.js"
 import generateOtp from "../utils/otpGenerator.js"
 import getMinutesLeft from "../utils/getMinutesLeft.js"
+import sendEmail from "../services/sendEmail.js"
 
 class AuthController {
     static standardResponse = async (res, status, msg, data = null) => {
@@ -24,16 +25,16 @@ class AuthController {
             const { email, purpose, role } = value
 
             // 1: check if already exists whose expire greater than now()
-            const existingOtp = await OtpModel.findOne({
-                email: email,
-                purpose,
-                role,
-                expiresAt: { $gt: new Date() }
-            })
+            // const existingOtp = await OtpModel.findOne({
+            //     email: email,
+            //     purpose,
+            //     role,
+            //     expiresAt: { $gt: new Date() }
+            // })
 
-            if (existingOtp) {
-                return this.standardResponse(res, 400, `Otp already sent, try after ${getMinutesLeft(existingOtp.expiresAt)} minutes`);
-            }
+            // if (existingOtp) {
+            //     return this.standardResponse(res, 400, `Otp already sent, try after ${getMinutesLeft(existingOtp.expiresAt)} minutes`);
+            // }
 
             // 2: generate otp and save to db
             const otpData = await generateOtp();
@@ -53,6 +54,7 @@ class AuthController {
             }
 
             // 3: send via email
+            await sendEmail({code:otpData.code,to:"shailendrapawar792@gmail.com",purpose})
             return this.standardResponse(res, 200, "Otp sent", { otpData })
 
         } catch (error) {
