@@ -1,6 +1,6 @@
 // import UserModel from "../../models/UserModel.js"
 import UserModel from "../../models/UserModel.js"
-import { adminLoginSchema, intialAdminRegisterSchema } from "../../validations/admin/adminAuthSchema.js"
+import { adminChangePasswordSchema, adminLoginSchema, intialAdminRegisterSchema } from "../../validations/admin/adminAuthSchema.js"
 import { configDotenv } from "dotenv"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
@@ -15,8 +15,8 @@ class AdminAuthController {
         })
     }
 
-    //A: register initial admin only once
 
+    //A: register admin only once
     static registerAdmin = async (req, res) => {
 
         try {
@@ -111,12 +111,56 @@ class AdminAuthController {
 
 
             return this.standardResponse(res, 200, "User logged in", user)
-
-
         } catch (error) {
-            console.log("error in login admin ")
+            console.log("error in login admin ", error)
             return this.standardResponse(res, 500, "Internal server error")
         }
+    }
+
+    // C: change password
+    static changePassword = async (req, res) => {
+
+        try {
+            const { error, value } = adminChangePasswordSchema.validate(req.body);
+
+            // 1: check validations
+            if (error) {
+                return this.standardResponse(res, 400, `Validation error:=- ${error.message}`)
+            }
+            const { currentPassword, newPassword, confirmPassword } = value
+
+            if (currentPassword === newPassword) {
+                return this.standardResponse(res, 400, `New password cannot be current password`)
+            }
+
+            // 2: find user 
+            const user = await UserModel.findById(req.user.id).select("password");
+            console.log(user)
+
+            // 3: compare password
+
+            const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+            if (!isMatch) {
+                return this.standardResponse(res, 400, "Wrong password");
+            }
+
+            // 4: replace new password
+            const salt = await bcrypt.genSalt(10);
+            const newHashPass = await bcrypt.hash(newPassword, salt);
+
+            user.password = newHashPass;
+            await user.save();
+
+            return this.standardResponse(res, 200, "Password updated successfully");
+
+        } catch (error) {
+            console.log("error in admin  password reset ", error)
+            return this.standardResponse(res, 500, "Internal server error")
+
+
+        }
+
     }
 }
 

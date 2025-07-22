@@ -19,3 +19,11 @@ export const adminLoginSchema=Joi.object({
     email:Joi.string().email().required(),
     password:Joi.string().required()
 })
+
+// 3: admin change password
+
+export const adminChangePasswordSchema=Joi.object({
+    currentPassword:Joi.string().required(),
+    newPassword:Joi.string().required(),
+    confirmPassword:Joi.string().valid(Joi.ref("newPassword")).required(),
+})
