@@ -14,6 +14,10 @@ const otpSchema= new mongoose.Schema({
         type:String,
         enum:["admin","customer","owner"],
         required:true
+    },
+    isVerified:{
+        type:Boolean,
+        default:false
     }
 },{timestamps:true});
 
