@@ -157,10 +157,7 @@ class AdminAuthController {
         } catch (error) {
             console.log("error in admin  password reset ", error)
             return this.standardResponse(res, 500, "Internal server error")
-
-
         }
-
     }
 }
 
