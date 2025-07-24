@@ -163,7 +163,7 @@ const Register = () => {
               <option value={"owner"}>Vehicle Owner </option>
             </select>
 
-            {emailRegex.test(registerData.email) && (<button className="col-span-2 rounded-md mt-5 h-8 active:scale-95 transition-all ease-out"
+            {emailRegex.test(registerData.email) && (<button className="col-span-2 rounded-3xl mt-5 h-10 active:scale-95 transition-all ease-out cursor-pointer text-black"
               onClick={handleNext}
               style={{ backgroundColor: currentTheme.accent }}
             >Verify Email</button>)}
@@ -184,7 +184,7 @@ const Register = () => {
 
             {registerOtp && (<button
               onClick={handleVerifyOtp}
-              className="h-8 w-25 rounded-3xl active:scale-95 transition-all ease-out"
+              className="h-8 w-25 rounded-3xl active:scale-95 transition-all ease-out cursor-pointer text-black text-sm"
               style={{ backgroundColor: currentTheme.accent }}
             >Verify OTP</button>)}
 
@@ -197,7 +197,7 @@ const Register = () => {
 
         {step===1 && (<span className="text-xs"
         style={{color:currentTheme.textSecondary}}
-        >Already a user? <Link className="" style={{color:currentTheme.accent}}>Login</Link></span>)}
+        >Already a user? <Link to={"/login"} className="" style={{color:currentTheme.accent}}>Login</Link></span>)}
 
 
 
