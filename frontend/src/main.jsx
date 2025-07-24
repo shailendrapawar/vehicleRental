@@ -11,29 +11,36 @@ import Register from './pages/authPages/Register.jsx'
 import CustomerLayout from './layouts/CustomerLayout.jsx'
 import OwnerLayout from './layouts/OwnerLayout.jsx'
 import AdminLayout from './layouts/AdminLayout.jsx'
+import Landing from './pages/landingPage/Landing.jsx'
 
+import { Provider } from "react-redux"
+import { store, persistor } from './store/store.js'
+import { PersistGate } from 'redux-persist/integration/react'
 
-const myRouter=createBrowserRouter(createRoutesFromElements(
-  
-  <Route path='/' element={<RootLayout/>}>
+import { Toaster } from "react-hot-toast"
+
+const myRouter = createBrowserRouter(createRoutesFromElements(
+
+  <Route path='/' element={<RootLayout />}>
     {/*====commone routes========= */}
-    <Route path='/login' element={<Login/>}/>
-    <Route path='/register' element={<Register/>}/>
+    <Route index element={<Landing />} />
+    <Route path='/login' element={<Login />} />
+    <Route path='/register' element={<Register />} />
 
 
     {/* =========Customer Routes================== */}
-    <Route path='/customer' element={<CustomerLayout/>}>
-    
+    <Route path='/customer' element={<CustomerLayout />}>
+
     </Route>
 
-     {/* =========Owner Routes================== */}
-    <Route path='/owner' element={<OwnerLayout/>}>
-    
+    {/* =========Owner Routes================== */}
+    <Route path='/owner' element={<OwnerLayout />}>
+
     </Route>
 
-     {/* =========Admin Routes================== */}
-    <Route path='/admin' element={<AdminLayout/>}>
-    
+    {/* =========Admin Routes================== */}
+    <Route path='/admin' element={<AdminLayout />}>
+
     </Route>
 
 
@@ -42,8 +49,14 @@ const myRouter=createBrowserRouter(createRoutesFromElements(
 ))
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-   <RouterProvider router={myRouter}>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Toaster/>
+          <RouterProvider router={myRouter}>
 
-   </RouterProvider>
+          </RouterProvider>
+       
+      </PersistGate>
+    </Provider>
   </StrictMode>,
 )

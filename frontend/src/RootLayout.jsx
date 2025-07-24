@@ -1,12 +1,17 @@
+import { useSelector } from "react-redux"
 import { Outlet } from "react-router-dom"
-const RootLayout = () => {
-  return (
-    <div className="w-screen h-screen bg-green-300 flex flex-col justify-center items-center">
 
+const RootLayout = () => {
+
+  const { currentTheme } = useSelector(s => s.theme);
+  return (
+    <div className="w-screen h-screen flex flex-col justify-center items-center"
+      style={{ backgroundColor: currentTheme.background, color: currentTheme.textPrimary }}
+    >
       {/* commong components  */}
-        <main  className="w-full h-full bg-red-500 max-w-250">
-        <Outlet/>
-        </main>
+      <main className="w-full h-full  max-w-250 cursor-pointer">
+        <Outlet />
+      </main>
     </div>
   )
 }
