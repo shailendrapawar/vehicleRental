@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
         select: false,
-        required: true
+        // required: true
     },
     role: {
         type: String,

@@ -32,9 +32,9 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if(name==="dob"){
-      const is18=isAtLeast18YearsOld(value);
-      if(!is18){
+    if (name === "dob") {
+      const is18 = isAtLeast18YearsOld(value);
+      if (!is18) {
         toast.error("Invalid date, Must be 18 or above");
         return
       }
@@ -84,17 +84,17 @@ const Register = () => {
 
   // 5: check dateOfBirth
   function isAtLeast18YearsOld(dateString) {
-  const birthDate = new Date(dateString);
-  const today = new Date();
+    const birthDate = new Date(dateString);
+    const today = new Date();
 
-  const ageDate = new Date(
-    birthDate.getFullYear() + 18,
-    birthDate.getMonth(),
-    birthDate.getDate()
-  );
+    const ageDate = new Date(
+      birthDate.getFullYear() + 18,
+      birthDate.getMonth(),
+      birthDate.getDate()
+    );
 
-  return ageDate <= today;
-}
+    return ageDate <= today;
+  }
 
   return (
     <div className="h-full w-full flex justify-center items-center p-1">
@@ -160,11 +160,12 @@ const Register = () => {
             >
               <option value={""}>Register as</option>
               <option value={"customer"}>User</option>
-              <option value={"owner"}>Vehicle Owner </option>
+              <option value={"owner"}>Vehicle Owner</option>
             </select>
 
             {emailRegex.test(registerData.email) && (<button className="col-span-2 rounded-3xl mt-5 h-10 active:scale-95 transition-all ease-out cursor-pointer text-black"
-              onClick={handleNext}
+
+              type={"submit"}
               style={{ backgroundColor: currentTheme.accent }}
             >Verify Email</button>)}
           </form>)
@@ -189,15 +190,15 @@ const Register = () => {
             >Verify OTP</button>)}
 
             <h3 className="text-sm"
-            style={{color:currentTheme.textSecondary}}
-            >Didn't received code? <span style={{color:currentTheme.accent}}>Resend</span> </h3>
+              style={{ color: currentTheme.textSecondary }}
+            >Didn't received code? <span style={{ color: currentTheme.accent }}>Resend</span> </h3>
 
           </main>
         )}
 
-        {step===1 && (<span className="text-xs"
-        style={{color:currentTheme.textSecondary}}
-        >Already a user? <Link to={"/login"} className="" style={{color:currentTheme.accent}}>Login</Link></span>)}
+        {step === 1 && (<span className="text-xs"
+          style={{ color: currentTheme.textSecondary }}
+        >Already a user? <Link to={"/login"} className="" style={{ color: currentTheme.accent }}>Login</Link></span>)}
 
 
 

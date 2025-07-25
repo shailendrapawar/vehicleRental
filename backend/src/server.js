@@ -6,9 +6,15 @@ import cookieParser from "cookie-parser"
 import connectDb from "../configs/dbConnect.js";
 import adminRouter from "./routes/adminRoutes.js";
 import authRouter from "./routes/authRoutes.js";
+import cors from "cors"
 configDotenv()
 
 // root middlewares======================
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true,
+}))
+
 app.use(express.json())
 app.use(cookieParser())
 // importing routes
