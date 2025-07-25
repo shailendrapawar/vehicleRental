@@ -3,12 +3,12 @@ import {createSlice} from "@reduxjs/toolkit"
 const slice=createSlice({
     name:"auth",
     initialState:{
-        auth:null
+        user:null
     },
     reducers:{
         setCredentials:(state,action)=>{
             const {payload}=action;
-            state.auth=payload;
+            state.user=payload;
         },
 
     }

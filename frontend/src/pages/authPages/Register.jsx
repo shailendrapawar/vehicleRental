@@ -1,23 +1,25 @@
 import { useSelector } from "react-redux"
 import InputBox from "../../components/inputBox/InputBox"
 import OtpBar from "../../components/otpBar/OtpBar"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { IoCaretBackCircleSharp } from "react-icons/io5";
 import toast from "react-hot-toast"
 
+import axios from "axios";
+
+
 const Register = () => {
   const { currentTheme } = useSelector(s => s.theme)
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  const navigate = useNavigate();
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
   const [step, setStep] = useState(1);
   const [registerOtp, setRegisterOtp] = useState("");
   const [otpLength, setOtpLength] = useState(4)
-
-  const [verifyToggle, setVerifyToggle] = useState(false)
-
+  
   const [registerData, setRegisterData] = useState({
     firstName: "",
     lastName: "",
@@ -43,29 +45,69 @@ const Register = () => {
       ...prev,
       [name]: value
     }))
-    console.log(registerData)
   }
+
 
 
   // 2: handle get otp
   const handleGetOtp = async () => {
+    try {
+      const otpPromise = axios.post(import.meta.env.VITE_API_URL + `/auth/send-otp`, {
+        email: registerData.email,
+        purpose: "signup",
+        role: registerData.registerAs
+      }, {
+        withCredentials: true
+      })
 
+      toast.promise(otpPromise, {
+        loading: "Sending Otp",
+        success: "Otp sent to your email"
+      })
+
+      await otpPromise;
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.msg)
+    }
   }
 
-  //3:  handle verify email
+  //3:  handle verify OTP
   const handleVerifyOtp = async () => {
     if (otpLength !== registerOtp.length) {
       toast.error("Otp length is invalid");
       return
     }
-    //send api to handle otp veriication and then register
 
-    console.log("fine, submitting", { ...registerData, registerOtp })
+    //verify otp
+    try {
+      const verifyOtpPromise = axios.post(import.meta.env.VITE_API_URL + `/auth/verify-otp`, {
+        email: registerData.email,
+        purpose: "signup",
+        role: registerData.registerAs,
+        code: registerOtp
+      }, {
+        withCredentials: true
+      })
+
+      toast.promise(verifyOtpPromise, {
+        loading: "Verifying Otp",
+      })
+
+      await verifyOtpPromise;
+      // register the user==========
+      registerUser()
+
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.msg)
+    }
   }
 
 
-  // 4 handle next step 
-  const handleNext = (e) => {
+
+  // 4: handle next step 
+  const handleNext = async (e) => {
     e.preventDefault();
     if (step > 2 && registerData.firstName == "" ||
       registerData.lastName == "" ||
@@ -74,25 +116,54 @@ const Register = () => {
       registerData.dob == "" ||
       registerData.registerAs == ""
     ) {
-      toast.error("enter all fields")
+      toast.error("Enter all fields")
       return
     }
     setStep(2)
     // send intial otp code
+    handleGetOtp();
   }
 
 
-  // 5: check dateOfBirth
+  // 5: register user
+
+  const registerUser = async () => {
+    try {
+      const registerUserPromise = axios.post(import.meta.env.VITE_API_URL + `/auth/user-registration`, {
+        ...registerData,
+        registerOtp: registerOtp
+      }, {
+        withCredentials: true
+      })
+
+      toast.promise(registerUserPromise, {
+        success: `Account created...😍`,
+        loading: "Creating user...",
+      })
+
+      await registerUserPromise;
+
+      setTimeout(() => {
+        navigate("/login")
+      }, 1000);
+
+    } catch (error) {
+      console.log(error)
+      toast.error(error.response.data.msg)
+    }
+  }
+
+
+
+  // 6: check dateOfBirth
   function isAtLeast18YearsOld(dateString) {
     const birthDate = new Date(dateString);
     const today = new Date();
-
     const ageDate = new Date(
       birthDate.getFullYear() + 18,
       birthDate.getMonth(),
       birthDate.getDate()
     );
-
     return ageDate <= today;
   }
 
@@ -191,7 +262,9 @@ const Register = () => {
 
             <h3 className="text-sm"
               style={{ color: currentTheme.textSecondary }}
-            >Didn't received code? <span style={{ color: currentTheme.accent }}>Resend</span> </h3>
+            >Didn't received code? <span style={{ color: currentTheme.accent }}
+              onClick={() => handleGetOtp()}
+            >Resend</span> </h3>
 
           </main>
         )}

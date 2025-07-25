@@ -1,5 +1,5 @@
 import express from "express"
-import { sendOtpSchema, userLoginSchema, userRegistrationSchema, verifyOtpSchema } from "../validations/authValidation.js"
+import { sendOtpSchema, userLoginSchema, userRegistrationSchema, verifyOtpSchema } from "../validations/userAuthValidation.js"
 import OtpModel from "../models/OtpModel.js"
 import generateOtp from "../utils/otpGenerator.js"
 import getMinutesLeft from "../utils/getMinutesLeft.js"
@@ -13,7 +13,7 @@ import jwt from "jsonwebtoken"
 
 configDotenv()
 
-class AuthController {
+class UserAuthController {
     static standardResponse = async (res, status, msg, data = null) => {
         return res.status(status).json({
             msg,
@@ -46,7 +46,6 @@ class AuthController {
 
             // 2: generate otp and save to db
             const otpData = await generateOtp();
-            console.log("otp data", otpData)
 
             const newOtp = new OtpModel({
                 email: email,
@@ -61,9 +60,9 @@ class AuthController {
                 return this.standardResponse(res, 400, "Error creating otp");
             }
 
-            // 3: send via email
+            // 3: send OTP via email
             await sendEmail({ code: otpData.code, to: email, purpose })
-            return this.standardResponse(res, 200, "Otp sent to email", { otpData })
+            return this.standardResponse(res, 200, "Otp sent to email")
 
         } catch (error) {
             console.log("error in send otp ", error)
@@ -71,11 +70,12 @@ class AuthController {
         }
     }
 
+
+
     // B: Verify otp
     static verifyOtp = async (req, res) => {
 
         try {
-
             const { error, value } = verifyOtpSchema.validate(req.body);
             if (error) {
                 return this.standardResponse(res, 400, `Validation error:- ${error.message}`)
@@ -213,4 +213,4 @@ class AuthController {
     }
 }
 
-export default AuthController;
+export default UserAuthController;

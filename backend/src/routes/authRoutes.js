@@ -1,17 +1,15 @@
 import express from "express"
-import AuthController from "../controllers/AuthController.js";
-import AdminAuthController from "../controllers/admin/adminAutController.js";
-import authMiddleware from "../middlewares/authMiddleware.js";
+import UserAuthController from "../controllers/UserAuthController.js";
 const authRouter=express.Router();
 
 // otp routes===
-authRouter.post("/send-otp",AuthController.sendOtp);
-authRouter.post("/verify-otp",AuthController.verifyOtp);
+authRouter.post("/send-otp",UserAuthController.sendOtp);
+authRouter.post("/verify-otp",UserAuthController.verifyOtp);
 
 
 //register and login routes for all user
 
-authRouter.post("/user-registration",AuthController.userRegistration)
-authRouter.post("/user-login",AuthController.userLogin);
+authRouter.post("/user-registration",UserAuthController.userRegistration)
+authRouter.post("/user-login",UserAuthController.userLogin);
 
 export default authRouter;

@@ -1,6 +1,6 @@
 // import UserModel from "../../models/UserModel.js"
 import UserModel from "../../models/UserModel.js"
-import { adminChangePasswordSchema, adminLoginSchema, intialAdminRegisterSchema } from "../../validations/admin/adminAuthSchema.js"
+import { adminChangePasswordSchema , intialAdminRegisterSchema } from "../../validations/admin/adminAuthSchema.js"
 import { configDotenv } from "dotenv"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
@@ -26,7 +26,7 @@ class AdminAuthController {
                 return this.standardResponse(res, 400, `Validation error:=- ${error.message}`)
             }
 
-            const { secretCode, email, phone, name, password } = value
+            const { secretCode, email, name, password } = value
             //2: admin secret check
             if (secretCode !== process.env.ADMIN_SECRET) {
                 return this.standardResponse(res, 400, `Admin secret validation failed`);
@@ -46,7 +46,6 @@ class AdminAuthController {
             const newAdmin = new UserModel({
                 name,
                 email,
-                phone,
                 password: hashPassword,
                 isVerified: true,
                 role: "admin",
@@ -68,7 +67,7 @@ class AdminAuthController {
         }
     }
 
-    // C: change password
+    // B: change password
     static changePassword = async (req, res) => {
 
         try {

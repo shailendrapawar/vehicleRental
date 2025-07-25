@@ -9,18 +9,11 @@ export const intialAdminRegisterSchema=Joi.object({
     name:Joi.string().required(),
     email:Joi.string().email().required(),
     password:Joi.string().required(),
-    phone:Joi.string().pattern(mobileRegex).required(),
     secretCode:Joi.string().required()
 })
 
-//2: admin login schema
 
-export const adminLoginSchema=Joi.object({
-    email:Joi.string().email().required(),
-    password:Joi.string().required()
-})
-
-// 3: admin change password
+// 2: admin change password
 
 export const adminChangePasswordSchema=Joi.object({
     currentPassword:Joi.string().required(),

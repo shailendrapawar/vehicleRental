@@ -1,19 +1,22 @@
 import { useDispatch, useSelector } from "react-redux"
 import InputBox from "../../components/inputBox/InputBox"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import toast from "react-hot-toast"
 import axios from "axios"
 
 import { setCredentials } from "../../store/slices/authSlice"
+import { decodeToken } from "../../utils/decodeToken"
 
 
 const Login = () => {
+
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
   const { currentTheme } = useSelector(s => s.theme)
   const dispatch=useDispatch();
+  const navigate=useNavigate();
 
   const[isLoading,setIsLaoding]=useState(false)
 
@@ -55,10 +58,16 @@ const Login = () => {
         // error:""
       })
       const isLogin=await loginPromise
-      dispatch(setCredentials({...isLogin.data.data}))
+    
+      const token=isLogin.data.data.token
+      const user=decodeToken(token)
+      dispatch(setCredentials(user))
 
-      //navigate to role-specific route
+      setTimeout(() => {
+        navigate(`/${user.role}`)
+      }, 1000);
 
+      
     } catch (error) {
       console.log(error)
       toast.error(error.response.data.msg);
