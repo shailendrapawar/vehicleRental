@@ -48,11 +48,13 @@ const vehicleSchema = new mongoose.Schema({
         type: Number, // in kmpl or km/charge
     },
     images: [{
-        url: "",
-        publicId: ""
+        url: {type:String,default:""},
+        publicId: {type:String,default:""}
     }],
+    
     specsLink: {
-        type: String, // link to external spec site if admin adds it
+        type: String,// link to external spec site if admin adds it 
+         default:"" 
     },
     isApproved: {
         type: Boolean,

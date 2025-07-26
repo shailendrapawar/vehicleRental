@@ -25,9 +25,8 @@ const uploadToCloudinary=async(filePath)=>{
         }
         
     } catch (error) {
-       throw new Error('Upload failed');
+       throw new Error('Cloudinary upload failed');
     }
-
 }
 
 export default uploadToCloudinary;

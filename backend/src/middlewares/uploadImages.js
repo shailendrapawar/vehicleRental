@@ -15,6 +15,7 @@ const storage=multer.diskStorage({
 
 const uploadImages=multer({
     storage,
+    limits:{files:5},
     fileFilter:(req,file,cb)=>{
         if(allowedTypes.includes(file.mimetype)){
             cb(null,true)
