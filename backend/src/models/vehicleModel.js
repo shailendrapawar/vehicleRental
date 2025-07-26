@@ -48,21 +48,34 @@ const vehicleSchema = new mongoose.Schema({
         type: Number, // in kmpl or km/charge
     },
     images: [{
-        url: {type:String,default:""},
-        publicId: {type:String,default:""}
+        url: { type: String, default: "" },
+        publicId: { type: String, default: "" }
     }],
-    
+
     specsLink: {
         type: String,// link to external spec site if admin adds it 
-         default:"" 
+        default: ""
     },
-    isApproved: {
+
+    
+    //statuses
+    approvalStatus: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
+    },
+    isListed: {
         type: Boolean,
-        default: false,
+        default: false
     },
-},{
-    timestamps:true
+    operationalStatus: {
+        type: String,
+        enum: ['available', 'booked', 'maintenance', 'out_of_service'],
+        default: 'available'
+    }
+}, {
+    timestamps: true
 })
 
-const VehicleModel=mongoose.model("Vehicle",vehicleSchema);
+const VehicleModel = mongoose.model("Vehicle", vehicleSchema);
 export default VehicleModel;
