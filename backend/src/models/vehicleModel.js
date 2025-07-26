@@ -25,12 +25,12 @@ const vehicleSchema = new mongoose.Schema({
     },
     fuelType: {
         type: String,
-        enum: ["petrol", "diesel", "electric", "Hybrid"],
+        enum: ["petrol", "diesel", "electric", "hybrid"],
         required: true,
     },
     transmission: {
         type: String,
-        enum: ["Manual", "Automatic"],
+        enum: ["manual", "automatic"],
     },
     registrationNumber: {
         type: String,
@@ -47,10 +47,9 @@ const vehicleSchema = new mongoose.Schema({
     mileage: {
         type: Number, // in kmpl or km/charge
     },
-
     images: [{
         url: "",
-        puublicId: ""
+        publicId: ""
     }],
     specsLink: {
         type: String, // link to external spec site if admin adds it

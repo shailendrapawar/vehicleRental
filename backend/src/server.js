@@ -4,8 +4,12 @@ const app = express();
 import { configDotenv } from "dotenv";
 import cookieParser from "cookie-parser"
 import connectDb from "../configs/dbConnect.js";
+
+// importing routes========================
+
 import adminRouter from "./routes/adminRoutes.js";
 import authRouter from "./routes/authRoutes.js";
+import ownerRouter from "./routes/ownerRoutes.js";
 import cors from "cors"
 configDotenv()
 
@@ -20,6 +24,7 @@ app.use(cookieParser())
 // importing routes
 app.use("/admin",adminRouter);
 app.use("/auth",authRouter);
+app.use("/owner",ownerRouter)
 
 
 

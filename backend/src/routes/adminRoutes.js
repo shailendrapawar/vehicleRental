@@ -5,7 +5,6 @@ const adminRouter=express.Router();
 
 
 //A: admin auth routes
-
 adminRouter.post("/register-admin",AdminAuthController.registerAdmin);
 adminRouter.post("/change-password",authMiddleware,AdminAuthController.changePassword)
 

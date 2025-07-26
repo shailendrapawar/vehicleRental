@@ -22,8 +22,8 @@ export const userLoginSchema=Joi.object({
     password:Joi.string().required()
 })
 
-export const userRegistrationSchema=Joi.object({
 
+export const userRegistrationSchema=Joi.object({
     firstName:Joi.string().required(),
     lastName:Joi.string().required(),
     email:Joi.string().email().required(),
@@ -31,5 +31,4 @@ export const userRegistrationSchema=Joi.object({
     registerAs:Joi.string().valid("owner","customer"),
     dob:Joi.date().required(),
     registerOtp:Joi.string().length(4).required()
-
 })
