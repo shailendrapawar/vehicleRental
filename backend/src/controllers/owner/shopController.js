@@ -67,7 +67,7 @@ class ShopController {
 
             const isCreated = await newShop.save();
             // 6: request the admin also for approval
-            return this.standardResponse(res, 200, "Internal server error", isCreated)
+            return this.standardResponse(res, 200, "Shop created", isCreated)
         } catch (error) {
             console.log("error in create shop ", error)
             return this.standardResponse(res, 500, "Internal server error")
@@ -76,7 +76,6 @@ class ShopController {
 
 
     // 2: get all shops owned by vehicle-owner
-
     static getAllShops = async (req, res) => {
         try {
             const { ownerId } = req.params;
@@ -93,6 +92,27 @@ class ShopController {
             return this.standardResponse(res, 500, "Internal server error")
         }
     }
+
+    // 3: get single shop
+    static getSingleShop = async (req, res) => {
+        try {
+            const { shopId } = req.params;
+
+            if(!shopId){
+                return this.standardResponse(res,400,"Shop id missing")
+            }
+
+            const shop=await ShopModel.findById(shopId);
+
+            return this.standardResponse(res,200,"Shop found",shop)
+
+        } catch (error) {
+            console.log("error in get single shop ", error)
+            return this.standardResponse(res, 500, "Internal server error")
+        }
+    }
+
+
 
 }
 

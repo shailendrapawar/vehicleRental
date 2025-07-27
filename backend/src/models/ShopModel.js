@@ -24,8 +24,8 @@ const shopSchema = new mongoose.Schema({
     },
 
     phoneNumber: {
-        type:String,
-        required:true
+        type: String,
+        required: true
     },
     images: [{
         url: String,
@@ -40,10 +40,26 @@ const shopSchema = new mongoose.Schema({
         }
     },
 
+    isActive:{
+        type:Boolean,
+        default:false
+    },
+
+    //admin controlled variables=====================
     status: {
         type: String,
-        enum: ["pending", "verified", "rejected"],
-        default: "pending"
+        enum: ["pending", "verified", "rejected","banned"],
+        default: "pending",
+    },
+
+    statusMessage: {
+        type: String,
+        default: null
+    },
+
+    submissionCount: {
+        type: Number,
+        default: 1
     },
 
 })
