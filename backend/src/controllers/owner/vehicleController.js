@@ -1,24 +1,20 @@
 import mongoose, { Mongoose } from "mongoose"
 import VehicleModel from "../../models/VehicleModel.js"
 import uploadToCloudinary from "../../services/uploadToCloudinary.js"
-import { addVehicleSchema } from "../../validations/owner/addVehicleSchema.js"
+import { addVehicleSchema } from "../../validations/owner/vehicleValidations.js"
 import fs from "fs"
 
 class VehicleController {
 
     static standardResponse = async (res, status, msg, data = null) => {
-        return res.status(status).json({
-            msg,
-            data
-        })
+        return res.status(status).json({msg,data})
     }
 
     // A: adding vehicle to system for admin approve
 
     static addVehicle = async (req, res) => {
         try {
-            const { error, value } = addVehicleSchema.validate(req.body)
-            // console.log(req.body)
+            const { error, value } = addVehicleSchema.validate(req.body);
 
             // 1: validation error
             if (error) {
@@ -70,7 +66,7 @@ class VehicleController {
             return this.standardResponse(res, 200, "Vehicle Uploaded and will be listed after approaval")
 
         } catch (error) {
-            console.log("error in login admin ", error)
+            console.log("error in add vehicle ", error)
             return this.standardResponse(res, 500, "Internal server error")
         }
     }
