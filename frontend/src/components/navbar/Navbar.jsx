@@ -25,7 +25,7 @@ const Navbar = ({ routes }) => {
             </div>
 
 
-            {mobileNavToggler && (<div className={`mobile-nav md:hidden absolute flex flex-col justify-evenly items-center  -bottom-35 w-[85%] h-35 rounded-br-md rounded-bl-md text-sm`}
+            {mobileNavToggler && (<div className={`mobile-nav md:hidden absolute flex flex-col justify-evenly items-center  -bottom-35 w-[85%] h-35 rounded-br-4xl rounded-bl-4xl text-sm`}
                 style={{ backgroundColor: currentTheme.cardBackground }}
             >
                 {routes?.map((v,i)=>{

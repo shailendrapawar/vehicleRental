@@ -84,7 +84,7 @@ class ShopController {
                 return this.standardResponse(res,400,"Owner id missing")
             }
 
-            const shops=await ShopModel.find({owner:ownerId}).select("location.coordinates name status");
+            const shops=await ShopModel.find({owner:ownerId}).select("location.address isActive location.city name status");
 
             return this.standardResponse(res,200,"Shops found",shops)
         } catch (error) {

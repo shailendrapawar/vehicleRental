@@ -76,7 +76,7 @@ const Login = () => {
 
 
   return (
-    <div className="h-full w-full flex justify-center items-center p-1">
+    <div className="h-screen w-full flex justify-center items-center p-1">
 
       <form onSubmit={(e) => handleSubmit(e)} className="w-full max-w-100  h-120 rounded-2xl flex flex-col  items-center justify-center gap-5"
         style={{ backgroundColor: currentTheme.cardBackground }}

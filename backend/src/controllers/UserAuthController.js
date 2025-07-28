@@ -194,7 +194,7 @@ class UserAuthController {
 
             //4: generate token
             const token = jwt.sign({
-                id: user._id,
+                _id: user._id,
                 role: user.role
             }, process.env.SECRET_TOKEN, { expiresIn: "1d" })
 

@@ -25,10 +25,13 @@ const OwnerLayout = ({  allowedRoles }) => {
 
   return (
     <div className="min-h-screen h-auto w-full relative flex flex-col">
+      
       <Navbar routes={ownerNavRoutes} />
-      <div className="bg-green-200 w-full h-auto min-h-[calc(100vh-80px)] mt-20 ">
+
+      <div className="w-full h-auto min-h-[calc(100vh-80px)] mt-20 ">
         <Outlet/>
       </div>
+
     </div>
   )
 }
