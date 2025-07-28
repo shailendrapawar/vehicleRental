@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from "react-router-dom"
+import { createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider, Routes } from "react-router-dom"
 import RootLayout from './RootLayout.jsx'
 
 
@@ -20,6 +20,10 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { Toaster } from "react-hot-toast"
 import Unauthorized from './pages/Unauthorized.jsx'
 import Error from './pages/Error.jsx'
+import OwnerDashboard from './pages/owner/OwnerDashboard.jsx'
+import MyShops from './pages/owner/MyShops.jsx'
+import MyVehicles from './pages/owner/MyVehicles.jsx'
+import MyBookings from './pages/owner/MyBookings.jsx'
 
 const myRouter = createBrowserRouter(createRoutesFromElements(
 
@@ -33,11 +37,19 @@ const myRouter = createBrowserRouter(createRoutesFromElements(
     {/* =========Admin Routes================== */}
     <Route path='/admin' element={<AdminLayout allowedRoles={["admin"]} />}>
 
+
     </Route>
 
 
     {/* =========Owner Routes================== */}
     <Route path='/owner' element={<OwnerLayout allowedRoles={["owner"]} />}>
+
+      <Route path='/owner/' element={<Navigate to={'/owner/dashboard'}/>} />
+      <Route path='/owner/dashboard' element={<OwnerDashboard />} />
+      <Route path='/owner/my-shops' element={<MyShops />} />
+      <Route path='/owner/my-vehicles' element={<MyVehicles />} />
+      <Route path='/owner/my-bookings' element={<MyBookings />} />
+
 
     </Route>
 
@@ -49,9 +61,9 @@ const myRouter = createBrowserRouter(createRoutesFromElements(
 
 
 
-{/* ====== error or forbidden routes========== */}
-    <Route path='/forbidden' element={<Unauthorized/>}/>
-    <Route path='*' element={<Error/>}/>
+    {/* ====== error or forbidden routes========== */}
+    <Route path='/forbidden' element={<Unauthorized />} />
+    <Route path='*' element={<Error />} />
 
   </Route>
 ))

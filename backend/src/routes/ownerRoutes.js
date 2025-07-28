@@ -37,9 +37,6 @@ ownerRouter.get("/get-single-shop/:shopId",
 
 
 
-
-
-
 // 2:=============== Vehicle routes==========================
 // : add vehicle
 ownerRouter.post("/add-vehicle",

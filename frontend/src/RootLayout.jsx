@@ -5,11 +5,11 @@ const RootLayout = () => {
 
   const { currentTheme } = useSelector(s => s.theme);
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center"
+    <div className="w-screen min-h-screen h-auto flex flex-col justify-center items-center"
       style={{ backgroundColor: currentTheme.background, color: currentTheme.textPrimary }}
     >
       {/* commong components  */}
-      <main className="w-full h-full  max-w-250 cursor-pointer">
+      <main className="w-full min-h-screen h-auto  max-w-250 cursor-pointer px-5">
         <Outlet />
       </main>
     </div>
