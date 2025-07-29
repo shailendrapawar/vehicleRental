@@ -45,7 +45,7 @@ class ShopController {
             // 5 : create a shop
             const newShop = new ShopModel({
                 name,
-                owner: new mongoose.Types.ObjectId(req.user.id),
+                owner: new mongoose.Types.ObjectId(req.user._id),
                 location: {
                     address,
                     city,
@@ -102,7 +102,10 @@ class ShopController {
                 return this.standardResponse(res,400,"Shop id missing")
             }
 
-            const shop=await ShopModel.findById(shopId);
+            const shop=await ShopModel.findById(shopId).populate({
+                path:"owner",
+                select:" name email phoneNumber profilePicture"
+            });
 
             return this.standardResponse(res,200,"Shop found",shop)
 

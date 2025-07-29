@@ -48,7 +48,7 @@ class VehicleController {
 
             // 4: store total data in db
             const newVehicle = new VehicleModel({
-                owner: new mongoose.Types.ObjectId(req.user.id),
+                owner: new mongoose.Types.ObjectId(req.user._id),
                 vehicleType,
                 registrationNumber,
                 brand,

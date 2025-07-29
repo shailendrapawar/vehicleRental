@@ -27,7 +27,7 @@ const MyShops = () => {
       const res = await axios.get(import.meta.env.VITE_API_URL + `/owner/get-all-shops/${user._id}`, {
         withCredentials: true
       })
-      // console.log(res.data.data)
+      console.log(res.data.data)
 
       //set data to both states
       setUserShops(res.data.data)
@@ -82,14 +82,22 @@ const MyShops = () => {
       <button className="min-h-8 w-20 text-xs rounded-md"
         style={{ backgroundColor: currentTheme.primary }}
       >
-        Add vehicle
+        Add Shops
       </button>
 
       <section className=" w-full h-auto overflow-y-scroll flex flex-col items-center gap-10 py-10 ">
 
-        {search?.result?.map((v,i)=>{
+        {userShops?.length>0?(search?.result?.map((v,i)=>{
           return <ShopCard data={v} key={i}/>
-        })}
+        })):(
+          <div className={`w-full`}>
+
+            <h3 style={{color:currentTheme.textSecondary}}
+            className="text-center"
+            >No Shops added</h3>
+
+          </div>
+        )}
 
       </section>
 

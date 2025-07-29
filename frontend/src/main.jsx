@@ -24,6 +24,7 @@ import OwnerDashboard from './pages/owner/OwnerDashboard.jsx'
 import MyShops from './pages/owner/MyShops.jsx'
 import MyVehicles from './pages/owner/MyVehicles.jsx'
 import MyBookings from './pages/owner/MyBookings.jsx'
+import SingleShop from './pages/owner/SingleShop.jsx'
 
 const myRouter = createBrowserRouter(createRoutesFromElements(
 
@@ -45,8 +46,12 @@ const myRouter = createBrowserRouter(createRoutesFromElements(
     <Route path='/owner' element={<OwnerLayout allowedRoles={["owner"]} />}>
 
       <Route path='/owner/' element={<Navigate to={'/owner/dashboard'}/>} />
+
       <Route path='/owner/dashboard' element={<OwnerDashboard />} />
+
       <Route path='/owner/my-shops' element={<MyShops />} />
+      <Route path='/owner/single-shop/:shopId' element={<SingleShop/>}/>
+
       <Route path='/owner/my-vehicles' element={<MyVehicles />} />
       <Route path='/owner/my-bookings' element={<MyBookings />} />
 

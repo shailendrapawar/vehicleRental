@@ -1,11 +1,22 @@
 import { useSelector } from "react-redux"
 import defaultShopImg from "/default-shop-img.jpeg"
 import { TbMotorbike } from "react-icons/tb";
+import { useNavigate } from "react-router-dom"
 const ShopCard = ({ data }) => {
 
     const { currentTheme } = useSelector(s => s.theme)
-    console.log(data)
+    const navigate = useNavigate();
 
+    // console.log(data)
+
+
+    //1 : toggle shop isActive
+    const handleShopActiveToggle = async () => {
+
+    }
+
+
+    // status of shop
     function returnStatus(status) {
         switch (status) {
             case "verified": {
@@ -37,17 +48,22 @@ const ShopCard = ({ data }) => {
             }
         }
     }
+
+
     return (
-        <div className="w-full min-w-[300px] max-w-100 min-h-60 bg-gray-400 rounded-md flex justify-center relative"
-            style={{ backgroundColor: currentTheme.cardBackground }}
+        <div className="w-full min-w-[280px] max-w-100 min-h-60  rounded-t-xl rounded-b-md flex justify-center relative active:scale-90 transition-all ease-in-out"
+            style={{ backgroundColor: currentTheme.cardBackground, border: `1px solid ${currentTheme.border}` }}
+            onClick={() => navigate(`/owner/single-shop/${data._id}`)}
+            name={data.location.address}
         >
 
-            <div className="w-[95%] h-[90%] bg-red-900 absolute -top-6 rounded-2xl">
+            <div className="w-[95%] h-[90%] absolute -top-6 rounded-2xl">
 
                 {returnStatus(data.status)}
 
                 <img className="w-full h-full rounded-2xl object-cover"
                     src={defaultShopImg}
+
                 ></img>
 
                 {data.status !== "banned" && (<div className={`w-18 h-6 rounded-full bg-white absolute bottom-2 right-2 text-xs flex justify-center gap-1 items-center font-semibold ${data.isActive ? "text-green-300" : "text-red-500"}`}>
@@ -56,15 +72,18 @@ const ShopCard = ({ data }) => {
                 </div>)}
             </div>
 
-            <div className="w-full h-12  flex items-center justify-around self-end">
+            <div className="w-full h-12  flex items-center justify-between px-2 self-end">
 
-                <span className="text-xs">{data.location.address}, {data.location.city}</span>
+                <span className="text-xs" style={{ color: currentTheme.secondary }}>{data?.name?.toUpperCase()}</span>
 
-                <span className="flex w-auto h-6 items-center"><TbMotorbike className="h-full w-6" /> :10</span>
+                <span className="flex w-auto h-5 items-center text-sm"><TbMotorbike className="h-full w-5" /> :10</span>
 
-                <button className="text-xs w-25 h-8 rounded-3xl"
+                <button className="text-xs w-20 h-8 rounded-md cursor-pointer active:scale-90 transition-all ease-in-out"
+                    onClick={(e) => {
+                        e.stopPropagation()
+                    }}
                     style={{ backgroundColor: currentTheme.accent, color: "black" }}
-                >Togggle shop</button>
+                >{data.isActive ? "Close shop" : "Open Shop"}</button>
 
             </div>
 
