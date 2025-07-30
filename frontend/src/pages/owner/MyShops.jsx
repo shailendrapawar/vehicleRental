@@ -3,12 +3,14 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import InputBox from "../../components/inputBox/InputBox"
 import ShopCard from "../../components/shopCard/ShopCard"
+import { useNavigate } from "react-router-dom"
 
 const MyShops = () => {
 
   const { user } = useSelector(s => s.auth)
   const { currentTheme } = useSelector(s => s.theme)
 
+  const navigate=useNavigate();
   const [userShops, setUserShops] = useState([]);
 
   const [search, setSearch] = useState({
@@ -79,10 +81,11 @@ const MyShops = () => {
 
 
 
-      <button className="min-h-8 w-20 text-xs rounded-md"
+      <button className="min-h-8 w-20 text-xs rounded-md active:scale-90 transition-all ease-in-out"
         style={{ backgroundColor: currentTheme.primary }}
+        onClick={()=>navigate("/owner/create-shop")}
       >
-        Add Shops
+        Create Shops
       </button>
 
       <section className=" w-full h-auto overflow-y-scroll flex flex-col items-center gap-10 py-10 ">

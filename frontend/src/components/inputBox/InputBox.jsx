@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 
-const InputBox = ({ size, name, placeholder, value, onChange, required, type }) => {
+const InputBox = ({ size, name, placeholder, value, onChange, required, type, maxLength }) => {
   const { currentTheme } = useSelector(s => s.theme)
   return (
     <input
@@ -11,6 +11,7 @@ const InputBox = ({ size, name, placeholder, value, onChange, required, type }) 
       name={name}
       placeholder={placeholder}
       required={required}
+      maxLength={maxLength}
       style={{ backgroundColor: currentTheme.background }}
     ></input>
   )
