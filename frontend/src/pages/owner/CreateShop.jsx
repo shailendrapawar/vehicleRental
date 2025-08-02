@@ -3,6 +3,7 @@ import InputBox from "../../components/inputBox/InputBox"
 import { useSelector } from "react-redux"
 import addImgLogo from "../../assets/add-img.jpg"
 import { indianStates } from "../../utils/states"
+import MyMap from "../../components/myMap/MyMap"
 const CreateShop = () => {
 
   const { currentTheme } = useSelector(s => s.theme)
@@ -59,14 +60,16 @@ const CreateShop = () => {
 
 
   return (
-    <div className="min-h-[calc(100vh-80px)] h-auto w-full flex flex-col gap-5 ">
+    <div className="min-h-[calc(100vh-80px)] h-auto w-full flex flex-col gap-5 py-5 ">
 
 
 
       {/* ====basic details=========== */}
-      <section className=" h-120 sm:h-80 w-full gap-2 flex flex-col sm:flex-row">
-        <main className="w-full h-[50%] sm:h-full bg-red- rounded-xl flex flex-col justify-evenly px-2 "
-          style={{ backgroundColor: currentTheme.cardBackground }}
+      <section className=" h-120 sm:h-80 w-full gap-2 flex flex-col sm:flex-row p-2 rounded-xl"
+        style={{ backgroundColor: currentTheme.cardBackground, border:`1px solid ${currentTheme.border}` }}
+
+      >
+        <main className="w-full h-[50%] sm:h-full  flex flex-col justify-evenly  "
         >
           <h3 className="text-xl"
             style={{ color: currentTheme.accent }}
@@ -121,15 +124,16 @@ const CreateShop = () => {
 
       {/* =========location details============== */}
       <section className="h-140 sm:h-80  w-full  flex flex-col-reverse sm:flex-row px-2 py-2 rounded-xl gap-5"
-        style={{ backgroundColor: currentTheme.cardBackground }}
+        style={{ backgroundColor: currentTheme.cardBackground,border:`1px solid ${currentTheme.border}`  }}
       >
 
-        <main className="h-[50%] sm:h-full w-full bg-yellow-800">
+        <main className="h-[50%] sm:h-full w-full bg-yellow-800  rounded-lg overflow-hidden">
 
+          <MyMap size={"h-full w-full"}/>
 
         </main>
 
-        <aside className="h-[50%] sm:h-full w-full  grid grid-cols-2 gap-2">
+        <aside className="h-[50%] sm:h-full w-full  grid grid-cols-2 gap-2 py-2">
           <h3 className="text-xl col-span-2"
             style={{ color: currentTheme.accent }}
           >2: Location Details</h3>
@@ -145,15 +149,15 @@ const CreateShop = () => {
 
           <select className="col-span-2 h-10 rounded-md outline-none text-xs"
             style={{ backgroundColor: currentTheme.accent, color: "black" }}
-            onChange={(e)=>handleChange(e)}
+            onChange={(e) => handleChange(e)}
             name="state"
             value={shopData?.state}
           >
 
-            <option value=""  className="bg-green-200 text-center">Select Your State</option>
+            <option value="" className="bg-green-200 text-center">Select Your State</option>
             {indianStates.map((state) => (
               <option key={state} value={state}
-              className=" text-center bg-green-200"
+                className=" text-center bg-green-200"
               >
                 {state}
               </option>
@@ -178,7 +182,6 @@ const CreateShop = () => {
             required={true}
           />
 
-
           <InputBox size={`h-10 w-full`}
             value={shopData.latitude}
             onChange={handleChange}
@@ -195,6 +198,11 @@ const CreateShop = () => {
         </aside>
 
       </section>
+
+      <button
+        className="h-10 w-30 sm:w-40 rounded-xl self-center cursor-pointer active:scale-90 transition-all ease-in-out"
+        style={{ backgroundColor: currentTheme.primary, }}
+      >Create Shop</button>
 
 
 
