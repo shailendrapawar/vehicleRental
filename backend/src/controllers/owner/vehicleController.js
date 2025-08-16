@@ -8,7 +8,7 @@ import ShopModel from "../../models/ShopModel.js"
 class VehicleController {
 
     static standardResponse = async (res, status, msg, data = null) => {
-        return res.status(status).json({msg,data})
+        return res.status(status).json({ msg, data })
     }
 
     // A: adding vehicle to system for admin approve
@@ -23,7 +23,7 @@ class VehicleController {
             }
 
             // 2: check for files length
-            if(req.files.length <3){
+            if (req.files.length < 3) {
                 return this.standardResponse(res, 400, `Minimum 3 files are required for upload`)
             }
             if (req.files.length > 5) {
@@ -31,7 +31,7 @@ class VehicleController {
             }
 
             // 3:=====check for existing vehicle with same registration============
-            const {shopId, vehicleType, registrationNumber, brand, model, year, color, fuelType, transmission, seatingCapacity, mileage } = value
+            const { shopId, vehicleType, registrationNumber, brand, model, year, color, fuelType, transmission, seatingCapacity, mileage } = value
             const isExists = await VehicleModel.findOne({ registrationNumber: registrationNumber })
             if (isExists) {
                 // delete temp uploaded images if exists i server
@@ -43,23 +43,27 @@ class VehicleController {
 
 
             // 4: check if store's owner is the one requesting
-            const shop=await ShopModel.findById(shopId);
-            console.log(shop)
-            if(!shop){
-                return this.standardResponse(res, 400, "Shop not found")   
+            const shop = await ShopModel.findById(shopId);
+
+            if (!shop) {
+                return this.standardResponse(res, 400, "Shop not found")
             }
-            if(shop.owner.toString()!==req.user._id){
-                 return this.standardResponse(res, 400, "Not authroized to add vehicle to shop")
+            if (shop.owner.toString() !== req.user._id) {
+                return this.standardResponse(res, 400, "Not authroized to add vehicle to shop")
             }
 
 
             // 5: upload Images in cloudinary and store url,id
-            const uploadedImages = [];
+            // const uploadedImages = [];
 
-            for (const file of req.files) {
-                const data = await uploadToCloudinary(file.path)
-                uploadedImages.push(data)
-            }
+            // for (const file of req.files) {
+            //     const data = await uploadToCloudinary(file.path)
+            //     uploadedImages.push(data)
+            // }
+
+            const uploadedImages = await Promise.all(
+                req.files.map(file => uploadToCloudinary(file.path))
+            );
 
 
             // 6: Create/ add vehicle to that shop

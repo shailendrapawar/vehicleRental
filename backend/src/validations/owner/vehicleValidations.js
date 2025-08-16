@@ -20,5 +20,7 @@ export const addVehicleSchema=Joi.object({
     fuelType:Joi.string().valid("petrol","diesel","electric","hybrid").required(),
     transmission:Joi.string().valid("manual","automatic").required(),
     seatingCapacity:Joi.number().valid(1,2,4,6,7).required(),
-    mileage:Joi.number().min(5).max(100).required()
+    mileage:Joi.number().min(5).max(100).required(),
+
+    vehicleImages: Joi.array().items(Joi.string()).min(1).max(3) 
 })

@@ -27,7 +27,7 @@ const SingleShop = () => {
       const res = await axios.get(import.meta.env.VITE_API_URL + `/owner/get-single-shop/${shopId}`, {
         withCredentials: true
       })
-      console.log(res.data.data);
+      // console.log(res.data.data);
       setShop(res.data.data);
       // setShop()
 

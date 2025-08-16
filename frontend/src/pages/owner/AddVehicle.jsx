@@ -1,15 +1,17 @@
 import React, { useRef, useState } from "react"
 import { useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import InputBox from "../../components/inputBox/InputBox";
 import { toast } from "react-hot-toast"
 import { vehicleColors } from "../../utils/vehicle";
+import axios from "axios"
 
 import uploadImageIcon from "/upload-image-icon.png"
 import { TiDelete } from "react-icons/ti";
 const AddVehicle = () => {
 
   const { shopId } = useParams();
+  const navigate=useNavigate();
   // console.log(shopId)
 
   const { currentTheme } = useSelector(s => s.theme)
@@ -55,7 +57,7 @@ const AddVehicle = () => {
         // e.target.files=[]
         return
       }
-      console.log(imgFiles)
+      // console.log(imgFiles)
       setPhotos(imgFiles)
       return
     }
@@ -100,12 +102,46 @@ const AddVehicle = () => {
       }
     }
 
-    if(photos.length<1||photos.length>3){
-       toast.error(`photos are required (minimum 1 and max 3)`)
+    // 2: photos length check
+    if (photos.length < 1 || photos.length > 3) {
+      toast.error(`Invalid photos length (minimum 1 and max 3)`)
       return;
     }
 
-    console.log("clicked submit",{...vehicleForm,photos})
+    // 3: create a multipart form
+    const vehicleData = new FormData();
+    for (let key in vehicleForm) {
+      if (vehicleForm[key] === "") {
+        toast.error(`${key} is required`)
+        return;
+      }
+      vehicleData.append(key, vehicleForm[key]);
+    }
+
+    // vehicleData.append("vehicleImages", photos)
+
+    photos.forEach((file) => {
+      vehicleData.append("vehicleImages", file);
+    });
+
+    // submitt form=============
+    try {
+      const res = await axios.post(import.meta.env.VITE_API_URL + "/owner/add-vehicle", vehicleData, {
+        withCredentials: true
+      })
+      // console.log(res.data.msg)
+      toast.success(res.data.msg);
+      setTimeout(() => {
+        navigate("/owner/my-vehicles")
+      }, 1000);
+    
+
+    } catch (error) {
+      console.log(error);
+      toast.error(error.reponse.data.msg||"Somethin went wrong")
+    }
+
+
 
   }
 
@@ -141,19 +177,10 @@ const AddVehicle = () => {
                 maxLength={10}
               />
 
-              {/* <InputBox size={"h-12 w-full col-span-2 sm:col-span-1"}
-                value={vehicleForm.vehicleType}
-                onChange={handleChange}
-                name={"vehicleType"}
-                placeholder={"vehicle type,  eg: scooty,bike etc"}
-                type={"text"}
-                maxLength={10}
-              /> */}
-
               <select className="h-12 w-full col-span-2 sm:col-span-1 rounded-md text-xs px-1 outline-none"
-              onChange={(e)=>handleChange(e)}
-              name={"vehicleType"}
-               style={{backgroundColor:currentTheme.background, color:currentTheme.textSecondary}}>
+                onChange={(e) => handleChange(e)}
+                name={"vehicleType"}
+                style={{ backgroundColor: currentTheme.background, color: currentTheme.textSecondary }}>
                 <option value={""}>Select type, eg: bike, scooty, car</option>
                 <option value={"scooty"}>Scooty </option>
                 <option value={"bike"}>Bike</option>
@@ -263,14 +290,14 @@ const AddVehicle = () => {
             steps === 3 && (
               <main className="h-50 w-full flex flex-col gap-1 justify-center">
 
-                <div className="h-[50%] w-auto text-sm flex  flex-col justify-center items-center" style={{color:currentTheme.textSecondary}}>
+                <div className="h-[50%] w-auto text-sm flex  flex-col justify-center items-center" style={{ color: currentTheme.textSecondary }}>
                   <h3>Upload following photos</h3>
                   <li>1 Registration </li>
                   <li>1 Isuarance </li>
-                  <li>1 vehicle front and side photo</li>
+                  <li>1 vehicle front or side photo</li>
                 </div>
 
-                <div className="flex h-[50%] w-full justify-center">
+                <div className="flex h-[50%] w-full justify-center gap-2">
                   <section className="w-auto h-auto flex overflow-y-scroll gap-1">
                     {photos?.map((v, i) => {
                       const objectUrl = URL.createObjectURL(v);
