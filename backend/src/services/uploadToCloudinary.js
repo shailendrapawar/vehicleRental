@@ -1,6 +1,7 @@
 import  {v2 as Cloudinary} from "cloudinary"
 import {configDotenv} from "dotenv"
 import fs from "fs"
+import sharp from "sharp"
 configDotenv();
 
 Cloudinary.config({
@@ -12,6 +13,7 @@ const uploadToCloudinary=async(filePath)=>{
 
 
     try {
+
 
         const result=await Cloudinary.uploader.upload(filePath,{
             folder:"vehicleRental"

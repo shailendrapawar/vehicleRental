@@ -10,7 +10,7 @@ const InputBox = ({ size, name, placeholder, value, onChange, required, type, ma
       onChange={(e) => onChange(e)}
       name={name}
       placeholder={placeholder}
-      required={required}
+      required={required} 
       maxLength={maxLength}
       style={{ backgroundColor: currentTheme.background }}
     ></input>

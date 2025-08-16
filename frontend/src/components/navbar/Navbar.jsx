@@ -19,6 +19,7 @@ const Navbar = ({ routes }) => {
             <div className={`web-nav hidden md:flex gap-5`}>
                 {routes?.map((v,i)=>{
                     return <NavLink 
+                    
                     className={({isActive})=>`w-25 text-center border-b-2 ${isActive?"border-b-white":"border-b-transparent"}`}
                     to={v.path} key={i}>{v.name}</NavLink>
                 })}
@@ -30,6 +31,7 @@ const Navbar = ({ routes }) => {
             >
                 {routes?.map((v,i)=>{
                     return <NavLink 
+                    onClick={()=>setMobileNavToggler(false)}
                     className={({isActive})=>`w-20 text-center border-b-2 ${isActive?"border-b-white":"border-b-transparent"}`}
                     to={v.path} key={i}>{v.name}</NavLink>
                 })}

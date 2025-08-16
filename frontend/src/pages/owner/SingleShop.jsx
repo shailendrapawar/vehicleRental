@@ -6,10 +6,13 @@ import { useSelector } from "react-redux"
 import Tag from "../../components/tag/Tag";
 
 import { IoCaretBackCircle } from "react-icons/io5";
+import InputBox from "../../components/inputBox/InputBox";
 
+
+import { FaFilter } from "react-icons/fa";
 const SingleShop = () => {
   const { currentTheme } = useSelector(s => s.theme)
-  const{user}=useSelector(s=>s.auth)
+  const { user } = useSelector(s => s.auth)
   const { shopId } = useParams();
   const navigate = useNavigate();
   const [vehicleTypes, setVehicleTypes] = useState(["scooty", "bike", "car"])
@@ -35,37 +38,37 @@ const SingleShop = () => {
 
   }
 
-      function returnStatus(status) {
-        switch (status) {
-            case "verified": {
-                return (<div className={`w-auto px-2 sm:px-3  h-6 sm:h-8 sm:text-lg rounded-full bg-white absolute top-2 left-2 text-xs flex justify-center gap-1 items-center font-semibold text-green-500`}>
-                    {`${status}`.toUpperCase()}
-                    <span className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-green-500`}></span>
-                </div>)
-            }
+  function returnStatus(status) {
+    switch (status) {
+      case "verified": {
+        return (<div className={`w-auto px-2 sm:px-3  h-6 sm:h-8 sm:text-lg rounded-full bg-white absolute top-2 left-2 text-xs flex justify-center gap-1 items-center font-semibold text-green-500`}>
+          {`${status}`.toUpperCase()}
+          <span className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-green-500`}></span>
+        </div>)
+      }
 
-            case "banned": {
-                return (<div className={`w-auto px-2 sm:px-3  h-6 sm:h-8 sm:text-lg rounded-full bg-white absolute top-2 left-2 text-xs flex justify-center gap-1 items-center font-semibold text-red-500`}>
-                    {`${status}`.toUpperCase()}
-                    <span className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-red-500`}></span>
-                </div>)
-            }
+      case "banned": {
+        return (<div className={`w-auto px-2 sm:px-3  h-6 sm:h-8 sm:text-lg rounded-full bg-white absolute top-2 left-2 text-xs flex justify-center gap-1 items-center font-semibold text-red-500`}>
+          {`${status}`.toUpperCase()}
+          <span className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-red-500`}></span>
+        </div>)
+      }
 
-            case "rejected": {
-                return (<div className={`w-auto px-2 sm:px-3  h-6 sm:h-8 sm:text-lg  rounded-full bg-white absolute top-2 left-2 text-xs flex justify-center gap-1 items-center font-semibold text-gray-500`}>
-                    {`${status}`.toUpperCase()}
-                    <span className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-gray-500`}></span>
-                </div>)
-            }
+      case "rejected": {
+        return (<div className={`w-auto px-2 sm:px-3  h-6 sm:h-8 sm:text-lg  rounded-full bg-white absolute top-2 left-2 text-xs flex justify-center gap-1 items-center font-semibold text-gray-500`}>
+          {`${status}`.toUpperCase()}
+          <span className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-gray-500`}></span>
+        </div>)
+      }
 
-            default: {
-                return (<div className={`w-auto px-2 sm:px-3 h-6 sm:h-8 sm:text-lg rounded-full bg-white absolute top-2 left-2 text-xs flex justify-center gap-1 items-center font-semibold text-yellow-500`}>
-                    {`${status}`.toUpperCase()}
-                    <span className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-yellow-500`}></span>
-                </div>)
-            }
-        }
+      default: {
+        return (<div className={`w-auto px-2 sm:px-3 h-6 sm:h-8 sm:text-lg rounded-full bg-white absolute top-2 left-2 text-xs flex justify-center gap-1 items-center font-semibold text-yellow-500`}>
+          {`${status}`.toUpperCase()}
+          <span className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-yellow-500`}></span>
+        </div>)
+      }
     }
+  }
 
 
   useEffect(() => {
@@ -79,7 +82,7 @@ const SingleShop = () => {
   return (
     <div className={`w-full min-h-[calc(100vh-80px)] h-auto flex flex-col gap-5`}>
 
-        <IoCaretBackCircle className="w-8 h-8 transition-all ease-in-out active:scale-90" onClick={()=>navigate(-1)}/>
+      <IoCaretBackCircle className="w-8 h-8 transition-all ease-in-out active:scale-90" onClick={() => navigate(-1)} />
 
       <section className={`w-full h-80 sm:h-100  bg-green-300 rounded-xl overflow-hidden relative`}>
 
@@ -87,7 +90,7 @@ const SingleShop = () => {
         <img src={defaultShopImg} className={`object-cover h-full w-full grayscale-50`}></img>
         <img src={shop?.owner?.profilePicture?.url} className={`h-25 w-25 sm:h-30 sm:w-30 md:h-35 md:w-35 rounded-full absolute bottom-5 right-5 shadow-black shadow-sm active:scale-95 transition-all ease-in-out`}></img>
 
-        {user?.role==="owner" && returnStatus(shop?.status)}
+        {user?.role === "owner" && returnStatus(shop?.status)}
 
       </section>
 
@@ -111,10 +114,35 @@ const SingleShop = () => {
         <div className="w-full h-10  flex gap-2 justify-start items-center">
           {vehicleTypes?.map((v, i) => <Tag name={v} key={i} />)}
         </div>
+
+        {user.role === "owner" && (
+          <button className="h-10 my-2 rounded-md active:scale-95 cursor-pointer"
+            style={{ backgroundColor: currentTheme.primary }}
+
+            onClick={()=>navigate(`/owner/add-vehicle/${shopId}`)}
+          >
+            Add new vehicle
+          </button>
+        )}
+
       </main>
 
+      <hr className="h-1 rounded-full" style={{ color: currentTheme.border, backgroundColor: currentTheme.border }}></hr>
 
-      <div className={`w-full min-h-50 bg-blue-400`}>
+
+
+
+      <div className={`w-full min-h-50 `}>
+
+        <section className="h-15 w-full  flex justify-center items-center gap-3 sm:gap-5">
+
+        <input className="h-10 w-[70%] max-w-100 rounded-md text-xs px-2 outline-none" 
+        placeholder="Search in garage..."
+        style={{backgroundColor:currentTheme.cardBackground}}
+        ></input>
+        <FaFilter className="h-6 w-6 sm:h-8 sm:w-8" style={{color:currentTheme.accent}}/>
+
+        </section>
 
       </div>
 

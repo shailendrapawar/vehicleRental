@@ -3,6 +3,7 @@ import VehicleModel from "../../models/VehicleModel.js"
 import uploadToCloudinary from "../../services/uploadToCloudinary.js"
 import { addVehicleSchema } from "../../validations/owner/vehicleValidations.js"
 import fs from "fs"
+import ShopModel from "../../models/ShopModel.js"
 
 class VehicleController {
 
@@ -22,23 +23,37 @@ class VehicleController {
             }
 
             // 2: check for files length
+            if(req.files.length <3){
+                return this.standardResponse(res, 400, `Minimum 3 files are required for upload`)
+            }
             if (req.files.length > 5) {
                 return this.standardResponse(res, 400, `Only 5 files are allowed for upload`)
             }
 
             // 3:=====check for existing vehicle with same registration============
-            const { vehicleType, registrationNumber, brand, model, year, color, fuelType, transmission, seatingCapacity, mileage } = value
-
+            const {shopId, vehicleType, registrationNumber, brand, model, year, color, fuelType, transmission, seatingCapacity, mileage } = value
             const isExists = await VehicleModel.findOne({ registrationNumber: registrationNumber })
             if (isExists) {
-                // delete uploaded images if exists
+                // delete temp uploaded images if exists i server
                 for (const file of req.files) {
                     await fs.unlinkSync(file.path)
                 }
-                return this.standardResponse(res, 400, "This vehicle is already registered by someone")
+                return this.standardResponse(res, 400, "This vehicle is already registered")
             }
 
-            // 4: upload IMages in cloudinary and store url,id
+
+            // 4: check if store's owner is the one requesting
+            const shop=await ShopModel.findById(shopId);
+            console.log(shop)
+            if(!shop){
+                return this.standardResponse(res, 400, "Shop not found")   
+            }
+            if(shop.owner.toString()!==req.user._id){
+                 return this.standardResponse(res, 400, "Not authroized to add vehicle to shop")
+            }
+
+
+            // 5: upload Images in cloudinary and store url,id
             const uploadedImages = [];
 
             for (const file of req.files) {
@@ -46,9 +61,11 @@ class VehicleController {
                 uploadedImages.push(data)
             }
 
-            // 4: store total data in db
+
+            // 6: Create/ add vehicle to that shop
             const newVehicle = new VehicleModel({
                 owner: new mongoose.Types.ObjectId(req.user._id),
+                shopId,
                 vehicleType,
                 registrationNumber,
                 brand,

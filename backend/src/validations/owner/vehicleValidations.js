@@ -2,6 +2,9 @@ import Joi from  "joi"
 // import mongoose, { model } from "mongoose"
 
 export const addVehicleSchema=Joi.object({
+
+    // ownersip info 
+    shopId:Joi.string().pattern(/^[a-fA-F0-9]{24}$/).length(24).required(),
     //basic identification
     registrationNumber:Joi.string().required(),
     vehicleType:Joi.string().valid("bike","scooty","car").required(),

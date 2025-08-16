@@ -6,6 +6,11 @@ const vehicleSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
+    shopId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Shop",
+        required: true
+    },
     vehicleType: {
         type: String,
         enum: ["bike", "scooty", "car"],
@@ -57,7 +62,7 @@ const vehicleSchema = new mongoose.Schema({
         default: ""
     },
 
-    
+
     //statuses
     approvalStatus: {
         type: String,

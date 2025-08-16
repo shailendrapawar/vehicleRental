@@ -26,6 +26,7 @@ import MyVehicles from './pages/owner/MyVehicles.jsx'
 import MyBookings from './pages/owner/MyBookings.jsx'
 import SingleShop from './pages/owner/SingleShop.jsx'
 import CreateShop from './pages/owner/CreateShop.jsx'
+import AddVehicle from './pages/owner/AddVehicle.jsx'
 
 const myRouter = createBrowserRouter(createRoutesFromElements(
 
@@ -46,13 +47,15 @@ const myRouter = createBrowserRouter(createRoutesFromElements(
     {/* =========Owner Routes================== */}
     <Route path='/owner' element={<OwnerLayout allowedRoles={["owner"]} />}>
 
-      <Route path='/owner/' element={<Navigate to={'/owner/dashboard'}/>} />
+      <Route path='/owner/' element={<Navigate to={'/owner/dashboard'} />} />
 
       <Route path='/owner/dashboard' element={<OwnerDashboard />} />
 
       <Route path='/owner/my-shops' element={<MyShops />} />
-      <Route path='/owner/single-shop/:shopId' element={<SingleShop/>}/>
-      <Route path='/owner/create-shop' element={<CreateShop/>}/>
+      <Route path='/owner/single-shop/:shopId' element={<SingleShop />} />
+      <Route path='/owner/create-shop' element={<CreateShop />} />
+
+      <Route path='/owner/add-vehicle/:shopId' element={<AddVehicle/>}></Route>
 
       <Route path='/owner/my-vehicles' element={<MyVehicles />} />
       <Route path='/owner/my-bookings' element={<MyBookings />} />
