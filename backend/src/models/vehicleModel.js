@@ -64,10 +64,14 @@ const vehicleSchema = new mongoose.Schema({
 
 
     //statuses
-    approvalStatus: {
+    status: {
         type: String,
-        enum: ['pending', 'approved', 'rejected'],
+        enum: ['pending', 'approved', 'rejected',"banned"],
         default: 'pending'
+    },
+    statusMessage:{
+        type:String,
+        default:""
     },
     isListed: {
         type: Boolean,

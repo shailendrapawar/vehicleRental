@@ -12,7 +12,6 @@ const AddVehicle = () => {
 
   const { shopId } = useParams();
   const navigate=useNavigate();
-  // console.log(shopId)
 
   const { currentTheme } = useSelector(s => s.theme)
   const [steps, setSteps] = useState(1);
@@ -21,6 +20,7 @@ const AddVehicle = () => {
   const imageRef = useRef();
 
 
+  // 1: vehicle form
   const [vehicleForm, setVehicleForm] = useState({
     registrationNumber: "",
     vehicleType: "",
@@ -36,18 +36,16 @@ const AddVehicle = () => {
 
     shopId: shopId || ""
   })
-
   const handleChange = async (e) => {
     const { name, value } = e.target;
-
     setVehicleForm((prev) => ({
       ...prev,
       [name]: value
     }))
-
-    // console.log(vehicleForm)
   }
 
+
+  // 2: handle file/photos change
   const handleFileChange = (e, action, index) => {
     const { files } = e.target;
     if (action === "add") {
@@ -69,6 +67,7 @@ const AddVehicle = () => {
   }
 
 
+  // 3: handle changing steps
   const handleChangeSteps = async (value) => {
     switch (value) {
       case "next": {
@@ -90,7 +89,7 @@ const AddVehicle = () => {
   }
 
 
-  // final submit for vehicle
+  // 4: final submit for vehicle
   const handleVehicleSubmit = async () => {
 
     //1: basic details check
@@ -140,19 +139,16 @@ const AddVehicle = () => {
       console.log(error);
       toast.error(error.reponse.data.msg||"Somethin went wrong")
     }
-
-
-
   }
 
-  // console.log(photos)
+
+  
   return (
     <div className="h-[calc(100vh-80px)] w-full  flex justify-center items-center relative">
 
       <section className="w-full  bg-amber-400 relative  flex flex-col justify-center py-2 rounded-3xl"
         style={{ backgroundColor: currentTheme.cardBackground }}
       >
-
         <aside className="w-full flex justify-around items-center mt-2">
           <span className=" text-md  h-auto" style={{ color: currentTheme.accent }}>
             {"Enter details"}
@@ -160,7 +156,6 @@ const AddVehicle = () => {
 
           <span className="text-sm"><b style={{ color: currentTheme.accent }}>{steps}</b> of 3</span>
         </aside>
-
 
         <section className=" w-auto px-5 h-auto  relative py-5">
           {/* render all sections here  */}
@@ -326,9 +321,7 @@ const AddVehicle = () => {
         </section>
 
 
-
-
-        {/* ===========action buutton=============== */}
+        {/* ===========action buttons=============== */}
         <aside className="h-12 w-full   flex justify-between items-center relative ">
           {(steps > 1) && (<button className="w-20 h-8 rounded-md absolute left-5 cursor-pointer active:scale-95 transition-all ease-in-out"
             style={{ backgroundColor: currentTheme.primary }}

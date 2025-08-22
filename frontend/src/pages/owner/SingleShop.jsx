@@ -38,6 +38,18 @@ const SingleShop = () => {
 
   }
 
+  const searchShopVehicles=async()=>{
+
+    try {
+      
+      
+    } catch (error) {
+      
+    }
+
+  }
+
+
   function returnStatus(status) {
     switch (status) {
       case "verified": {

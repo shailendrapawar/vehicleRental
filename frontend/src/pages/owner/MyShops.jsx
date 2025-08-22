@@ -29,7 +29,7 @@ const MyShops = () => {
       const res = await axios.get(import.meta.env.VITE_API_URL + `/owner/get-all-shops/${user._id}`, {
         withCredentials: true
       })
-      console.log(res.data.data)
+      // console.log(res.data.data)
 
       //set data to both states
       setUserShops(res.data.data)
