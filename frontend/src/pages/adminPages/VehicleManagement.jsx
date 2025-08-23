@@ -51,7 +51,7 @@ const VehicleManagement = () => {
           >
         </input>
 
-        <button className="h-10 w-10 bg-amber-200 rounded-full p-2 active:scale-95 transition-all ease-in-out cursor-pointer"
+        <button className="h-9 w-9 bg-amber-200 rounded-full p-2 active:scale-95 transition-all ease-in-out cursor-pointer"
         style={{backgroundColor:currentTheme.accent}}
         >
           <FaSearch className="h-full w-full"/>
@@ -60,7 +60,7 @@ const VehicleManagement = () => {
 
 
       <main className="w-full  py-10 flex flex-col items-center">
-        
+
         {vehicles?.map((v,i)=>{
           return <AdminVehicleCard key={v._id} data={v}/>
         })}
