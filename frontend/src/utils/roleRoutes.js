@@ -5,9 +5,10 @@ const roleRoutes = {
         { label: "profile", path: "/" },
     ],
     owner: [
-        { label: "Home", path: "/" },
-        { label: "My Listing", path: "/owner/listings" },
-        { label: "Add vehicle", path: "/owner/add-vehicle" },
+        { name: "Dashboard", path: "/owner/dashboard" },
+        { name: "My Shops", path: "/owner/my-shops" },
+        { name: "My Vehicles", path: "/owner/my-vehicles" },
+        { name: "Bookings", path: "/owner/my-bookings" }
     ],
 
     admin: [

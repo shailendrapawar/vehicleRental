@@ -23,6 +23,7 @@ const Navbar = ({ routes }) => {
                     className={({isActive})=>`w-25 text-center border-b-2 ${isActive?"border-b-white":"border-b-transparent"}`}
                     to={v.path} key={i}>{v.name}</NavLink>
                 })}
+
             </div>
 
 

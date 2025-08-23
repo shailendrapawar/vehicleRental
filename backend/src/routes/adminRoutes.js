@@ -3,6 +3,8 @@ import AdminAuthController from "../controllers/admin/adminAutController.js";
 import authMiddleware from "../middlewares/authMiddleware.js";
 import { checkRoleMiddleware } from "../middlewares/chekRoleMiddleware.js";
 import AdminShopController from "../controllers/admin/adminShopController.js";
+import AdminVehicleController from "../controllers/admin/adminVehicleController.js";
+
 const adminRouter = express.Router();
 
 
@@ -26,9 +28,24 @@ adminRouter.post("/shop/reject-shop",
 
 // C: toggle banning a shop
 adminRouter.post("/shop/toggle-ban",
-    authMiddleware,checkRoleMiddleware(["admin"]),
+    authMiddleware, checkRoleMiddleware(["admin"]),
     AdminShopController.toggleBan
 )
 
+
+
+// 3: ============admin vehicle routes================
+adminRouter.get("/vehicle/get-all-vehicles",
+    authMiddleware, checkRoleMiddleware(["admin"]),
+    AdminVehicleController.getVehicles)
+
+adminRouter.get("/vehicle/get-vehicle/:vehicleId",
+    authMiddleware, checkRoleMiddleware(["admin"]),
+    AdminVehicleController.getSingleVehicle)
+
+    
+adminRouter.put("/vehicle/update-vehicle/:vehicleId",
+    authMiddleware, checkRoleMiddleware(["admin"]),
+    AdminVehicleController.updateVehicle)
 
 export default adminRouter;

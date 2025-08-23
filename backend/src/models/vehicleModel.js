@@ -66,12 +66,13 @@ const vehicleSchema = new mongoose.Schema({
     //statuses
     status: {
         type: String,
-        enum: ['pending', 'approved', 'rejected',"banned"],
+        enum: ['pending', 'approved', 'rejected', "banned"],
         default: 'pending'
     },
-    statusMessage:{
-        type:String,
-        default:""
+
+    statusMessage: {
+        type: String,
+        default: ""
     },
     isListed: {
         type: Boolean,
@@ -81,7 +82,21 @@ const vehicleSchema = new mongoose.Schema({
         type: String,
         enum: ['available', 'booked', 'maintenance', 'out_of_service'],
         default: 'available'
-    }
+    },
+
+    history: [{
+        action: {
+            type: String,
+            enum: ['approved', 'rejected', "banned"],
+        },
+        message:{
+            type:String,
+        },
+        timestamps:{
+            type:Date,
+        }
+    }]
+
 }, {
     timestamps: true
 })
