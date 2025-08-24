@@ -46,7 +46,7 @@ const AdminVehicleCard = ({ data }) => {
     return (
         <div className="h-20 w-full max-w-150 flex items-center justify-between px-2"
             style={{ borderBottom: `1px solid ${currentTheme.border}` }}
-            onClick={()=>navigate(`/admin/single-vehicle/${data?._id}`)}
+            onClick={()=>navigate(`/admin/manage-vehicles/${data?._id}`)}
         >
             <img className="h-16 w-18 bg-amber-300 rounded-md"
             src={data.images[0].url}
