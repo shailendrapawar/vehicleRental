@@ -41,6 +41,10 @@ adminRouter.get("/shop/get-single-shop/:shopId",
     AdminShopController.getSingleShop
 )
 
+adminRouter.put("/shop/update-shop-status",
+    authMiddleware,checkRoleMiddleware(['admin'])
+)
+
 
 
 // 3: ============admin vehicle routes================

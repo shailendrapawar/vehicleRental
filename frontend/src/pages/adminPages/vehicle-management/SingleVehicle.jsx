@@ -212,6 +212,7 @@ const SingleVehicle = () => {
                             value={vehicleStatus}
                             onChange={(e) => setVehicleStatus(e.target.value)}
                         >
+                            <option value={"pending"}>Pending</option>
                             <option value={"approved"}>Approved</option>
                             <option value={"rejected"}>Rejected</option>
                             <option value={"banned"}>Banned</option>

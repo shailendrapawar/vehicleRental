@@ -13,6 +13,8 @@ const SingleShopManagement = () => {
   const { shopId } = useParams()
 
   const [shop, setShop] = useState({});
+  const [shopStatus, setShopStatus] = useState("");
+  const [statusMessage, setStatusMessage] = useState("")
 
   const fetchSingleShop = async () => {
     try {
@@ -22,6 +24,7 @@ const SingleShopManagement = () => {
       })
       console.log(res.data.data)
       setShop(res.data.data)
+      setShopStatus(res.data.data.status);
 
     } catch (error) {
       console.log(error)
@@ -29,7 +32,7 @@ const SingleShopManagement = () => {
     }
   }
 
-  const returnStatus = (status = "Unknown", position) => {
+  const returnStatus = (status = "unknown", position) => {
     let colorStyle = "";
 
     switch (status) {
@@ -71,42 +74,73 @@ const SingleShopManagement = () => {
   if (!shopId) return
 
   return (
-    <div className="min-h-[calc(100vh-100px)] h-auto w-full">
+    <div className="min-h-[calc(100vh-100px)] h-auto w-full ">
 
       <section className="w-full flex h-10 items-center relative mb-2">
-        <button className="w-15 h-8 text-xs rounded-md absolute left-0 rounded-l-full"
+        <button className="w-15 h-8 text-xs rounded-md absolute left-0 rounded-l-full cursor-pointer"
           onClick={() => navigate(-1)}
           style={{ backgroundColor: currentTheme.accent }}
         >Back</button>
         {/* <h3>Update vehicle status</h3> */}
       </section>
 
-      <main className="w-full h-auto py-2 px-2  rounded-md grid grid-cols-1 sm:grid-cols-2"
+      <main className="w-full h-auto py-2 px-2  rounded-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 sm:gap-4"
         style={{ backgroundColor: currentTheme.cardBackground }}
       >
-        <section className="h-60 bg-red-400 rounded-md relative overflow-clip">
+        <section className="h-60 sm:h-80 bg-red-400 rounded-md relative overflow-clip">
           <img className="h-full w-full bg-amber-500 rounded-md"></img>
         </section>
 
-        <section className="py-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <div className="h-auto  flex flex-col text-xs gap-1 font-mono">
-            <h3 className="text-lg" style={{ color: currentTheme.accent }}> Basis: 1</h3>
-            <span className="" ><b style={{ color: currentTheme.textSecondary }}>Name: </b>{shop?.name}</span>
+
+        <section className="py-4 grid grid-cols-1  md:grid-cols-2 sm:grid-cols-2 sm:py-0 gap-2 md:px-2">
+          <div className="h-auto gap-2 sm:gap-0  flex flex-col justify-evenly text-xs px-2 font-mono sm:px-2 sm:col-span-2 md:col-span-2 lg:text-lg">
+            <h3 className="text-lg" style={{ color: currentTheme.accent }}> Basis:</h3>
+            <span className=" " ><b style={{ color: currentTheme.textSecondary }}>Name: </b>{shop?.name}</span>
             <span><b style={{ color: currentTheme.textSecondary }}>Contact:</b> {shop?.phoneNumber}</span>
-            <span className="flex"><b style={{ color: currentTheme.textSecondary }}>ID:</b> {shop?._id}</span>
+            <span className="inline"><b style={{ color: currentTheme.textSecondary }}>ID:</b> {shop?._id}</span>
           </div>
 
-          <div className="h-auto flex flex-col text-xs gap-1 font-mono">
-            <h3 className="text-lg" style={{ color: currentTheme.accent }}>Ownership: 2</h3>
+          <div className="h-auto flex flex-col justify-evenly text-xs gap-2 sm:gap-0 px-2 font-mono sm:px-2 sm:col-span-2 md:col-span-2 lg:text-lg">
+            <h3 className="text-lg" style={{ color: currentTheme.accent }}>Ownership:</h3>
             <span><b style={{ color: currentTheme.textSecondary }}>OWNER: </b>{shop?.owner?.name}</span>
             <span><b style={{ color: currentTheme.textSecondary }}>EMAIL: </b>{shop?.owner?.email}</span>
             <span><b style={{ color: currentTheme.textSecondary }}>GST: </b>{shop?.gst?.number?.toUpperCase()}</span>
           </div>
 
-          <span className=" flex h-8 items-center gap-2 font-mono"><b style={{color:currentTheme?.accent}}>Current Status:</b> { returnStatus(shop?.status)} </span>
+          <span className=" flex w-full h-8 items-center gap-2 font-mono sm:px-2 sm:col-span-2 mx-2 sm:mx-0 lg:text-lg"><b className="font-mono font-light" style={{ color: currentTheme?.accent }}>Change Status:</b>
+            <select className="w-20 text-xs py-1 px-2 rounded-md outline-none cursor-pointer"
+              style={{ backgroundColor: currentTheme.primary }}
+              value={shopStatus}
+              onChange={(e) => setShopStatus(e.target.value)}
+            >
+              <option value={"pending"}>Pending</option>
+              <option value={"approved"}>Approved</option>
+              <option value={"rejected"}>Rejected</option>
+              <option value={"banned"}>Banned</option>
+            </select></span>
         </section>
-
       </main>
+
+
+
+      {shop?.status !== shopStatus && (<aside className="h-auto py-4 px-2 mt-5 flex items-center gap-2 rounded-md"
+        style={{ backgroundColor: currentTheme.cardBackground }}
+      >
+        <input className="h-8 w-full text-xs px-2 outline-none"
+          style={{ borderBottom: `3px solid ${currentTheme.border}` }}
+          placeholder="Enter status message"
+          value={statusMessage}
+          onChange={(e) => setStatusMessage(e.target.value)}
+        />
+
+        <button className="w-20 sm:w-25 h-8 self-end rounded-md active:scale-90 transition-all ease-in-out"
+          style={{ backgroundColor: currentTheme.accent }}
+        // onClick={handleStatusUpdate}
+        >Update</button>
+      </aside>)}
+
+
+      
 
 
     </div>

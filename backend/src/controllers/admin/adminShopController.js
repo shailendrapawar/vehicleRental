@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import ShopModel from "../../models/ShopModel.js";
-import { banVehicleSchema, rejectVehicleSchema } from "../../validations/admin/shopValidations.js";
+import { banVehicleSchema, rejectVehicleSchema, updateShopStatusSchema } from "../../validations/admin/shopValidations.js";
 
 
 class AdminShopController {
@@ -73,7 +73,7 @@ class AdminShopController {
                 return this.standardResponse(res, 400, `Shop either rejected or already verified`)
             }
 
-            shop.status = "verified"
+            shop.status ="approved"
             shop.statusMessage = ""
 
             // 3: save and notify shop owner
@@ -148,7 +148,7 @@ class AdminShopController {
             }
 
             // 4: toggle ban account
-            if (shop.status === "verified") {
+            if (shop.status === "approved") {
                 //ban account
                 shop.status = "banned"
                 shop.statusMessage = statusMessage;
@@ -165,6 +165,29 @@ class AdminShopController {
             console.log("error in banning shop ")
             return this.standardResponse(res, 500, "Internal server error")
 
+        }
+    }
+
+
+    static updateShopStatus=async(req,res)=>{
+        try {
+
+            const {shopId}=req.params;
+            if(!shopId|| !mongoose.Types.ObjectId.isValid(shopId)){
+              return this.standardResponse(res, 400, `Invalid shop id`)
+ 
+            }
+            const{error,value}=updateShopStatusSchema.validate(req.body);
+
+            if(error){
+              return this.standardResponse(res, 400, `Validation error :- ${error.message}`)
+            }
+
+            // 2: get shop
+            const shop=await ShopModel.findById(value.shopId)
+            
+        } catch (error) {
+            
         }
     }
 

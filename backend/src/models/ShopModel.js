@@ -54,7 +54,7 @@ const shopSchema = new mongoose.Schema({
     //admin controlled variables=====================
     status: {
         type: String,
-        enum: ["pending", "verified", "rejected", "banned"],
+        enum: ["pending", "approved", "rejected", "banned"],
         default: "pending",
     },
 
