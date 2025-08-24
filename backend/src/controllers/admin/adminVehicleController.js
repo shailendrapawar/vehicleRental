@@ -24,7 +24,7 @@ class AdminVehicleController {
                     path: "shopId",
                     select: "name"
                 },
-            ])
+            ]).lean()
 
             return this.standardResponse(res, 200, "Vehicles found", {
                 vehicles,
@@ -55,10 +55,12 @@ class AdminVehicleController {
                     path: "owner",
                     select: "name profilePicture"
                 }
-            ])
+            ]).lean()
+            
             return this.standardResponse(res, 200, "Vehicles found", {
                 vehicle
             })
+
         } catch (error) {
             console.log("error in get single vehicle")
             return this.standardResponse(res, 500, "Internal server error")

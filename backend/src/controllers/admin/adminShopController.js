@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import ShopModel from "../../models/ShopModel.js";
 import { banVehicleSchema, rejectVehicleSchema } from "../../validations/admin/shopValidations.js";
 
@@ -10,6 +11,49 @@ class AdminShopController {
             msg,
             data
         })
+    }
+
+    static getAllShops = async (req, res) => {
+        try {
+            const {limit=10}=req.params;
+            const{page=1}=req.params;
+
+            const shops = await ShopModel.find().select("name status location.coordinates location.city").populate({
+                path:"owner",
+                select:"name"
+            }).lean()
+
+            return this.standardResponse(res, 200, "Shops found", {
+                shops,
+                hasMore: true
+            })
+
+        } catch (error) {
+            console.log("error in get all shops",error)
+            return this.standardResponse(res, 500, "Internal server error")
+
+        }
+    }
+
+    static getSingleShop=async(req,res)=>{
+        try {
+            
+            const {shopId}=req.params;
+
+            if(!shopId|| !mongoose.Types.ObjectId.isValid(shopId)){
+                return this.standardResponse(res,400,"Invalid id");
+            }
+
+            const shop=await ShopModel.findById(shopId).populate({
+                path:"owner",
+                select:"name profilePicture email "
+            }).lean();
+
+            return this.standardResponse(res,200,"Shop found",shop)
+        } catch (error) {
+            console.log("error in get single shops",error)
+            return this.standardResponse(res, 500, "Internal server error")
+        }
     }
 
     // A : approve a shop
@@ -99,21 +143,21 @@ class AdminShopController {
             }
 
             // 3: return if either status pending or rejected
-            if(shop.status==="pending"||shop.status==="rejected"){
-                return this.standardResponse(res,400,"vehicle not listed in system")
+            if (shop.status === "pending" || shop.status === "rejected") {
+                return this.standardResponse(res, 400, "vehicle not listed in system")
             }
 
             // 4: toggle ban account
             if (shop.status === "verified") {
                 //ban account
-                shop.status="banned"
-                shop.statusMessage=statusMessage;
-            }else{
+                shop.status = "banned"
+                shop.statusMessage = statusMessage;
+            } else {
                 //unban account
                 shop.status = "verified"
-                shop.statusMessage=""
+                shop.statusMessage = ""
             }
-  
+
             await shop.save()
             return this.standardResponse(res, 200, `Action successfull`)
 

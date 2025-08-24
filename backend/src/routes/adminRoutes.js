@@ -29,7 +29,16 @@ adminRouter.post("/shop/reject-shop",
 // C: toggle banning a shop
 adminRouter.post("/shop/toggle-ban",
     authMiddleware, checkRoleMiddleware(["admin"]),
-    AdminShopController.toggleBan
+    AdminShopController.toggleBan)
+
+// D: get all shops
+adminRouter.get("/shop/get-all-shops",
+    authMiddleware,checkRoleMiddleware(['admin']),
+    AdminShopController.getAllShops)
+
+adminRouter.get("/shop/get-single-shop/:shopId",
+      authMiddleware, checkRoleMiddleware(["admin"]),
+    AdminShopController.getSingleShop
 )
 
 

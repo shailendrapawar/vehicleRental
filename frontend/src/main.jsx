@@ -27,11 +27,15 @@ import MyBookings from './pages/owner/MyBookings.jsx'
 import SingleShop from './pages/owner/SingleShop.jsx'
 import CreateShop from './pages/owner/CreateShop.jsx'
 import AddVehicle from './pages/owner/AddVehicle.jsx'
-import ShopManagement from './pages/adminPages/ShopManagement.jsx'
+
+import ShopManagement from './pages/adminPages/shop-management/ShopManagement.jsx'
+
 import AdminDashboard from './pages/adminPages/AdminDashboard.jsx'
-import VehicleManagement from './pages/adminPages/VehicleManagement.jsx'
+
+import VehicleManagement from './pages/adminPages/vehicle-management/VehicleManagement.jsx'
+import SingleVehicle from './pages/adminPages/vehicle-management/SingleVehicle.jsx'
+
 import UserManagement from './pages/adminPages/UserManagement.jsx'
-import SingleVehicle from './pages/adminPages/SingleVehicle.jsx'
 
 const myRouter = createBrowserRouter(createRoutesFromElements(
 

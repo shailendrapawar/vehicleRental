@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import InputBox from "../../components/inputBox/InputBox"
+import InputBox from "../../../components/inputBox/InputBox";
 import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import AdminVehicleCard from "../../components/adminVehicleCard/AdminVehicleCard";
+import AdminVehicleCard from "../../../components/adminVehicleCard/AdminVehicleCard";
 
 const VehicleManagement = () => {
 
@@ -34,14 +34,6 @@ const VehicleManagement = () => {
     <div className="h-[calc(100vh-80px)] w-full  flex flex-col relative">
 
       <aside className="w-full h-15 flex justify-center items-center gap-2">
-
-        {/* <InputBox size={"h-10 w-[80%] max-w-100 "} 
-        placeholder={"Search for vehicle..."}
-        onChange={handleChange}
-        value={query}
-        name={"vehicleSearchQuery"}
-        required={true}
-        /> */}
 
         <input className="h-10 w-[70%] max-w-100 outline-none text-xs px-2 rounded-md"
           placeholder={"Search for vehicle..."}

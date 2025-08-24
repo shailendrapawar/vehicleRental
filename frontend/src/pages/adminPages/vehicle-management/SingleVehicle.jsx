@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { GrFormPrevious } from "react-icons/gr";
 import { MdOutlineNavigateNext } from "react-icons/md";
 import { FaHistory } from "react-icons/fa";
 
-import { formatDate } from "../../utils/dateHandler";
+import { formatDate } from "../../../utils/dateHandler";
 
 import toast, {} from "react-hot-toast"
 
@@ -16,6 +16,9 @@ const SingleVehicle = () => {
 
     const { vehicleId } = useParams();
     const { currentTheme } = useSelector(s => s.theme)
+
+    const navigate=useNavigate();
+
     const [vehicle, setVehicle] = useState({});
 
     const [vehicleStatus, setVehicleStatus] = useState("");
@@ -56,11 +59,11 @@ const SingleVehicle = () => {
             }, {
                 withCredentials: true
             })
+
             setStatusMessage("");
             toggleRefresher(prev=>!prev)
             toast.success("Vehicle status updated")
             
-
         } catch (error) {
             console.log(error)
             toast.error("Something went wrong")
@@ -134,8 +137,9 @@ const SingleVehicle = () => {
 
     return (
         <div className="min-h-[calc(100vh-100px)] h-auto w-full">
-            <section className="w-full flex h-10 items-center relative">
+            <section className="w-full flex h-10 items-center relative mb-2">
                 <button className="w-15 h-8 text-xs rounded-md absolute left-5"
+                onClick={()=>navigate(-1)}
                     style={{ backgroundColor: currentTheme.accent }}
                 >Back</button>
                 {/* <h3>Update vehicle status</h3> */}
@@ -182,7 +186,7 @@ const SingleVehicle = () => {
                             <span><b style={{ color: currentTheme.textSecondary }} >FUEL:</b>  {vehicle?.fuelType}</span>
 
                             <span><b style={{ color: currentTheme.textSecondary }} >TRANS:</b>  {vehicle?.transmission}</span>
-                            <span><b style={{ color: currentTheme.textSecondary }} >MILEAGE:</b>  {vehicle?.mileage}</span>
+                            <span><b style={{ color: currentTheme.textSecondary }} >MILEAGE:</b>  {vehicle?.mileage} km/l</span>
                             <span><b style={{ color: currentTheme.textSecondary }} >SEATER:</b>  {vehicle?.seatingCapacity}</span>
                         </section>
                     </div>
