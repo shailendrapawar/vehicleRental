@@ -16,21 +16,6 @@ adminRouter.post("/change-password", authMiddleware, checkRoleMiddleware(["admin
 
 // 2: ===========admin shop routes =====================
 
-// A: approve shop
-adminRouter.post("/shop/approve-shop/:shopId",
-    authMiddleware, checkRoleMiddleware(["admin"]),
-    AdminShopController.approveShop)
-
-// B: reject shop
-adminRouter.post("/shop/reject-shop",
-    authMiddleware, checkRoleMiddleware(["admin"]),
-    AdminShopController.rejectShop)
-
-// C: toggle banning a shop
-adminRouter.post("/shop/toggle-ban",
-    authMiddleware, checkRoleMiddleware(["admin"]),
-    AdminShopController.toggleBan)
-
 // D: get all shops
 adminRouter.get("/shop/get-all-shops",
     authMiddleware,checkRoleMiddleware(['admin']),
@@ -41,10 +26,10 @@ adminRouter.get("/shop/get-single-shop/:shopId",
     AdminShopController.getSingleShop
 )
 
-adminRouter.put("/shop/update-shop-status",
-    authMiddleware,checkRoleMiddleware(['admin'])
+adminRouter.put("/shop/update-shop-status/:shopId",
+    authMiddleware,checkRoleMiddleware(['admin']),
+    AdminShopController.updateShopStatus
 )
-
 
 
 // 3: ============admin vehicle routes================
