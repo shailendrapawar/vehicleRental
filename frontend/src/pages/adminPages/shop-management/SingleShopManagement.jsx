@@ -19,7 +19,7 @@ const SingleShopManagement = () => {
   const fetchSingleShop = async () => {
     try {
 
-      const res = await axios.get(import.meta.env.VITE_API_URL + `/admin/shop/get-single-shop/${shopId}`, {
+      const res = await axios.get(import.meta.env.VITE_API_URL + `/admin/shop/get-shops/${shopId}`, {
         withCredentials: true
       })
       console.log(res.data.data)

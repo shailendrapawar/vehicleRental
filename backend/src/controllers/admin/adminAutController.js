@@ -42,7 +42,7 @@ class AdminAuthController {
             const salt = await bcrypt.genSalt(10);
             const hashPassword = await bcrypt.hash(password, salt);
 
-            //5: create user if not exists
+            //5: create admin if not exists
             const newAdmin = new UserModel({
                 name,
                 email,

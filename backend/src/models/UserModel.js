@@ -41,6 +41,15 @@ const userSchema = new mongoose.Schema({
         },
         publicId: { type: String, default: "" }
     },
+        status:{
+        type:String,
+        enum:['approved','banned'],
+        default:'approved'
+    },
+    statusMessage:{
+        type:String,
+        default:""
+    },
 
 
 }, {

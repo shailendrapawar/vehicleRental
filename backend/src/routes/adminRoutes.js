@@ -4,6 +4,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 import { checkRoleMiddleware } from "../middlewares/chekRoleMiddleware.js";
 import AdminShopController from "../controllers/admin/adminShopController.js";
 import AdminVehicleController from "../controllers/admin/adminVehicleController.js";
+import AdminUserController from "../controllers/admin/adminUserController.js";
 
 const adminRouter = express.Router();
 
@@ -17,11 +18,11 @@ adminRouter.post("/change-password", authMiddleware, checkRoleMiddleware(["admin
 // 2: ===========admin shop routes =====================
 
 // D: get all shops
-adminRouter.get("/shop/get-all-shops",
+adminRouter.get("/shop/get-shops",
     authMiddleware,checkRoleMiddleware(['admin']),
     AdminShopController.getAllShops)
 
-adminRouter.get("/shop/get-single-shop/:shopId",
+adminRouter.get("/shop/get-shops/:shopId",
       authMiddleware, checkRoleMiddleware(["admin"]),
     AdminShopController.getSingleShop
 )
@@ -46,4 +47,22 @@ adminRouter.put("/vehicle/update-vehicle/:vehicleId",
     authMiddleware, checkRoleMiddleware(["admin"]),
     AdminVehicleController.updateVehicle)
 
+
+
+
+// 4: ==============admin routes for users=============
+
+adminRouter.get("/user/get-users",
+    authMiddleware,checkRoleMiddleware(['admin']),
+    AdminUserController.getAllUsers);
+
+
+adminRouter.get("/user/get-users/:userId",
+    authMiddleware,checkRoleMiddleware(['admin']),
+    AdminUserController.getSingleUser);
+
+adminRouter.put("/user/update-user/:userId",
+    authMiddleware,checkRoleMiddleware(['admin']),
+    AdminUserController.updateUser
+)
 export default adminRouter;

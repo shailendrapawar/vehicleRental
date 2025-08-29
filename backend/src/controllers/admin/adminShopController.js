@@ -30,7 +30,6 @@ class AdminShopController {
         } catch (error) {
             console.log("error in get all shops",error)
             return this.standardResponse(res, 500, "Internal server error")
-
         }
     }
 
@@ -45,7 +44,7 @@ class AdminShopController {
 
             const shop=await ShopModel.findById(shopId).populate({
                 path:"owner",
-                select:"name profilePicture email "
+                select:"name profilePicture email"
             }).lean();
 
             return this.standardResponse(res,200,"Shop found",shop)

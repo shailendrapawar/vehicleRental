@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 
 import { FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import ShopCard from "../../../components/shopCard/ShopCard";
 import AdminShopCard from "../../../components/adminShopCard/AdminShopCard";
 
 
@@ -19,7 +18,7 @@ const ShopManagement = () => {
 
   const fetchAllShops=async()=>{
     try {
-      const res=await axios.get(import.meta.env.VITE_API_URL+`/admin/shop/get-all-shops`,{
+      const res=await axios.get(import.meta.env.VITE_API_URL+`/admin/shop/get-shops`,{
         withCredentials:true
       })
       console.log(res.data.data.shops)
