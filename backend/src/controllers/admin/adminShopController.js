@@ -14,11 +14,13 @@ class AdminShopController {
 
     static getAllShops = async (req, res) => {
         try {
-            const {limit=1}=req.params;
-            const{page=1}=req.params;
+
+            // calculate skip 
+            const {limit=1,page=1}=req.params;
             const skip = (page - 1) * limit
 
 
+            // find shops with limit+1  to calculate hasMore
             let shops = await ShopModel.find().select("name status location.coordinates location.city").populate({
                 path:"owner",
                 select:"name"
@@ -32,7 +34,6 @@ class AdminShopController {
             }else{
                 hasMore=false
             }
-
 
             return this.standardResponse(res, 200, "Shops found", {
                 shops,

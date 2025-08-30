@@ -18,12 +18,23 @@ class AdminUserController {
     static getAllUsers = async (req, res) => {
         try {
 
-            const { page = 1, limit = 10 } = req.query
-            const users = await UserModel.find({}).select("name email role profilePicture status").lean()
+            const { page = 1, limit = 1 } = req.query
+            const skip = (page - 1) * limit
+
+            let users = await UserModel.find({}).select("name email role profilePicture status").skip(skip).limit(limit + 1).lean()
             // console.log(users)
 
+            let hasMore;
+
+            if (users.length > limit) {
+                hasMore = true
+                users = users.splice(users.length - 1, 1)
+            } else {
+                hasMore = false
+            }
+
             return this.standardResponse(res, 200, "Users found", {
-                hasMore: true,
+                hasMore,
                 users,
                 msg: "Users found"
             })

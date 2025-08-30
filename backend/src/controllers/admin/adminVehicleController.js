@@ -17,18 +17,29 @@ class AdminVehicleController {
 
             const { limit = 1 } = req.query;
             const { page = 1 } = req.query;
-            const skip = (limit * page) - 1;
+            const skip = (page-1)*limit
 
-            const vehicles = await VehicleModel.find({}).select("brand model images status vehicleType").populate([
+            let vehicles = await VehicleModel.find({}).select("brand model images status vehicleType").populate([
                 {
                     path: "shopId",
                     select: "name"
                 },
-            ]).lean()
+            ]).skip(skip).limit(limit+1).lean()
+
+
+             let hasMore;
+
+            if(vehicles.length>limit){
+                hasMore=true
+                vehicles=vehicles.splice(vehicles.length-1,1)
+            }else{
+                hasMore=false
+            }
 
             return this.standardResponse(res, 200, "Vehicles found", {
                 vehicles,
-                hasMore: true
+                hasMore,
+                msg:"Vehicles found"
             })
 
         } catch (error) {
