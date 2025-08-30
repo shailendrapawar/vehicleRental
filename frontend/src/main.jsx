@@ -35,8 +35,9 @@ import AdminDashboard from './pages/adminPages/AdminDashboard.jsx'
 import VehicleManagement from './pages/adminPages/vehicle-management/VehicleManagement.jsx'
 import SingleVehicle from './pages/adminPages/vehicle-management/SingleVehicle.jsx'
 
-import UserManagement from './pages/adminPages/UserManagement.jsx'
 import SingleShopManagement from './pages/adminPages/shop-management/SingleShopManagement.jsx'
+import UserManagement from './pages/adminPages/user-management/UserManagement.jsx'
+import SingleUserManagement from './pages/adminPages/user-management/SingleUserManagement.jsx'
 
 const myRouter = createBrowserRouter(createRoutesFromElements(
 
@@ -60,6 +61,7 @@ const myRouter = createBrowserRouter(createRoutesFromElements(
       <Route path='/admin/manage-vehicles/:vehicleId' element={<SingleVehicle/>}/>
 
       <Route path="/admin/manage-users" element={<UserManagement/>}></Route>
+      <Route path='/admin/manage-users/:userId' element={<SingleUserManagement/>}/>
 
     </Route>
 
