@@ -19,7 +19,7 @@ class AdminUserController {
         try {
 
             const { page = 1, limit = 10 } = req.query
-            const users = await UserModel.find({}).select("name email role profilePicture").lean()
+            const users = await UserModel.find({}).select("name email role profilePicture status").lean()
             // console.log(users)
 
             return this.standardResponse(res, 200, "Users found", {
