@@ -14,17 +14,29 @@ class AdminShopController {
 
     static getAllShops = async (req, res) => {
         try {
-            const {limit=10}=req.params;
+            const {limit=1}=req.params;
             const{page=1}=req.params;
+            const skip = (page - 1) * limit
 
-            const shops = await ShopModel.find().select("name status location.coordinates location.city").populate({
+
+            let shops = await ShopModel.find().select("name status location.coordinates location.city").populate({
                 path:"owner",
                 select:"name"
-            }).lean()
+            }).skip(skip).limit(limit+1).lean()
+
+            let hasMore;
+
+            if(shops.length>limit){
+                hasMore=true
+                shops=shops.splice(shops.length-1,1)
+            }else{
+                hasMore=false
+            }
+
 
             return this.standardResponse(res, 200, "Shops found", {
                 shops,
-                hasMore: true
+                hasMore
             })
 
         } catch (error) {

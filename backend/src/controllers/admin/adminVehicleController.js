@@ -15,7 +15,7 @@ class AdminVehicleController {
     static getVehicles = async (req, res) => {
         try {
 
-            const { limit = 10 } = req.query;
+            const { limit = 1 } = req.query;
             const { page = 1 } = req.query;
             const skip = (limit * page) - 1;
 

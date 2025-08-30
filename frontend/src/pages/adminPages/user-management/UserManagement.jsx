@@ -117,9 +117,9 @@ const UserManagement = () => {
 
 
 
-      <section className="px-5 overflow-x-scroll py-2 rounded-lg " style={{ backgroundColor: currentTheme.cardBackground }}>
+      <section className="px-5 overflow-x-scroll py-5 rounded-lg " style={{ backgroundColor: currentTheme.cardBackground }}>
 
-        <div className=" w-full mb-2 flex gap-2 justify-center items-center rounded-lg">
+        <div className=" w-full mb-5  flex gap-2 justify-center items-center rounded-lg">
           <InputBox size={"h-10 w-[65%]"}
             placeholder={"Search for user..."}
             value={searchQuery}
