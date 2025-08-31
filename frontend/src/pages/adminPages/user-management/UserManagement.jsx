@@ -18,6 +18,8 @@ const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("")
 
+  const [kpiData, setKpiData] = useState({})
+
 
   const fetchAllUsers = async () => {
     try {
@@ -31,15 +33,16 @@ const UserManagement = () => {
     }
   }
 
-  const fetchKpiData=async()=>{
+  const fetchKpiData = async () => {
     try {
 
-      const res=await axios.get(import.meta.env.VITE_API_URL+`/admin/user/kpi-data`,{
-        withCredentials:true
+      const res = await axios.get(import.meta.env.VITE_API_URL + `/admin/user/kpi-data`, {
+        withCredentials: true
       })
 
-      console.log(res);
-      
+      console.log(res.data.data);
+      setKpiData(res.data.data)
+
     } catch (error) {
       console.log(error)
     }
@@ -91,6 +94,7 @@ const UserManagement = () => {
 
   useEffect(() => {
     fetchAllUsers()
+    fetchKpiData()
   }, [])
 
 
@@ -106,7 +110,7 @@ const UserManagement = () => {
         <KpiCard size={" h-35 col-span-3 sm:col-span-1"}
           data={{
             heading: "Total Users",
-            number: users?.filter((v, i) => v.role == "customer" || v.role === "owner")?.length || 0
+            number: kpiData?.totalUsers || 0
           }}
           icon={<FaUsers className="h-6 w-6 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
         />
@@ -114,7 +118,7 @@ const UserManagement = () => {
         <KpiCard size={" h-35 col-span-3 sm:col-span-1"}
           data={{
             heading: "Total Shop Owners",
-            number: users?.filter((v, i) => v.role == "owner")?.length || 0
+            number: kpiData.owners || 0
           }}
           icon={<FaShop className="h-8 w-8 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
         />
@@ -122,7 +126,7 @@ const UserManagement = () => {
         <KpiCard size={" h-35 col-span-3 sm:col-span-1"}
           data={{
             heading: "Total Customers",
-            number: users?.filter((v, i) => v.role == "customer")?.length || 0
+            number: kpiData?.customers || 0
           }}
           icon={<RiCustomerServiceFill className="h-8 w-8 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
         />
@@ -179,6 +183,7 @@ const UserManagement = () => {
             {users?.map((v, i) => {
               return <tr key={i} className=" h-15 text-xs"
                 style={{ borderBottom: `1px solid ${currentTheme.border}` }}
+                onClick={()=>navigate(`/admin/manage-users/${v._id}`)}
               >
                 <td className="">
                   <div className="flex items-center h-full gap-2">
@@ -194,7 +199,14 @@ const UserManagement = () => {
             })}
           </tbody>
         </table>
+
+        <div className="h-8 mt-5 bg-yellow-50 w-full">
+         
+        </div>
+
       </section>
+
+
 
 
     </div>

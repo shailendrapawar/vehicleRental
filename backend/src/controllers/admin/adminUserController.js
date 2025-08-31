@@ -52,6 +52,8 @@ class AdminUserController {
         try {
 
             const { userId } = req.params;
+            //  console.log(userId)
+
             if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
                 return this.standardResponse(res, 400, "Invalid user id")
             }
@@ -111,7 +113,7 @@ class AdminUserController {
     static getUserKpiData = async (req, res) => {
         try {
 
-            const totalUsers=await UserModel.find({}).countDocuments()
+            const totalUsers=await UserModel.find({}).countDocuments().lean()
 
             const usersByRole = await UserModel.aggregate([
                 { $group: { _id: "$role", totalUsers: { $sum: 1 } } },
@@ -121,18 +123,16 @@ class AdminUserController {
             let owners, customers
             usersByRole.map((v,i)=>{
                 if(v._id==="owner"){
-                   return owners=v
+                   return owners=v.totalUsers
                 }
 
                 if(v._id==="customer"){
-                   return customers=v
+                   return customers=v.totalUsers
                 }
-
             })
 
-            // console.log({owners,customers})
-
            return this.standardResponse(res,200,"Kpi data found for admin user",{totalUsers,owners,customers})
+
         } catch (error) {
             console.log("error in admin kpi-user", error)
             return this.standardResponse(res, 500, "Internal server error")
