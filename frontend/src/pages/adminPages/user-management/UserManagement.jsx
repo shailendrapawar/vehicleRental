@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import KpiCard from "../../../components/kpiCard/KpiCard";
 import { FaUsers } from "react-icons/fa";
 import { FaCar } from "react-icons/fa";
+import { FaShop } from "react-icons/fa6";
 import { RiCustomerServiceFill } from "react-icons/ri";
 import InputBox from "../../../components/inputBox/InputBox";
 
@@ -27,6 +28,20 @@ const UserManagement = () => {
       setUsers(res.data.data.users)
     } catch (error) {
 
+    }
+  }
+
+  const fetchKpiData=async()=>{
+    try {
+
+      const res=await axios.get(import.meta.env.VITE_API_URL+`/admin/user/kpi-data`,{
+        withCredentials:true
+      })
+
+      console.log(res);
+      
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -101,7 +116,7 @@ const UserManagement = () => {
             heading: "Total Shop Owners",
             number: users?.filter((v, i) => v.role == "owner")?.length || 0
           }}
-          icon={<FaCar className="h-8 w-8 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
+          icon={<FaShop className="h-8 w-8 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
         />
 
         <KpiCard size={" h-35 col-span-3 sm:col-span-1"}

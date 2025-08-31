@@ -64,7 +64,7 @@ class AdminUserController {
             })
 
         } catch (error) {
-            console.log("error in get single users", error)
+            console.log("error in get single users:admin", error)
             return this.standardResponse(res, 500, "Internal server error")
 
         }
@@ -101,7 +101,40 @@ class AdminUserController {
 
 
         } catch (error) {
-            console.log("error in update  user", error)
+            console.log("error in update  user:admin", error)
+            return this.standardResponse(res, 500, "Internal server error")
+
+        }
+    }
+
+    // D: get kpi Data
+    static getUserKpiData = async (req, res) => {
+        try {
+
+            const totalUsers=await UserModel.find({}).countDocuments()
+
+            const usersByRole = await UserModel.aggregate([
+                { $group: { _id: "$role", totalUsers: { $sum: 1 } } },
+            ])
+            
+
+            let owners, customers
+            usersByRole.map((v,i)=>{
+                if(v._id==="owner"){
+                   return owners=v
+                }
+
+                if(v._id==="customer"){
+                   return customers=v
+                }
+
+            })
+
+            // console.log({owners,customers})
+
+           return this.standardResponse(res,200,"Kpi data found for admin user",{totalUsers,owners,customers})
+        } catch (error) {
+            console.log("error in admin kpi-user", error)
             return this.standardResponse(res, 500, "Internal server error")
 
         }

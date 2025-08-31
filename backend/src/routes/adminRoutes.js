@@ -65,4 +65,9 @@ adminRouter.put("/user/update-user/:userId",
     authMiddleware,checkRoleMiddleware(['admin']),
     AdminUserController.updateUser
 )
+
+adminRouter.get("/user/kpi-data",
+    authMiddleware,checkRoleMiddleware(['admin']),
+    AdminUserController.getUserKpiData
+)
 export default adminRouter;
