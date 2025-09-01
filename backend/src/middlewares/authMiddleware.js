@@ -11,6 +11,7 @@ const authMiddleware = async (req, res, next) => {
             return res.status(401).json({
                 msg: "Unauthorized: No token provided"
             })
+            return res.redirect("/login")
         }
 
         //decode token

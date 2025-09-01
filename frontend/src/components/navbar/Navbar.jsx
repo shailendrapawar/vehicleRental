@@ -10,7 +10,7 @@ const Navbar = ({ routes }) => {
     // console.log(routes)
 
     return (
-        <div className="h-12 w-full bg-red-300 rounded-full absolute top-5 flex items-center justify-center z-10 select-none px-2 "
+        <div className="h-12 w-full rounded-full absolute top-5 flex items-center justify-center z-10 select-none px-2 backdrop-blur-md"
             style={{ backgroundColor: currentTheme.cardBackground }}
         >
 

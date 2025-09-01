@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 
 import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
@@ -10,27 +10,29 @@ import { BsCalendarDateFill } from "react-icons/bs";
 import { FaLocationDot } from "react-icons/fa6";
 import { formatDate, normalizeDate } from "../../../utils/dateHandler";
 
+import { toast } from "react-hot-toast"
+
 const SingleUserManagement = () => {
 
   const { userId } = useParams();
-
+  const navigate = useNavigate();
   const { currentTheme } = useSelector(s => s.theme)
 
   const [userData, setUserData] = useState({})
   const [userNewStatus, setUserNewStatus] = useState("")
+  const [newStatusMessage, setNewStatusMessage] = useState("");
 
-  // console.log(userId)
+
 
   const fetchUserDetail = async () => {
 
     if (!userId) return
 
     try {
-
       const res = await axios.get(import.meta.env.VITE_API_URL + `/admin/user/get-users/${userId}`, {
         withCredentials: true
       })
-      console.log(res.data.data.user);
+      // console.log(res.data.data.user);
       setUserData(res.data.data.user)
       setUserNewStatus(res.data.data.user.status)
 
@@ -38,6 +40,35 @@ const SingleUserManagement = () => {
       console.log(error)
     }
 
+  }
+
+  const updateUserStatus = async () => {
+    try {
+
+      if (!userId) {
+        return
+      }
+      if (userData.status === userNewStatus || newStatusMessage === "") {
+        toast.error("same status or empty message");
+      }
+
+      const res = await axios.put(import.meta.env.VITE_API_URL + `/admin/user/update-user/${userId}`, {
+        status: userNewStatus,
+        statusMessage: newStatusMessage
+      }, {
+        withCredentials: true
+      })
+
+      setUserData((prev) => ({
+        ...prev,
+        status: userNewStatus
+      }))
+
+      toast.success(`User status updated to ${userNewStatus?.toUpperCase()}`)
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
@@ -54,7 +85,9 @@ const SingleUserManagement = () => {
 
       <section className="h-10 w-full flex items-center">
 
-        <button className="h-10 w-20 bg-blue-500 rounded-md">
+        <button className="h-10 w-20 rounded-md" onClick={() => navigate(-1)}
+          style={{ backgroundColor: currentTheme.primary }}
+        >
           back
         </button>
 
@@ -67,13 +100,15 @@ const SingleUserManagement = () => {
         <div className=" h-70 overflow-hidden col-span-5 sm:col-span-3 rounded-md relative"
           style={{ backgroundColor: currentTheme.cardBackground }}
         >
-          <div className="h-[30%] bg-white w-full"> </div>
+          <div className="h-[30%] w-full" style={{ backgroundColor: currentTheme.textPrimary }}> </div>
 
-          <img className="h-25 w-25 rounded-full bg-gray-500 absolute top-[10%] left-[5%]">
+          <img src={userData?.profilePicture?.url} className="h-25 w-25 rounded-full bg-gray-500 absolute top-[10%] left-[5%]">
           </img>
 
-          <span className="absolute top-[35%] right-2 flex flex-col rounded-md text-xs md:text-md bg-gray-900 px-2 py-2">
-            <div>{userData?.name || ""}</div>
+          <span className="absolute top-[35%] right-0 flex flex-col rounded-l-md text-xs md:text-lg  px-2 py-2 text-black"
+            style={{ backgroundColor: currentTheme.accent }}
+          >
+            <div className="font-bold">{userData?.name?.toUpperCase() || ""}</div>
             <div>ID: {userData?._id || ""}</div>
           </span>
 
@@ -111,16 +146,19 @@ const SingleUserManagement = () => {
           style={{ backgroundColor: currentTheme.cardBackground }}
         >
           <input className="w-[70%] sm:w-[80%] md:w-[90%] h-10 outline-none px-2 text-xs sm:text-md"
-            placeholder={`Enter reason for ${userNewStatus}`} style={{ borderBottom: `2px solid ${currentTheme.border}` }}></input>
+            placeholder={`Enter reason for ${userNewStatus}`} style={{ borderBottom: `2px solid ${currentTheme.border}` }}
+            onChange={(e) => setNewStatusMessage(e.target.value)}
+          ></input>
           <button className="h-10 w-[30%] sm:w-[20%] md:w-[10%] bg-green-400 rounded-md"
             style={{ backgroundColor: currentTheme.primary }}
+            onClick={updateUserStatus}
           >Update</button>
         </div>
       )}
 
 
 
-{/* ========== history=============== */}
+      {/* ========== history=============== */}
       <div>
         history
       </div>

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 import KpiCard from "../../../components/kpiCard/KpiCard";
 import { FaUsers } from "react-icons/fa";
-import { FaCar } from "react-icons/fa";
 import { FaShop } from "react-icons/fa6";
 import { RiCustomerServiceFill } from "react-icons/ri";
 import InputBox from "../../../components/inputBox/InputBox";

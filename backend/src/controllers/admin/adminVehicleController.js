@@ -19,7 +19,7 @@ class AdminVehicleController {
             const { page = 1 } = req.query;
             const skip = (page-1)*limit
 
-            let vehicles = await VehicleModel.find({}).select("brand model images status vehicleType").populate([
+            let vehicles = await VehicleModel.find({}).select("brand model registrationNumber status vehicleType").populate([
                 {
                     path: "shopId",
                     select: "name"
