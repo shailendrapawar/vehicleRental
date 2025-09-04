@@ -15,11 +15,14 @@ import { TbMotorbike } from "react-icons/tb";
 import { FaCar } from "react-icons/fa";
 import { PiScooterBold } from "react-icons/pi";
 import { TbSum } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 const VehicleManagement = () => {
 
   const {currentTheme}=useSelector(s=>s.theme)
   const [searchQuery,setSearchQuery]=useState("")
+
+  const navigate=useNavigate()
 
    const [kpiData, setKpiData] = useState({})
 
@@ -182,7 +185,7 @@ const VehicleManagement = () => {
             {vehicles?.map((v, i) => {
               return <tr key={i} className=" h-15 text-xs"
                 style={{ borderBottom: `1px solid ${currentTheme.border}` }}
-                onClick={()=>navigate(`/admin/manage-users/${v._id}`)}
+                onClick={()=>navigate(`/admin/manage-vehicles/${v._id}`)}
               >
                 <td className="w-[20%]">
                     <span>{v?.registrationNumber?.toUpperCase()}</span>
