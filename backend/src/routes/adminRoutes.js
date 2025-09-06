@@ -32,6 +32,11 @@ adminRouter.put("/shop/update-shop-status/:shopId",
     AdminShopController.updateShopStatus
 )
 
+adminRouter.get("/shop/kpi-data",
+    authMiddleware,checkRoleMiddleware(['admin']),
+    AdminShopController.getShopKpiData
+)
+
 
 // 3: ============admin vehicle routes================
 adminRouter.get("/vehicle/get-all-vehicles",
