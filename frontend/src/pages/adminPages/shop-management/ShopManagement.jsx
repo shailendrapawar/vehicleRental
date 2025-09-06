@@ -10,18 +10,20 @@ import KpiCard from "../../../components/kpiCard/KpiCard";
 
 import { FaShop } from "react-icons/fa6";
 import { IoCopy } from "react-icons/io5";
+import { FaCircleDot } from "react-icons/fa6";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 
 import InputBox from "../../../components/inputBox/InputBox";
 import { useNavigate } from "react-router-dom";
 
 const ShopManagement = () => {
 
-   const { currentTheme } = useSelector(s => s.theme)
-   const navigate=useNavigate();
+  const { currentTheme } = useSelector(s => s.theme)
+  const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState();
 
-  const[kpiData,setKpiData]=useState({})
+  const [kpiData, setKpiData] = useState({})
 
   const [shops, setShops] = useState([]);
 
@@ -42,21 +44,21 @@ const ShopManagement = () => {
     }
   }
 
-  const getKpiData=async()=>{
+  const getKpiData = async () => {
     try {
 
-      const res= await axios.get(import.meta.env.VITE_API_URL+`/admin/shop/kpi-data`,{
-        withCredentials:true
+      const res = await axios.get(import.meta.env.VITE_API_URL + `/admin/shop/kpi-data`, {
+        withCredentials: true
       })
       console.log(res.data.data)
       setKpiData(res.data.data)
-    
+
     } catch (error) {
       console.log(err)
     }
   }
 
-   const handleChange = async (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
 
     if (name === "searchQuery") {
@@ -65,7 +67,7 @@ const ShopManagement = () => {
 
   }
 
-    const returnStatus = (status = "unknown", position) => {
+  const returnStatus = (status = "unknown", position) => {
     let colorStyle = "";
 
     switch (status) {
@@ -103,39 +105,58 @@ const ShopManagement = () => {
 
   useEffect(() => {
     fetchAllShops();
-    // getKpiData();
+    getKpiData();
   }, [])
 
   return (
 
-    <div className="h-[calc(100vh-80px)] w-fulll flex flex-col relative">
+    <div className="h-[calc(100vh-80px)] w-fulll flex flex-col relative gap-5">
 
-      <h3 className="w-full text-center my-5 text-xl ">Shop Management</h3>
+      <h3 className="w-full text-center text-xl ">Shop Management</h3>
 
       <section className=" w-full gap-5 grid grid-cols-3 ">
 
         <KpiCard size={" h-35 col-span-3 sm:col-span-1"}
           data={{
             heading: "Total Shops",
-            number:kpiData?.totalShops?.[0]?.totalShops||0
+            number: kpiData?.totalShop || 0
           }}
           icon={<FaShop className="h-6 w-6 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
         />
 
+
         <KpiCard size={" h-35 col-span-3 sm:col-span-1"}
           data={{
-            heading: "Banned Shops",
-            number: kpiData?.totalUsers || 0
+            heading: "Active Shops",
+            number: kpiData?.activeShops || 0
           }}
-          icon={<FaShop className="h-6 w-6 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
+          icon={<FaCircleDot className="h-6 w-6 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
         />
+
+        <main className={" h-35 col-span-3 sm:col-span-1 rounded-md relative"}
+          style={{ backgroundColor: currentTheme.cardBackground }}
+        >
+
+          <section className="flex absolute top-2 px-5 w-full justify-between items-center">
+            <h3 className=" left-4 text-lg">Status Wise:</h3>
+            <span><BiSolidCategoryAlt className="h-6 w-6 sm:h-8 sm:w-8 " style={{ color: currentTheme.accent }} /></span>
+          </section>
+
+          <section className="w-full min-h-20 max-h-20 overflow-y-scroll flex flex-col gap-1 px-4 text-sm py-2 absolute top-12">
+            {kpiData?.statusWiseShops?.map((v,i)=>{
+              return <span key={v?._id} className="w-full flex gap-1" style={{color:currentTheme.textSecondary}}>{v?._id}:<b style={{color:currentTheme.accent}}>{v?.count}</b></span>
+            })}
+          </section>
+
+        </main>
+
 
 
       </section>
 
 
-     
-     <section className="px-5 overflow-x-scroll py-5 rounded-lg " style={{ backgroundColor: currentTheme.cardBackground }}>
+
+      <section className="px-5 overflow-x-scroll py-5 rounded-lg " style={{ backgroundColor: currentTheme.cardBackground }}>
 
         <div className=" w-full mb-5  flex gap-2 justify-center items-center rounded-lg">
           <InputBox size={"h-10 w-[65%]"}
@@ -163,7 +184,7 @@ const ShopManagement = () => {
         </div>
 
 
-         <table className="h-auto w-full  rounded-md">
+        <table className="h-auto w-full  rounded-md">
 
           <thead className="h-10 w-full text-sm px-5">
             <tr className="text-left " style={{ borderBottom: `2px solid ${currentTheme.border}` }}>
@@ -182,7 +203,7 @@ const ShopManagement = () => {
             {shops?.map((v, i) => {
               return <tr key={i} className=" h-15 text-xs"
                 style={{ borderBottom: `1px solid ${currentTheme.border}` }}
-                onClick={()=>navigate(`/admin/manage-shops/${v._id}`)}
+                onClick={() => navigate(`/admin/manage-shops/${v._id}`)}
               >
                 <td className="">
                   <div className="flex items-center h-full gap-2">
@@ -193,15 +214,15 @@ const ShopManagement = () => {
 
                 <td style={{ color: currentTheme.textSecondary }}>{v?.location?.city}</td>
                 <td>{returnStatus(v?.status)}</td>
-                <td>{v?.owner?.name}<br/><span style={{color:currentTheme.textSecondary}} className="text-[8px] flex gap-1">{v?.owner?._id}<IoCopy/></span></td>
-                <td className="font-bold" style={{color:currentTheme.accent}}>{v?.submissionCount}</td>
+                <td>{v?.owner?.name}<br /><span style={{ color: currentTheme.textSecondary }} className="text-[8px] flex gap-1">{v?.owner?._id}<IoCopy /></span></td>
+                <td className="font-bold" style={{ color: currentTheme.accent }}>{v?.submissionCount}</td>
               </tr>
             })}
           </tbody>
         </table>
 
 
-        </section>
+      </section>
 
 
     </div>

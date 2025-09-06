@@ -9,7 +9,7 @@ const KpiCard = ({data,size,icon}) => {
     style={{backgroundColor:currentTheme.cardBackground}}
     >
 
-        <section className="flex absolute top-2 px-5 w-full justify-between">
+        <section className="flex absolute top-2 px-5 w-full justify-between items-center">
             <h3 className="text-lg">{data.heading}</h3>
             <span>{icon}</span>
         </section>
