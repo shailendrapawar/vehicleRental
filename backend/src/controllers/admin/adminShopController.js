@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import ShopModel from "../../models/ShopModel.js";
-
+import { updateShopStatusSchema} from "../../validations/admin/shopValidations.js"
 
 class AdminShopController {
 

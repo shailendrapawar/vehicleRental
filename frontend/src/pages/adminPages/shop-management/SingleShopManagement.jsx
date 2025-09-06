@@ -13,9 +13,13 @@ const SingleShopManagement = () => {
   const { shopId } = useParams()
 
   const [shop, setShop] = useState({});
+
   const [shopStatus, setShopStatus] = useState("");
   const [statusMessage, setStatusMessage] = useState("")
 
+  const [refresh,toggleRefresh]=useState(false);
+
+  
   const fetchSingleShop = async () => {
     try {
 
@@ -67,9 +71,27 @@ const SingleShopManagement = () => {
 
   }
 
+  const  handleStatusUpdate=async()=>{
+    try {
+
+      const res=await axios.put(import.meta.env.VITE_API_URL+`/admin/shop/update-shop-status/${shopId}`,{
+        status:shopStatus,
+        statusMessage
+      },{withCredentials:true})
+
+      toggleRefresh(prev=>!prev);
+      toast.success(` Shop status changed to ${shopStatus}`)
+      setStatusMessage("")
+      
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
+
   useEffect(() => {
     fetchSingleShop()
-  }, [shopId]);
+  }, [shopId,refresh]);
 
   if (!shopId) return
 
@@ -135,7 +157,7 @@ const SingleShopManagement = () => {
 
         <button className="w-20 sm:w-25 h-8 self-end rounded-md active:scale-90 transition-all ease-in-out"
           style={{ backgroundColor: currentTheme.accent }}
-        // onClick={handleStatusUpdate}
+        onClick={handleStatusUpdate}
         >Update</button>
       </aside>)}
 

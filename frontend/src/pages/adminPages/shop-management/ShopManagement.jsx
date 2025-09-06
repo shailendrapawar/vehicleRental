@@ -50,7 +50,7 @@ const ShopManagement = () => {
       const res = await axios.get(import.meta.env.VITE_API_URL + `/admin/shop/kpi-data`, {
         withCredentials: true
       })
-      console.log(res.data.data)
+      // console.log(res.data.data)
       setKpiData(res.data.data)
 
     } catch (error) {
@@ -110,7 +110,7 @@ const ShopManagement = () => {
 
   return (
 
-    <div className="h-[calc(100vh-80px)] w-fulll flex flex-col relative gap-5">
+    <div className="min-h-[calc(100vh-80px)] w-fulll flex flex-col relative gap-5 pb-5">
 
       <h3 className="w-full text-center text-xl ">Shop Management</h3>
 
@@ -133,10 +133,10 @@ const ShopManagement = () => {
           icon={<FaCircleDot className="h-6 w-6 sm:h-8 sm:w-8" style={{ color: currentTheme.accent }} />}
         />
 
+         {/* custom kpi */}
         <main className={" h-35 col-span-3 sm:col-span-1 rounded-md relative"}
           style={{ backgroundColor: currentTheme.cardBackground }}
         >
-
           <section className="flex absolute top-2 px-5 w-full justify-between items-center">
             <h3 className=" left-4 text-lg">Status Wise:</h3>
             <span><BiSolidCategoryAlt className="h-6 w-6 sm:h-8 sm:w-8 " style={{ color: currentTheme.accent }} /></span>
@@ -147,7 +147,6 @@ const ShopManagement = () => {
               return <span key={v?._id} className="w-full flex gap-1" style={{color:currentTheme.textSecondary}}>{v?._id}:<b style={{color:currentTheme.accent}}>{v?.count}</b></span>
             })}
           </section>
-
         </main>
 
 
@@ -196,10 +195,7 @@ const ShopManagement = () => {
             </tr>
           </thead>
 
-
-
           <tbody className=" w-full px-2">
-
             {shops?.map((v, i) => {
               return <tr key={i} className=" h-15 text-xs"
                 style={{ borderBottom: `1px solid ${currentTheme.border}` }}
@@ -220,8 +216,6 @@ const ShopManagement = () => {
             })}
           </tbody>
         </table>
-
-
       </section>
 
 
