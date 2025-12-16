@@ -6,15 +6,32 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { FiCalendar } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 
+import logoImg from "/public/logo.png";
+import lightBgImg from "/public/auth-bg-light.png";
+import darkBgImg from "/public/auth-bg-dark.png";
+
+
+import { useNavigate } from "react-router";
+
+
+
 export default function RegisterPage() {
 
   const { currentTheme } = useSelector(s => s.theme);
+  const navigate = useNavigate();
 
   return (
-    <main className={"login-page flex justify-center items-center h-full w-full px-2"}>
+    <main className={"login-page flex justify-center items-center h-full w-full px-2"}
+      style={{
+        background: `url(${currentTheme.name === "light" ? lightBgImg : darkBgImg})`,
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+      }}
+    >
 
       <section className={"w-full max-w-130 h-150  rounded-xl flex flex-col justify-evenly items-center px-2"}
         style={{
+          backgroundColor:currentTheme.cardBackground,
           border: `1px solid ${currentTheme.border}`,
           boxShadow: `2px 2px 5px ${currentTheme.border}`
         }}
@@ -22,7 +39,11 @@ export default function RegisterPage() {
 
         <h3 className="text-2xl font-semibold" style={{ color: currentTheme.primary }}>Register </h3>
 
-        <img className="h-30 w-30 rounded-full bg-gray-500"></img>
+        <img src={logoImg} className="h-30 w-30 rounded-full "
+          style={{
+            border: `3px solid ${currentTheme.primary}`,
+          }}
+        ></img>
 
         <form className={"h-auto w-full gap-3 flex flex-col items-center"}>
           <InputBox
@@ -97,7 +118,9 @@ export default function RegisterPage() {
         </form>
 
         <span className="text-sm">Already registered?
-          <span className="cursor-pointer" style={{ color: currentTheme.secondary }}> Login here</span>
+          <span className="cursor-pointer ml-1" style={{ color: currentTheme.secondary }}
+            onClick={() => navigate("/login")}
+          > Login here</span>
         </span>
 
       </section>

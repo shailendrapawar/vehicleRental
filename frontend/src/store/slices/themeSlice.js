@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const rootTheme = {
   light: {
+    name:"light",
     primary: "#2D5BFF",
     secondary: "#FF6B35",
     accent: "#00E676",
@@ -16,6 +17,7 @@ const rootTheme = {
     border: "#E0E0E0"
   },
   dark: {
+    name:"dark",
     primary: "#4A7CFF",
     secondary: "#FF8A50",
     accent: "#00FF88",

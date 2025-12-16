@@ -26,7 +26,7 @@ dist-ssr
 *.sw?
 
 # Raster Images
-*.png
+# *.png
 *.jpg
 *.jpeg
 *.gif
