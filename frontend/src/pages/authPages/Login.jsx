@@ -16,6 +16,7 @@ import { useNavigate } from "react-router";
 export default function LoginPage() {
 
   const { currentTheme } = useSelector(s => s.theme);
+
   const navigate = useNavigate();
 
   return (
@@ -30,7 +31,6 @@ export default function LoginPage() {
       <section className={"w-full max-w-130 h-150 rounded-xl flex flex-col justify-evenly items-center px-2"}
         style={{
           backgroundColor: currentTheme.cardBackground,
-          // filter:blur(),
           border: `1px solid ${currentTheme.border}`,
           boxShadow: `2px 2px 5px ${currentTheme.border}`
         }}
