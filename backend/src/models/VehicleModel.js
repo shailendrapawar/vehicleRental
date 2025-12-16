@@ -96,6 +96,11 @@ const vehicleSchema = new mongoose.Schema({
         enum: ['available', 'booked', 'maintenance', 'out_of_service'],
         default: 'available'
     },
+
+    meta:{
+        type:Object,
+        default:{}
+    }
 }, {
     timestamps: true
 })
