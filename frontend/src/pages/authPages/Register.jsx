@@ -14,10 +14,10 @@ export default function RegisterPage() {
     <main className={"login-page flex justify-center items-center h-full w-full px-2"}>
 
       <section className={"w-full max-w-130 h-150  rounded-xl flex flex-col justify-evenly items-center px-2"}
-      style={{
-        border:`1px solid ${currentTheme.border}`,
-        boxShadow:`2px 2px 5px ${currentTheme.border}`
-      }}
+        style={{
+          border: `1px solid ${currentTheme.border}`,
+          boxShadow: `2px 2px 5px ${currentTheme.border}`
+        }}
       >
 
         <h3 className="text-2xl font-semibold" style={{ color: currentTheme.primary }}>Register </h3>
@@ -96,11 +96,10 @@ export default function RegisterPage() {
           ><FcGoogle className="h-7 w-7" />Register with Google</button>
         </form>
 
-
-
         <span className="text-sm">Already registered?
           <span className="cursor-pointer" style={{ color: currentTheme.secondary }}> Login here</span>
         </span>
+
       </section>
     </main>
   );
