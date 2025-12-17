@@ -8,22 +8,23 @@ import Landing from "../pages/landing/Landing";
 
 
 const MainRouter = createBrowserRouter(createRoutesFromElements(
-    <Route path='/' element={<RootLayout/>}>
+    <Route path='/' element={<RootLayout />}>
 
-        <Route path="" element={<Landing/>}></Route> 
+        {/* ================ Landing Page ===================== */}
+        <Route path="" element={<Landing />}></Route>
 
-    
+
         {/* ======auth pages=============== */}
-        <Route path="login" element={<LoginPage/>}></Route>
-        <Route path="register" element={<RegisterPage/>}></Route> 
-        
+        <Route path="/auth/login" element={<LoginPage />}></Route>
+        <Route path="/auth/register" element={<RegisterPage />}></Route>
+
         {/* ========admin routes to be added here=========*/}
         {/* <Route path="/owner" element={}></Route> */}
 
 
         {/*======owner routes to be added here===========*/}
-        <Route path="/owner" element={<OwnerLayout/>}>
-        
+        <Route path="/owner" element={<OwnerLayout />}>
+
         </Route>
 
 

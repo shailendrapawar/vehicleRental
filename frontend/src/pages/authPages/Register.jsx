@@ -6,9 +6,9 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { FiCalendar } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 
-import logoImg from "/public/logo.png";
-import lightBgImg from "/public/auth-bg-light.png";
-import darkBgImg from "/public/auth-bg-dark.png";
+import logoImg from "/logo.png";
+import lightBgImg from "/auth-bg-light.png";
+import darkBgImg from "/auth-bg-dark.png";
 
 
 import { useNavigate } from "react-router";
@@ -88,6 +88,8 @@ export default function RegisterPage() {
                 border: '3px solid ' + currentTheme.primary,
                 boxShadow: '2px 2px 5px ' + currentTheme.border
               }}
+              // value={""}
+              defaultValue={null}
             >
               <option value="" disabled selected>Register As</option>
               <option value="customer">Customer</option>
@@ -119,7 +121,7 @@ export default function RegisterPage() {
 
         <span className="text-sm">Already registered?
           <span className="cursor-pointer ml-1" style={{ color: currentTheme.secondary }}
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/auth/login")}
           > Login here</span>
         </span>
 

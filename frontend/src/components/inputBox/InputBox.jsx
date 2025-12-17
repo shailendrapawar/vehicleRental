@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 const InputBox = (props) => {
-  console.log(props)
+  // console.log(props)
   const { size = "h-full w-full",
     color,
     backgroundColor,

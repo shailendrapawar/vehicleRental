@@ -6,10 +6,10 @@ import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 
-import logoImg from "/public/logo.png";
+import logoImg from "/logo.png";
 
-import lightBgImg from "/public/auth-bg-light.png";
-import darkBgImg from "/public/auth-bg-dark.png";
+import lightBgImg from "/auth-bg-light.png";
+import darkBgImg from "/auth-bg-dark.png";
 
 import { useNavigate } from "react-router";
 
@@ -91,7 +91,7 @@ export default function LoginPage() {
 
         <span className="text-sm">Not registered yet?
           <span className="cursor-pointer ml-1" style={{ color: currentTheme.secondary }}
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/auth/register")}
           > Register here</span>
         </span>
 
