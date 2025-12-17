@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import InputBox from "../../components/inputBox/InputBox";
+import InputBox from "../../../components/inputBox/InputBox";
 
 import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
