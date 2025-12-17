@@ -5,6 +5,7 @@ import { createBrowserRouter, createRoutesFromElements, Route } from "react-rout
 import Landing from "../pages/landing/Landing";
 
 import  {AuthRoutes}  from "./AuthRoutes.jsx";
+import { OwnerRoutes } from "./OwnerRoutes.jsx";
 
 
 
@@ -13,22 +14,25 @@ import  {AuthRoutes}  from "./AuthRoutes.jsx";
 const MainRouter = createBrowserRouter(createRoutesFromElements(
     <Route path='/' element={<RootLayout />}>
 
-        {/* ================ Landing Page ===================== */}
+        {/* LANDING PAGE ===================== */}
         <Route path="" element={<Landing />}></Route>
 
 
-        {/* ======auth pages=============== */}
+        {/*AUTH ROUTES=============== */}
         {AuthRoutes.map(({path,element},index)=>(
             <Route key={index} path={path} element={element}></Route>
         ))}
 
 
-        {/* ========admin routes to be added here=========*/}
+        {/*ADMIN ROUTES===============*/}
         {/* <Route path="/admin" element={}></Route> */}
 
 
-        {/*======owner routes to be added here===========*/}
+        {/*OWNER ROUTES===============*/}
         <Route path="/owner" element={<OwnerLayout />}>
+          {OwnerRoutes.map(({path,element},index)=>(
+              <Route key={index} path={path} element={element}></Route>
+          ))}
 
         </Route>
 
