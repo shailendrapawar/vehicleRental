@@ -1,11 +1,12 @@
 import RootLayout from "../layouts/RootLayout";
 import OwnerLayout from "../layouts/OwnerLayout";
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router"
+import { createBrowserRouter, createRoutesFromElements, Navigate, Route } from "react-router"
 
 import Landing from "../pages/landing/Landing";
 
-import  {AuthRoutes}  from "./AuthRoutes.jsx";
+import { AuthRoutes } from "./AuthRoutes.jsx";
 import { OwnerRoutes } from "./OwnerRoutes.jsx";
+import Dashboard from "../pages/ownerPages/dashboard/Dashboard.jsx";
 
 
 
@@ -19,7 +20,7 @@ const MainRouter = createBrowserRouter(createRoutesFromElements(
 
 
         {/*AUTH ROUTES=============== */}
-        {AuthRoutes.map(({path,element},index)=>(
+        {AuthRoutes.map(({ path, element }, index) => (
             <Route key={index} path={path} element={element}></Route>
         ))}
 
@@ -30,9 +31,11 @@ const MainRouter = createBrowserRouter(createRoutesFromElements(
 
         {/*OWNER ROUTES===============*/}
         <Route path="/owner" element={<OwnerLayout />}>
-          {OwnerRoutes.map(({path,element},index)=>(
-              <Route key={index} path={path} element={element}></Route>
-          ))}
+            <Route index element={<Navigate to="/owner/dashboard" replace />} replace></Route>
+            
+            {OwnerRoutes.map(({ path, element }, index) => (
+                <Route key={index} path={path} element={element}></Route>
+            ))}
 
         </Route>
 
