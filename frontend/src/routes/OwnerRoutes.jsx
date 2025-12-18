@@ -31,9 +31,9 @@ export const OwnerRoutes = [
   { path: "/owner/vehicles/:id", element: <SingleVehicle /> },
   { path: "/owner/vehicles/add", element: <AddVehicle /> },
 
-  //bookings
-  // { path: "/owner/bookings", element: <AllVehicles /> },
-  // { path: "/owner/bookings/:id", element: <AllVehicles /> },
+  // bookings
+  { path: "/owner/bookings", element: <div/> },
+  { path: "/owner/bookings/:id", element: <div/> },
 
 ]
 
@@ -56,11 +56,11 @@ export const OwnerNavs = [
     icon: <FaCar className={` ${commonClass}`} />,
     path: "/owner/vehicles"
   },
-  // {
-  //   title: "Bookings",
-  //   icon: <FaMoneyCheckDollar  className={` ${commonClass}`}/>,
-  //   path: "/owner/bookings"
-  // },
+  {
+    title: "Bookings",
+    icon: <FaMoneyCheckDollar  className={` ${commonClass}`}/>,
+    path: "/owner/bookings"
+  },
   // {
   //   title:"Support",
   //   icon:<MdOutlineSupportAgent className={` ${commonClass}`}/>,
