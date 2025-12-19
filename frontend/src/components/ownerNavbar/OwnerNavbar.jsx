@@ -33,7 +33,7 @@ const OwnerNavbar = () => {
                             borderRadius: isActive ? '8px' : '0px',
                         })}
                     >
-                        <span className={` hover:scale-110 ease-out transition-all`}>
+                        <span className={`hover:scale-110 ease-out transition-all`}>
                             {icon}
                         </span>
 

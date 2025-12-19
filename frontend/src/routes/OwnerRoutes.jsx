@@ -10,8 +10,6 @@ import Dashboard from "../pages/ownerPages/dashboard/Dashboard"
 import { MdDashboard } from "react-icons/md";
 import { FaShop } from "react-icons/fa6";
 import { FaCar } from "react-icons/fa";
-import { FaChartPie } from "react-icons/fa";
-import { MdOutlineSupportAgent } from "react-icons/md";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 
 import { FaUserCircle } from "react-icons/fa";

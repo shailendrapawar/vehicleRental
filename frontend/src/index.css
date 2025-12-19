@@ -18,3 +18,14 @@
   /* background-color: aqua; */
 }
 
+/* React root */
+
+
+/* Chrome, Safari */
+* #root::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  /* -ms-overflow-style: none;  IE and Edge */
+    display: none;/* Firefox */
+}
