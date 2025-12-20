@@ -57,7 +57,7 @@ const SingleShop = () => {
         </span>
       </section>
 
-      {/* <hr className="font-bold"></hr> */}
+      <hr className="font-bold"></hr>
 
       <div className="h-10 w-full  mt-4 flex justify-center gap-5">
         <input className="h-10 w-[50%] max-w-100 bg-white rounded-md outline-none px-2" 
@@ -67,8 +67,9 @@ const SingleShop = () => {
           boxShadow:`2px 2px 5px ${currentTheme.border}`
         }}
         />
-        <button className="h-10 w-10 rounded-full bg-blue-500">f</button>
+        <button className="h-10 w-10 rounded-full bg-blue-500 cursor-pointer">f</button>
       </div>
+      
 
       <main className="h-100 mt-4 w-full  flex gap-4 flex-wrap overflow-y-scroll hide-scrollbar justify-center items-center">
         {/* all vehicles */}

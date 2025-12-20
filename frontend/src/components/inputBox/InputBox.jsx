@@ -10,7 +10,7 @@ const InputBox = (props) => {
     value, onChange,
     icon,
     shadow, border } = props
-
+ 
   const { currentTheme } = useSelector(s => s.theme);
 
   return (
