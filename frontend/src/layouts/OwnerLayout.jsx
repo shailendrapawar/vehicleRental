@@ -13,7 +13,7 @@ const OwnerLayout = ({ childern }) => {
     //  style={{ backgroundColor: currentTheme.background }}
     >
       <OwnerNavbar />
-      <section className="w-full h-full rounded-md overflow-y-scroll"
+      <section className="w-full h-full hide-scrollbar rounded-md overflow-y-scroll"
         style={{
           backgroundColor: currentTheme.background,
           // border: `1px solid ${currentTheme.border}`,

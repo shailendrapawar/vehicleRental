@@ -11,6 +11,7 @@ const ShopCard = ({ title, city, address }) => {
 
     const [commonTheme] = useState({ color: currentTheme.secondary });
 
+
     return (
         <div className="h-80 min-w-80 rounded-[10px] flex flex-col p-2"
             style={{
@@ -31,10 +32,11 @@ const ShopCard = ({ title, city, address }) => {
                 </span>
 
                 <section className="grid grid-cols-2  p-2 gap-1">
-                    <span className="col-span-1 flex text-xs items-center gap-1" style={{ color: currentTheme.textSecondary }}><FaCar /> Vehicle: <b style={{ color: currentTheme.secondary }}>3</b></span>
-                    <span className=" col-span-1 flex text-xs items-center gap-1" style={{ color: currentTheme.textSecondary }}><MdLock />Booked: <b style={{ color: currentTheme.secondary }}>2</b></span>
-                    <span className="col-span-1  flex text-xs items-center gap-1" style={{ color: currentTheme.textSecondary }}><FaCheckCircle /> Available:<b style={{ color: currentTheme.secondary }}>1</b></span>
-                    <span className=" col-span-1  flex text-xs items-center gap-1" style={{ color: currentTheme.textSecondary }}><RiMoneyRupeeCircleFill /> Earning: <b style={{ color: currentTheme.secondary }}>$ 3</b></span>
+                    <span className="col-span-1 flex text-xs items-center gap-1" ><FaCar style={{ color: currentTheme.secondary }} /> Vehicles: <b >3</b></span>
+                    <span className="col-span-1 flex text-xs items-center gap-1" ><FaCheckCircle style={{ color: currentTheme.secondary }} /> Booked: <b >3</b></span>
+
+                    <span className="col-span-1 flex text-xs items-center gap-1" ><MdLock style={{ color: currentTheme.secondary }} /> Avaliable: <b >3</b></span>
+                    <span className="col-span-1 flex text-xs items-center gap-1" ><RiMoneyRupeeCircleFill style={{ color: currentTheme.secondary }} /> Earnings: <b >$893</b></span>
                 </section>
 
             </div>

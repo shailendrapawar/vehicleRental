@@ -6,4 +6,4 @@ const KpiCard = ({size,title,data,unit}) => {
     </div>
   )
 }
-export default KpiCard
+export default KpiCard 
