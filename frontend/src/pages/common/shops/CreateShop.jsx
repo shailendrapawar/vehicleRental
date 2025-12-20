@@ -34,7 +34,7 @@ function CreateShop() {
         {/* // basic detils  */}
         <div className="flex flex-col justify-evenly px-2 "
         >
-          <h3>Basic Details:</h3>
+          <h3> 1: Basic Details</h3>
           <div className="grid grid-cols-2 grid-rows-3 gap-2">
             <InputBox size={"h-8 text-sm"}
               placeholder={"Enter Shop name"}
@@ -67,7 +67,7 @@ function CreateShop() {
             ></textarea>
           </div>
 
-          <h3 >Listing type:</h3>
+          <h3 > 2: Listing types</h3>
           <aside className="h-6 flex gap-4 text-sm">
             <span className="bg-amber-500 min-w-15 flex items-center justify-center px-3 rounded-full">Scooty</span>
             <span className="bg-amber-500 min-w-15 flex items-center justify-center px-3 rounded-full">Bike</span>
@@ -90,19 +90,51 @@ function CreateShop() {
             onClick={(e) => shopPhotosInputRef?.current?.click()}
           >
             <MdAddPhotoAlternate className="h-15 w-15" style={{ color: currentTheme.secondary }} />
-            <h3 >Add Shop Images</h3>
+            <h3 style={{ color: currentTheme.textSecondary }}>Add Shop Images</h3>
           </span>
         </div>
       </section>
 
 
-      <section className={"w-full h-auto p-2 mt-5 rounded-md bg-gray-500"}
+
+
+      <section className={"w-full h-120 md:h-70 p-2 mt-5 rounded-md bg-gray-500 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 gap-5"}
         style={{
         }}
       >
+        <div className="bg-red-500 row-span-1">
+
+        </div>
+
+        <div className="bg-yellow-500 grid grid-cols-2 gap-2">
+          <h3>3: Location Details</h3>
+          <span className="h-10 bg-white col-span-2 relative ">
+            <h3 className="text-xs">Address</h3>
+          </span>
+
+          <span className="h-10 bg-white col-span-1 relative">
+            <h3 className="text-xs">District</h3>
+
+          </span>
+
+          <span className="h-10 bg-white col-span-1 relative">
+            <h3 className="text-xs">City</h3>
+
+          </span>
+
+          <span className="h-10 bg-white col-span-1 relative">
+            <h3 className="text-xs">Pincode</h3>
+
+          </span>
+
+          <span className="h-10 bg-white col-span-1 relative">
+            <h3 className="text-xs">Lat,Long</h3>
+
+          </span>
+
+        </div>
+
       </section>
-
-
     </div>
   )
 }
