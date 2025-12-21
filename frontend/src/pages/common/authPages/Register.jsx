@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 
 import AuthService from "../../../services/Auth.service";
+import OtpModal from "./OtpModal";
 
 export default function RegisterPage() {
 
@@ -29,6 +30,8 @@ export default function RegisterPage() {
     otp: "",
     purpose: ""
   })
+
+  const [toggleOtp, setToggleOtp] = useState(false)
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -65,8 +68,15 @@ export default function RegisterPage() {
           }}
         ></img>
 
-        <form className={"h-auto w-full gap-3 flex flex-col items-center"}
-        onChange={(e)=>handleFormChange(e)}
+        {toggleOtp ? (
+
+          <OtpModal size={"h-[40%] w-full"}
+          // backgroundColor={currentTheme.background}
+          // border={`2px solid ${currentTheme.border}`}
+          />
+
+        ) : (<form className={"h-auto w-full gap-3 flex flex-col items-center"}
+          onChange={(e) => handleFormChange(e)}
         // onSubmit={}
         >
           <InputBox
@@ -92,7 +102,7 @@ export default function RegisterPage() {
             name={"password"}
             // onChange={handleFormChange}
             icon={<RiLockPasswordLine className="h-5 w-5"
-            style={{ color: currentTheme.textSecondary }} />}
+              style={{ color: currentTheme.textSecondary }} />}
           />
 
 
@@ -118,7 +128,7 @@ export default function RegisterPage() {
               }}
               name={"registerAs"}
             >
-              <option value=""  hidden >Register As</option>
+              <option value="" hidden >Register As</option>
               <option value="customer">Customer</option>
               <option value="owner">Owner</option>
             </select>
@@ -132,7 +142,7 @@ export default function RegisterPage() {
               border: `1px solid ${currentTheme.border}`
             }}
           >
-            Register {userRegistrationData.registerAs!=="" && (`as ${userRegistrationData?.registerAs?.toUpperCase()}`)}
+            Register {userRegistrationData.registerAs !== "" && (`as ${userRegistrationData?.registerAs?.toUpperCase()}`)}
           </button>
 
           <span className="text-sm" style={{ color: currentTheme.textSecondary }}>or</span>
@@ -144,7 +154,7 @@ export default function RegisterPage() {
               border: `1px solid ${currentTheme.border}`
             }}
           ><FcGoogle className="h-7 w-7" />Register with Google</button>
-        </form>
+        </form>)}
 
         <span className="text-sm">Already registered?
           <span className="cursor-pointer ml-1" style={{ color: currentTheme.secondary }}
