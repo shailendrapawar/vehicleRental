@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
+import { LiaEyeSolid } from "react-icons/lia";
+import { LiaEyeSlashSolid } from "react-icons/lia";
+
 const InputBox = (props) => {
-  // console.log(props)
+ 
+  const [passwordToggle, setPasswordToggle] = useState(false);
   const { size = "h-full w-full",
     color,
     backgroundColor,
     placeholder, type = "text",
     value, onChange,
     icon,
+    name,
     shadow, border } = props
- 
+
   const { currentTheme } = useSelector(s => s.theme);
 
   return (
@@ -30,10 +35,18 @@ const InputBox = (props) => {
       <input
         className={"h-full w-full px-1 outline-none"}
         placeholder={placeholder}
-        type={type}
+        type={passwordToggle?"text":type}
         value={value}
         onChange={onChange}
+        name={name}
       />
+
+      {type == "password" && (<span className='grid  place-content-center w-5'
+      onClick={()=>setPasswordToggle(!passwordToggle)}
+      >
+        {passwordToggle==true?<LiaEyeSolid/>:<LiaEyeSlashSolid />}
+
+      </span>)}
 
     </main>
   )

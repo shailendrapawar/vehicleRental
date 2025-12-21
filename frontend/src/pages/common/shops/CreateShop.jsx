@@ -17,6 +17,8 @@ function CreateShop() {
 
   }
 
+
+
   return (
 
     <div className=" h-full w-full rounded-md relative">
@@ -49,18 +51,19 @@ function CreateShop() {
               ref={gstInputRef}
             ></input>
 
-            <div className="col-span-2 text-white h-8 rounded-md text-sm flex justify-center items-center cursor-pointer"
+            <div className="col-span-2  h-8 rounded-md text-sm flex justify-center items-center cursor-pointer"
               style={{
-                backgroundColor: currentTheme.secondary
+                // backgroundColor: currentTheme.secondary,
+                border: `2px solid ${currentTheme.secondary}`
               }}
-              title="Upload GST bill"
+              title="Click to upload GST bill"
               onClick={(e) => gstInputRef?.current?.click()}
             >
-              Select GST bill image
+              Upload GST bill image
             </div>
 
             <textarea className="resize-none col-span-2 row-span-2 p-1 text-xs outline-none rounded-md"
-              placeholder="Enter some description for your shop."
+              placeholder="Add some thoughts for your shop."
               style={{
                 border: `2px solid ${currentTheme.border}`
               }}
@@ -98,41 +101,98 @@ function CreateShop() {
 
 
 
-      <section className={"w-full h-120 md:h-70 p-2 mt-5 rounded-md bg-gray-500 grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 gap-5"}
+      <section className={"w-full h-120 md:h-70 p-2 mt-5 rounded-md grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 gap-5"}
         style={{
+          backgroundColor: currentTheme.cardBackground,
+          border: `1px solid ${currentTheme.border}`,
+          boxShadow: `2px 2px 5px ${currentTheme.border}`
         }}
       >
-        <div className="bg-red-500 row-span-1">
+        <main className="bg-red-500 row-span-1 rounded-md">
 
-        </div>
+        </main>
 
-        <div className="bg-yellow-500 grid grid-cols-2 gap-2">
-          <h3>3: Location Details</h3>
-          <span className="h-10 bg-white col-span-2 relative ">
-            <h3 className="text-xs">Address</h3>
-          </span>
+        <aside className="gap-2 relative flex flex-col items-center"
+          style={{
+            color: currentTheme.textSecondary
+          }}
+        >
+          <h3 className="text-right w-full pr-2 mt-2"
+            style={{
+              color: currentTheme.textPrimary
+            }}
 
-          <span className="h-10 bg-white col-span-1 relative">
-            <h3 className="text-xs">District</h3>
+          > 3: Location Details</h3>
 
-          </span>
+          <section className="w-full h-auto  grid grid-cols-2 grid-rows-3  row-span-1  gap-5 mt-5">
+            <span className="h-10 bg-white col-span-2 relative rounded-md flex  items-center text-xs"
+              style={{
+                border: `2px solid ${currentTheme.border}`,
+              }}
+            >
+              <h3 className="text-[10px] absolute -top-2 left-2 px-1"
+                style={{
+                  backgroundColor: "inherit"
+                }}
+              >Address</h3>
 
-          <span className="h-10 bg-white col-span-1 relative">
-            <h3 className="text-xs">City</h3>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some smaple address</span>
+            </span>
 
-          </span>
+            <span className="h-10 bg-white col-span-1 relative rounded-md text-xs flex items-center"
+              style={{
+                border: `2px solid ${currentTheme.border}`,
+              }}
+            >
+              <h3 className="text-[10px] absolute -top-2 left-2 px-1"
+                style={{
+                  backgroundColor: "inherit"
+                }}
+              >District</h3>
 
-          <span className="h-10 bg-white col-span-1 relative">
-            <h3 className="text-xs">Pincode</h3>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some sample District</span>
+            </span>
 
-          </span>
+            <span className="h-10 bg-white col-span-1 relative rounded-md text-xs flex items-center"
+              style={{
+                border: `2px solid ${currentTheme.border}`,
+              }}
+            >
+              <h3 className="text-[10px] absolute -top-2 left-2 px-1"
+                style={{
+                  backgroundColor: "inherit"
+                }}>City</h3>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some sample District</span>
 
-          <span className="h-10 bg-white col-span-1 relative">
-            <h3 className="text-xs">Lat,Long</h3>
+            </span>
 
-          </span>
+            <span className="h-10 bg-white col-span-1 relative rounded-md flex items-center text-xs"
+              style={{
+                border: `2px solid ${currentTheme.border}`,
+              }}
+            >
+              <h3 className="text-[10px] absolute -top-2 left-2 px-1"
+                style={{
+                  backgroundColor: "inherit"
+                }}>Pincode</h3>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some smaple address</span>
+            </span>
 
-        </div>
+            <span className="h-10 bg-white col-span-1 relative rounded-md flex items-center text-xs"
+              style={{
+                border: `2px solid ${currentTheme.border}`,
+              }}
+            >
+              <h3 className="text-[10px] absolute -top-2 left-2 px-1 "
+                style={{
+                  backgroundColor: "inherit"
+                }}>Lat , Long</h3>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some smaple address</span>
+
+            </span>
+          </section>
+
+        </aside>
 
       </section>
     </div>

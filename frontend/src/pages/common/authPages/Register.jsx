@@ -12,11 +12,33 @@ import darkBgImg from "/auth-bg-dark.png";
 
 
 import { useNavigate } from "react-router";
+import { useState } from "react";
+
+import AuthService from "../../../services/Auth.service";
 
 export default function RegisterPage() {
 
   const { currentTheme } = useSelector(s => s.theme);
   const navigate = useNavigate();
+
+  const [userRegistrationData, setUserRegistrationData] = useState({
+    email: "",
+    password: "",
+    dob: "",
+    registerAs: "",
+    otp: "",
+    purpose: ""
+  })
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    console.log(userRegistrationData)
+    setUserRegistrationData((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
 
   return (
     <main className={"login-page flex justify-center items-center h-full w-full px-2"}
@@ -43,7 +65,9 @@ export default function RegisterPage() {
           }}
         ></img>
 
-        <form className={"h-auto w-full gap-3 flex flex-col items-center"}>
+        <form className={"h-auto w-full gap-3 flex flex-col items-center"}
+        onChange={(e)=>handleFormChange(e)}
+        >
           <InputBox
             size={"h-10 w-[80%] text-sm"}
             backgroundColor={currentTheme.cardBackground}
@@ -53,6 +77,7 @@ export default function RegisterPage() {
             border={`1px solid ${currentTheme.border}`}
             type={"email"}
             icon={<MdOutlineEmail className="h-5 w-5" style={{ color: currentTheme.textSecondary }} />}
+            name={"email"}
           />
 
           <InputBox
@@ -63,7 +88,10 @@ export default function RegisterPage() {
             shadow={` 2px 2px 5px ${currentTheme.border}`}
             border={`1px solid ${currentTheme.border}`}
             type={"password"}
-            icon={<RiLockPasswordLine className="h-5 w-5" style={{ color: currentTheme.textSecondary }} />}
+            name={"password"}
+            // onChange={handleFormChange}
+            icon={<RiLockPasswordLine className="h-5 w-5"
+            style={{ color: currentTheme.textSecondary }} />}
           />
 
 
@@ -72,10 +100,11 @@ export default function RegisterPage() {
               size={"h-10 w-[50%] text-sm cursor-pointer text-sm"}
               backgroundColor={currentTheme.cardBackground}
               color={currentTheme.textSecondary}
-              placeholder={"Enter your password"}
+              placeholder={"Date of birth"}
               shadow={` 2px 2px 5px ${currentTheme.border}`}
               border={`1px solid ${currentTheme.border}`}
               type={"date"}
+              name={"dob"}
               icon={<FiCalendar className="h-5 w-5" style={{ color: currentTheme.textSecondary }} />}
             />
 
@@ -86,10 +115,9 @@ export default function RegisterPage() {
                 border: '3px solid ' + currentTheme.primary,
                 boxShadow: '2px 2px 5px ' + currentTheme.border
               }}
-              // value={""}
-              defaultValue={null}
+              name={"registerAs"}
             >
-              <option value="" disabled selected>Register As</option>
+              <option value=""  hidden >Register As</option>
               <option value="customer">Customer</option>
               <option value="owner">Owner</option>
             </select>
@@ -103,7 +131,7 @@ export default function RegisterPage() {
               border: `1px solid ${currentTheme.border}`
             }}
           >
-            Register
+            Register {userRegistrationData.registerAs!=="" && (`as ${userRegistrationData?.registerAs?.toUpperCase()}`)}
           </button>
 
           <span className="text-sm" style={{ color: currentTheme.textSecondary }}>or</span>

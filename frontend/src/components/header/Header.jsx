@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 
-const Header = ({ title = "", action, actionIcon, actionTitle }) => {
+const Header = ({ title = "", action=()=>{}, actionIcon, actionTitle }) => {
 
   const { currentTheme } = useSelector(s => s.theme);
 
@@ -23,6 +23,7 @@ const Header = ({ title = "", action, actionIcon, actionTitle }) => {
         style={{
           backgroundColor: currentTheme.primary
         }}
+        onClick={action}
       >
         {actionIcon} {actionTitle}</button>)}
     </div>

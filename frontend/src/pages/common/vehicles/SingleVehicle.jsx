@@ -1,6 +1,8 @@
 const SingleVehicle = () => {
   return (
-    <div>SingleVehicle</div>
+    <div>
+      
+    </div>
   )
 }
 export default SingleVehicle

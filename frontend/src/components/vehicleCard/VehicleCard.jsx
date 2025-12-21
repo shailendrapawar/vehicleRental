@@ -12,7 +12,7 @@ const VehicleCard = () => {
 
       }}
     >
-
+ 
       <section className="h-[60%] w-full  p-2 rounded-[10px] relative">
         <img className=" w-full h-full bg-red-500 rounded-[8px]">
 

@@ -4,8 +4,10 @@ import ShopCard from "../../../components/shopCard/ShopCard";
 import { useState } from "react";
 import NoResourceImg from "/resource-not-found.svg"
 import KpiCard from "../../../components/kpi/KpiCard";
-
+import{useNavigate} from "react-router"
 const Shops = () => {
+
+  const navigate=useNavigate()
 
   const shop = [1, 2, 3]
   const [shops, setShops] = useState([])
@@ -22,7 +24,7 @@ const Shops = () => {
     <div
       className=" h-full w-full rounded-md relative"
     >
-      <Header title="Shop Management" action={handleAddShop} actionIcon={<FaShop />} actionTitle="Add Shop" />
+      <Header title="Shop Management" action={()=>navigate("/owner/shops/add")} actionIcon={<FaShop />} actionTitle="Add Shop" />
 
       <section className={" h-[20%] w-full mt-5 rounded-md items-center justify-center grid grid-cols-3 gap-4"}>
         <KpiCard size={"h-full "} />
