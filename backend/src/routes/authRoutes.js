@@ -6,8 +6,8 @@ const authRouter=express.Router()
 
 authRouter.post("/intialize-admin",AuthController.initializeAdmin)
 
-authRouter.post("/register-user",AuthController.userRegistration);
-authRouter.post("/login-user",AuthController.userLogin);
+authRouter.post("/register",AuthController.userRegistration);
+authRouter.post("/login",AuthController.userLogin);
 
 
 

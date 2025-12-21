@@ -14,7 +14,7 @@ const InputBox = (props) => {
     value, onChange,
     icon,
     name,
-    shadow, border } = props
+    shadow, border,required } = props
 
   const { currentTheme } = useSelector(s => s.theme);
 
@@ -39,6 +39,7 @@ const InputBox = (props) => {
         value={value}
         onChange={onChange}
         name={name}
+        required
       />
 
       {type == "password" && (<span className='grid  place-content-center w-5'

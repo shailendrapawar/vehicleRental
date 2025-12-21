@@ -67,6 +67,7 @@ export default function RegisterPage() {
 
         <form className={"h-auto w-full gap-3 flex flex-col items-center"}
         onChange={(e)=>handleFormChange(e)}
+        // onSubmit={}
         >
           <InputBox
             size={"h-10 w-[80%] text-sm"}
