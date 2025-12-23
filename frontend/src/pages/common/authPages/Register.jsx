@@ -17,6 +17,7 @@ import { useState } from "react";
 import OtpModal from "./OtpModal";
 import { toast } from "react-hot-toast"
 import AuthService from "../../../services/auth.service";
+import BubbleLoader from "../../../components/loaders/bubbleLoader/BubbleLoader";
 export default function RegisterPage() {
 
   const { currentTheme } = useSelector(s => s.theme);
@@ -38,7 +39,7 @@ export default function RegisterPage() {
   // any change in form 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    console.log(userRegistrationData)
+    // console.log(userRegistrationData)
     setUserRegistrationData((prev) => ({
       ...prev,
       [name]: value
@@ -54,6 +55,7 @@ export default function RegisterPage() {
       toast.error("All fields are mandatory...")
       return
     }
+    if (loading) return
 
     e.preventDefault();
     console.log("otp toggle called")
@@ -73,7 +75,23 @@ export default function RegisterPage() {
 
   // verify otp getting from modal
   const verifyOtp = async (otp) => {
+    const { email, registerAs, purpose } = userRegistrationData;
+
+    if (otp == "" || otp?.length < 6) {
+      toast.error("Otp length invalid")
+      return
+    }
     console.log("otp recived in parent", otp)
+
+    try {
+      //hit otp verify service
+      const result = await AuthService.verifyOtp({ email, purpose, role: registerAs, otp })
+      toast.success(result.message)
+      //if success then navigate
+      navigate("/auth/login")
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   //resend otp if requested from modal
@@ -112,11 +130,12 @@ export default function RegisterPage() {
             backgroundColor={currentTheme.background}
             border={`1px solid ${currentTheme.border}`}
             shadow={`2px 2px 5px ${currentTheme.border}`}
-            // otp={otp}
-            // setOtp={setOtp}
+
             verifyOtp={verifyOtp}
             resendOtp={resendOtp}
             toggleFunction={setToggleOtp}
+
+            loading={loading}
           />
 
         ) : (
@@ -180,7 +199,7 @@ export default function RegisterPage() {
               </select>
             </section>
 
-            <button
+            {loading == false ? (<button
               className="h-10 w-[80%] rounded-md cursor-pointer text-white active:scale-99 transition-all ease-in"
               style={{
                 backgroundColor: currentTheme.primary,
@@ -190,7 +209,9 @@ export default function RegisterPage() {
               type={"submit"}
             >
               Register {userRegistrationData.registerAs !== "" && (`as ${userRegistrationData?.registerAs?.toUpperCase()}`)}
-            </button>
+            </button>) : (
+              <BubbleLoader size={5} color="blue-500" />
+            )}
 
             <span className="text-sm" style={{ color: currentTheme.textSecondary }}>or</span>
 

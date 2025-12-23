@@ -2,9 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux"
 import { IoArrowBackCircle } from "react-icons/io5";
+import BubbleLoader from "../../../components/loaders/bubbleLoader/BubbleLoader";
 
 const OtpModal = (props) => {
-    const { size, backgroundColor, border, shadow,toggleFunction, verifyOtp, resendOtp } = props
+    const { size, backgroundColor, border, shadow,toggleFunction, verifyOtp, resendOtp,loading,setLoading } = props
     const { currentTheme } = useSelector(s => s.theme)
 
     if (!size) return
@@ -36,9 +37,6 @@ const OtpModal = (props) => {
             inputsRef?.current[index - 1]?.focus()
         }
     }
-
-
-
 
     useEffect(() => {
         if (inputsRef.current.length) {
@@ -75,7 +73,7 @@ const OtpModal = (props) => {
                 })}
             </section>
 
-            <button className="text-white active:opacity-50 h-10 w-25 rounded-md cursor-pointer absolute top-35"
+            {loading==false?(<button className="text-white active:opacity-50 h-10 w-25 rounded-md cursor-pointer absolute top-35"
                 style={{
                     backgroundColor: currentTheme.primary,
                 }}
@@ -85,7 +83,7 @@ const OtpModal = (props) => {
                 }}
             >
                 Verify
-            </button>
+            </button>):<BubbleLoader size={5} color="blue-500"/>}
 
             <span className="absolute bottom-5 text-sm" style={{color:currentTheme.textSecondary}}>Didn't recived code? 
                 <span className="underline active:opacity-50 cursor-pointer" style={{color: currentTheme.secondary,}} 

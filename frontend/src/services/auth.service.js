@@ -32,30 +32,51 @@ const AuthService = {
     },
 
     sendOtp: async (data) => {
-        try{const { purpose, email, role } = data;
-        console.log("inside send otp service")
-        const result = await api.post("/auth/send-otp",
-            data,
-            { withCredentials: true }
-        );
-        // console.log(result)
-        return {
+        try {
+            const { purpose, email, role } = data;
+            console.log("inside send otp service")
+            const result = await api.post("/auth/send-otp",
+                data,
+                { withCredentials: true }
+            );
+            // console.log(result)
+            return {
                 isSuccess: true,
                 data: result?.data || {},
                 message: "OTP sent to your email"
             }
 
-    }catch(error){
-        throw {
+        } catch (error) {
+            throw {
                 isSuccess: false,
                 data: {},
                 message: error?.response?.data?.message || "Uknown Error"
             }
-    }
+        }
 
     },
 
-    verifyOtp: () => { }
+    verifyOtp: async (data) => {
+        try {
+            const { email, purpose, role, otp } = data;
+            const result = await api.post("/auth/verify-otp",
+                data,
+                { withCredentials: true }
+            )
+            // console.log(result)
+            return {
+                isSuccess: true,
+                message: result?.data?.message || "Otp verified",
+                data: result?.data || {}
+            }
+        } catch (error) {
+            throw {
+                isSuccess: false,
+                data: {},
+                message: error?.response?.data?.message || "Uknown Error"
+            }
+        }
+    }
 
 }
 
