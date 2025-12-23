@@ -176,27 +176,28 @@ class AuthController extends BaseController {
             logger.info(`Otp request received for ${email} for ${purpose}`)
 
             //2: check if already requested for otp in last 10 mins
-            const isExists = await OtpService.get(OtpModel, { email, purpose, role, isVerified: false, createdAt: { $gt: new Date(Date.now() - 10 * 60 * 1000) } }, { lean: true });
+            const isExists = await OtpService.get(OtpModel, { email, purpose, role, isVerified: false, expiresIn: { $gt: new Date() } }, { lean: true });
             if (isExists) {
-                logger.warn(`OTP already sent to ${email} for ${purpose}, returning back`)
+                logger.warn(`OTP was already sent to ${email} for ${purpose}, returning back`)
                 return this.handleError(res, 400, { message: `OTP already sent to ${email} for ${purpose}. Please try again after some time.` })
             }
 
             // 3: generate otp
             const { otp, expiresIn, createdAt } = generateSecureOTP()
 
-            // 4: save otp to db
-            await OtpService.create(OtpModel, { ...value, otp, expiresIn, createdAt })
-            logger.info(`OTP sent to ${email} for ${purpose}`)
-
-            // send otp to mail
+            // 4:send otp to mail
             const isMailSent = await EmailService({ to: email, purpose, otp });
 
-            // return if mail not sent
+            // 5:return if mail not sent
             if (!isMailSent.success || isMailSent.success === false) {
                 logger.error(`Failed to send OTP email to ${email} for ${purpose}`)
                 return this.handleError(res, 500, { message: "Failed to send OTP email. Please try again later." })
             }
+
+            // 6: save otp to db
+            await OtpService.create(OtpModel, { ...value, otp, expiresIn, createdAt })
+            logger.info(`OTP sent to ${email} for ${purpose}`)
+
 
             logger.success(`OTP email sent to ${email} for ${purpose}`)
             return this.handleResponse(res, 200, `OTP sent to ${email} for ${purpose}`)

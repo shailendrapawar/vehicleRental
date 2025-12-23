@@ -16,10 +16,13 @@ import { useState } from "react";
 
 import OtpModal from "./OtpModal";
 import { toast } from "react-hot-toast"
+import AuthService from "../../../services/auth.service";
 export default function RegisterPage() {
 
   const { currentTheme } = useSelector(s => s.theme);
   const navigate = useNavigate();
+
+  const [loading, setloading] = useState(false);
 
   const [userRegistrationData, setUserRegistrationData] = useState({
     email: "",
@@ -27,13 +30,12 @@ export default function RegisterPage() {
     dob: "",
     registerAs: "",
     otp: "",
-    purpose: ""
+    purpose: "signup"
   })
 
-  // const[otp,setOtp]=useState("")
+  const [toggleOtp, setToggleOtp] = useState(false)
 
-  const [toggleOtp, setToggleOtp] = useState(true)
-
+  // any change in form 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     console.log(userRegistrationData)
@@ -43,17 +45,9 @@ export default function RegisterPage() {
     }))
   }
 
-  const verifyOtp = async (otp) => {
-    console.log("otp recived in parent", otp)
-  }
-
-  const resendOtp=async()=>{
-
-  }
-
-  //when all forms are completely filled
+  //toggle otp model(if form is fillled)
   const toggleOtpForm = async (e) => {
-    const { email, password, dob, registerAs } = userRegistrationData;
+    const { email, password, dob, registerAs, purpose } = userRegistrationData;
 
     //return if any null or empty values
     if (email == "" || password == "" || dob == "" || registerAs == "") {
@@ -63,7 +57,28 @@ export default function RegisterPage() {
 
     e.preventDefault();
     console.log("otp toggle called")
-    setToggleOtp(true)
+    //request for otp as well
+    try {
+      setloading(true)
+      const result = await AuthService.sendOtp({ email, purpose, role: registerAs })
+      toast.success(result.message)
+      setToggleOtp(true)
+    } catch (error) {
+      toast.error(error.message)
+    } finally {
+      setloading(false)
+    }
+  }
+
+
+  // verify otp getting from modal
+  const verifyOtp = async (otp) => {
+    console.log("otp recived in parent", otp)
+  }
+
+  //resend otp if requested from modal
+  const resendOtp = async () => {
+    console.log("resend otp")
   }
 
   return (
@@ -189,7 +204,7 @@ export default function RegisterPage() {
           </form>
         )}
 
-        {!toggleOtp &&(<span className="text-sm">Already registered?
+        {!toggleOtp && (<span className="text-sm">Already registered?
           <span className="cursor-pointer ml-1" style={{ color: currentTheme.secondary }}
             onClick={() => navigate("/auth/login")}
           > Login here</span>

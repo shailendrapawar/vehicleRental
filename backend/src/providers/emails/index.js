@@ -67,6 +67,7 @@ export const EmailService = async (data) => {
             data: info
         }
     } catch (error) {
+
         console.error("❌ Email sending failed: ", error);
         return {
             success: false,

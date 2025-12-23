@@ -79,11 +79,19 @@ const OtpModal = (props) => {
                 style={{
                     backgroundColor: currentTheme.primary,
                 }}
+                onClick={(e)=>{
+                    // setOtp(Array(6).fill(""))
+                    verifyOtp(otp.join(""))
+                }}
             >
                 Verify
             </button>
 
-            <span className="absolute bottom-5 text-sm" style={{color:currentTheme.textSecondary}}>Didn't recived code? <span className="underline active:opacity-50 cursor-pointer" style={{color: currentTheme.secondary,}}>Resend</span></span>
+            <span className="absolute bottom-5 text-sm" style={{color:currentTheme.textSecondary}}>Didn't recived code? 
+                <span className="underline active:opacity-50 cursor-pointer" style={{color: currentTheme.secondary,}} 
+                onClick={resendOtp}
+                >Resend</span>
+            </span>
 
 
         </div>

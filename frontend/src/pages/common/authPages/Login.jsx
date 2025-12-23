@@ -16,7 +16,7 @@ import { useState } from "react";
 
 import { toast } from "react-hot-toast"
 
-import AuthService from "../../../services/Auth.service";
+import AuthService from "../../../services/auth.service.js";
 import BubbleLoader from "../../../components/loaders/bubbleLoader/BubbleLoader";
 
 export default function LoginPage() {
