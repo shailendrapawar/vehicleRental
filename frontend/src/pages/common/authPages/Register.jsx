@@ -96,7 +96,16 @@ export default function RegisterPage() {
 
   //resend otp if requested from modal
   const resendOtp = async () => {
-    console.log("resend otp")
+    try {
+      setloading(true)
+      const { email, registerAs, purpose } = userRegistrationData;
+      const result = await AuthService.sendOtp({ email, purpose, role: registerAs })
+      toast.success(result.message)
+    } catch (error) {
+      toast.error(error.message)
+    } finally {
+      setloading(false)
+    }
   }
 
   return (
@@ -136,6 +145,7 @@ export default function RegisterPage() {
             toggleFunction={setToggleOtp}
 
             loading={loading}
+            setloading={setloading}
           />
 
         ) : (

@@ -78,12 +78,11 @@ const OtpModal = (props) => {
                     backgroundColor: currentTheme.primary,
                 }}
                 onClick={(e)=>{
-                    // setOtp(Array(6).fill(""))
                     verifyOtp(otp.join(""))
                 }}
             >
                 Verify
-            </button>):<BubbleLoader size={5} color="blue-500"/>}
+            </button>):<BubbleLoader size={5} className="absolute top-35" color="blue-500"/>}
 
             <span className="absolute bottom-5 text-sm" style={{color:currentTheme.textSecondary}}>Didn't recived code? 
                 <span className="underline active:opacity-50 cursor-pointer" style={{color: currentTheme.secondary,}} 
