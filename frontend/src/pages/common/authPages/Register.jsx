@@ -14,9 +14,8 @@ import darkBgImg from "/auth-bg-dark.png";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
-import AuthService from "../../../services/Auth.service";
 import OtpModal from "./OtpModal";
-
+import { toast } from "react-hot-toast"
 export default function RegisterPage() {
 
   const { currentTheme } = useSelector(s => s.theme);
@@ -31,7 +30,9 @@ export default function RegisterPage() {
     purpose: ""
   })
 
-  const [toggleOtp, setToggleOtp] = useState(false)
+  // const[otp,setOtp]=useState("")
+
+  const [toggleOtp, setToggleOtp] = useState(true)
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -42,6 +43,28 @@ export default function RegisterPage() {
     }))
   }
 
+  const verifyOtp = async (otp) => {
+    console.log("otp recived in parent", otp)
+  }
+
+  const resendOtp=async()=>{
+
+  }
+
+  //when all forms are completely filled
+  const toggleOtpForm = async (e) => {
+    const { email, password, dob, registerAs } = userRegistrationData;
+
+    //return if any null or empty values
+    if (email == "" || password == "" || dob == "" || registerAs == "") {
+      toast.error("All fields are mandatory...")
+      return
+    }
+
+    e.preventDefault();
+    console.log("otp toggle called")
+    setToggleOtp(true)
+  }
 
   return (
     <main className={"login-page flex justify-center items-center h-full w-full px-2"}
@@ -70,97 +93,107 @@ export default function RegisterPage() {
 
         {toggleOtp ? (
 
-          <OtpModal size={"h-[40%] w-full"}
-          // backgroundColor={currentTheme.background}
-          // border={`2px solid ${currentTheme.border}`}
-          />
-
-        ) : (<form className={"h-auto w-full gap-3 flex flex-col items-center"}
-          onChange={(e) => handleFormChange(e)}
-        // onSubmit={}
-        >
-          <InputBox
-            size={"h-10 w-[80%] text-sm"}
-            backgroundColor={currentTheme.cardBackground}
-            color={currentTheme.textPrimary}
-            placeholder={"Enter your email"}
-            shadow={` 2px 2px 5px ${currentTheme.border}`}
+          <OtpModal size={"h-60 w-full"}
+            backgroundColor={currentTheme.background}
             border={`1px solid ${currentTheme.border}`}
-            type={"email"}
-            icon={<MdOutlineEmail className="h-5 w-5" style={{ color: currentTheme.textSecondary }} />}
-            name={"email"}
+            shadow={`2px 2px 5px ${currentTheme.border}`}
+            // otp={otp}
+            // setOtp={setOtp}
+            verifyOtp={verifyOtp}
+            resendOtp={resendOtp}
+            toggleFunction={setToggleOtp}
           />
 
-          <InputBox
-            size={"h-10 w-[80%] text-sm"}
-            backgroundColor={currentTheme.cardBackground}
-            color={currentTheme.textPrimary}
-            placeholder={"Enter your password"}
-            shadow={` 2px 2px 5px ${currentTheme.border}`}
-            border={`1px solid ${currentTheme.border}`}
-            type={"password"}
-            name={"password"}
-            // onChange={handleFormChange}
-            icon={<RiLockPasswordLine className="h-5 w-5"
-              style={{ color: currentTheme.textSecondary }} />}
-          />
-
-
-          <section className="h-10 w-[80%]  flex gap-2">
+        ) : (
+          <form className={"h-auto w-full gap-3 flex flex-col items-center"}
+            onChange={(e) => handleFormChange(e)}
+            onSubmit={(e) => { toggleOtpForm(e) }}
+          // onSubmit={}
+          >
             <InputBox
-              size={"h-10 w-[50%] text-sm cursor-pointer text-sm"}
+              size={"h-10 w-[80%] text-sm"}
               backgroundColor={currentTheme.cardBackground}
-              color={currentTheme.textSecondary}
-              placeholder={"Date of birth"}
+              color={currentTheme.textPrimary}
+              placeholder={"Enter your email"}
               shadow={` 2px 2px 5px ${currentTheme.border}`}
               border={`1px solid ${currentTheme.border}`}
-              type={"date"}
-              name={"dob"}
-              icon={<FiCalendar className="h-5 w-5" style={{ color: currentTheme.textSecondary }} />}
+              type={"email"}
+              icon={<MdOutlineEmail className="h-5 w-5" style={{ color: currentTheme.textSecondary }} />}
+              name={"email"}
             />
 
-            <select className="h-full w-[50%] outline-none text-sm font-semibold px-1 rounded-md cursor-pointer"
+            <InputBox
+              size={"h-10 w-[80%] text-sm"}
+              backgroundColor={currentTheme.cardBackground}
+              color={currentTheme.textPrimary}
+              placeholder={"Enter your password"}
+              shadow={` 2px 2px 5px ${currentTheme.border}`}
+              border={`1px solid ${currentTheme.border}`}
+              type={"password"}
+              name={"password"}
+              // onChange={handleFormChange}
+              icon={<RiLockPasswordLine className="h-5 w-5"
+                style={{ color: currentTheme.textSecondary }} />}
+            />
+
+
+            <section className="h-10 w-[80%]  flex gap-2">
+              <InputBox
+                size={"h-10 w-[50%] text-sm cursor-pointer text-sm"}
+                backgroundColor={currentTheme.cardBackground}
+                color={currentTheme.textSecondary}
+                placeholder={"Date of birth"}
+                shadow={` 2px 2px 5px ${currentTheme.border}`}
+                border={`1px solid ${currentTheme.border}`}
+                type={"date"}
+                name={"dob"}
+                icon={<FiCalendar className="h-5 w-5" style={{ color: currentTheme.textSecondary }} />}
+              />
+
+              <select className="h-full w-[50%] outline-none text-sm font-semibold px-1 rounded-md cursor-pointer"
+                style={{
+                  color: currentTheme.primary,
+                  backgroundColor: currentTheme.cardBackground,
+                  border: '3px solid ' + currentTheme.primary,
+                  boxShadow: '2px 2px 5px ' + currentTheme.border
+                }}
+                name={"registerAs"}
+              >
+                <option value="" hidden >Register As</option>
+                <option value="customer">Customer</option>
+                <option value="owner">Owner</option>
+              </select>
+            </section>
+
+            <button
+              className="h-10 w-[80%] rounded-md cursor-pointer text-white active:scale-99 transition-all ease-in"
               style={{
-                color: currentTheme.primary,
-                backgroundColor: currentTheme.cardBackground,
-                border: '3px solid ' + currentTheme.primary,
-                boxShadow: '2px 2px 5px ' + currentTheme.border
+                backgroundColor: currentTheme.primary,
+                boxShadow: `2px 2px 5px ${currentTheme.border}`,
+                border: `1px solid ${currentTheme.border}`
               }}
-              name={"registerAs"}
+              type={"submit"}
             >
-              <option value="" hidden >Register As</option>
-              <option value="customer">Customer</option>
-              <option value="owner">Owner</option>
-            </select>
-          </section>
+              Register {userRegistrationData.registerAs !== "" && (`as ${userRegistrationData?.registerAs?.toUpperCase()}`)}
+            </button>
 
-          <button
-            className="h-10 w-[80%] rounded-md cursor-pointer text-white active:scale-99 transition-all ease-in"
-            style={{
-              backgroundColor: currentTheme.primary,
-              boxShadow: `2px 2px 5px ${currentTheme.border}`,
-              border: `1px solid ${currentTheme.border}`
-            }}
-          >
-            Register {userRegistrationData.registerAs !== "" && (`as ${userRegistrationData?.registerAs?.toUpperCase()}`)}
-          </button>
+            <span className="text-sm" style={{ color: currentTheme.textSecondary }}>or</span>
 
-          <span className="text-sm" style={{ color: currentTheme.textSecondary }}>or</span>
+            <button className="h-10 w-[80%] flex justify-center items-center gap-2 rounded-md cursor-pointer active:scale-99 transition-all ease-in"
+              style={{
+                background: currentTheme.cardBackground,
+                boxShadow: ` 2px 2px 5px ${currentTheme.border}`,
+                border: `1px solid ${currentTheme.border}`
+              }}
+            ><FcGoogle className="h-7 w-7" />Register with Google</button>
+          </form>
+        )}
 
-          <button className="h-10 w-[80%] flex justify-center items-center gap-2 rounded-md cursor-pointer active:scale-99 transition-all ease-in"
-            style={{
-              background: currentTheme.cardBackground,
-              boxShadow: ` 2px 2px 5px ${currentTheme.border}`,
-              border: `1px solid ${currentTheme.border}`
-            }}
-          ><FcGoogle className="h-7 w-7" />Register with Google</button>
-        </form>)}
-
-        <span className="text-sm">Already registered?
+        {!toggleOtp &&(<span className="text-sm">Already registered?
           <span className="cursor-pointer ml-1" style={{ color: currentTheme.secondary }}
             onClick={() => navigate("/auth/login")}
           > Login here</span>
-        </span>
+        </span>)}
 
       </section>
     </main>
