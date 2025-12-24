@@ -1,7 +1,7 @@
 import Header from "../../../components/header/Header"
 import { FaShop } from "react-icons/fa6";
 import ShopCard from "../../../components/shopCard/ShopCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NoResourceImg from "/resource-not-found.svg"
 import KpiCard from "../../../components/kpi/KpiCard";
 import{useNavigate} from "react-router"
@@ -19,6 +19,10 @@ const Shops = () => {
   const fetchShops = () => {
 
   }
+
+  useEffect(()=>{
+    
+  },[])
 
   return (
     <div

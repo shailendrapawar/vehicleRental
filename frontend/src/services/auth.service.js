@@ -36,9 +36,7 @@ const AuthService = {
 
     login: async (data) => {
         try {
-            // console.log("inside service")
             const result = await api.post("/auth/login", data);
-            console.log("service",result)
             return {
                 isSuccess: true,
                 data: result?.data?.data || {},

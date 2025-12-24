@@ -101,6 +101,7 @@ class AuthController extends BaseController {
                 password: hashPass,
                 role: registerAs,
                 dob,
+                status: "approved"
             })
 
             const isCreated = await newUser.save()

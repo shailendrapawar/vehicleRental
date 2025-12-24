@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import InputBox from "../../../components/inputBox/InputBox";
 
@@ -20,9 +20,12 @@ import AuthService from "../../../services/auth.service.js";
 import BubbleLoader from "../../../components/loaders/bubbleLoader/BubbleLoader";
 // import { roleRouteMapper } from "../../../utils/routeDecider.js";
 
+import { setAuthUser } from "../../../store/slices/authUserSlice.js";
 export default function LoginPage() {
 
   const { currentTheme } = useSelector(s => s.theme);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -45,7 +48,7 @@ export default function LoginPage() {
   const handleUserLogin = async (e) => {
 
     if (loading) {
-      toast.error("Already in progress")
+      toast.error("Already in progress...")
       return
     }
 
@@ -61,12 +64,14 @@ export default function LoginPage() {
     try {
       const result = await AuthService.login(userLoginData)
       toast.success(result.message)
-      const userRole = result?.data?.role
 
+      const user = result?.data
+
+      if (user) {
+        dispatch(setAuthUser(user))
+      }
       setTimeout(() => {
-        //reroute from here according to user role
-        // roleRouteMapper(userRole)
-        navigate(`/${userRole}/`)
+        navigate(`/${user?.role}/`)
       }, 2000);
     } catch (error) {
       toast.error(error.message)
