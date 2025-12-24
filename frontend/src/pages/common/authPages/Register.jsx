@@ -18,6 +18,9 @@ import OtpModal from "./OtpModal";
 import { toast } from "react-hot-toast"
 import AuthService from "../../../services/auth.service";
 import BubbleLoader from "../../../components/loaders/bubbleLoader/BubbleLoader";
+
+import { IoText } from "react-icons/io5";
+
 export default function RegisterPage() {
 
   const { currentTheme } = useSelector(s => s.theme);
@@ -31,7 +34,9 @@ export default function RegisterPage() {
     dob: "",
     registerAs: "",
     otp: "",
-    purpose: "signup"
+    purpose: "signup",
+    firstName: "",
+    lastName: ""
   })
 
   const [toggleOtp, setToggleOtp] = useState(false)
@@ -48,20 +53,21 @@ export default function RegisterPage() {
 
   //toggle otp model(if form is fillled)
   const toggleOtpForm = async (e) => {
-    const { email, password, dob, registerAs, purpose } = userRegistrationData;
+    e.preventDefault();
+    console.log("toggle otp modal", userRegistrationData)
+    const { email, password, dob, registerAs, purpose, firstName, lastName } = userRegistrationData;
 
     //return if any null or empty values
-    if (email == "" || password == "" || dob == "" || registerAs == "") {
+    if (email == "" || password == "" || dob == "" || registerAs == "" || firstName == "" || lastName == "") {
       toast.error("All fields are mandatory...")
       return
     }
     if (loading) return
 
-    e.preventDefault();
-    console.log("otp toggle called")
-    //request for otp as well
+
     try {
       setloading(true)
+      //request for otp as well
       const result = await AuthService.sendOtp({ email, purpose, role: registerAs })
       toast.success(result.message)
       setToggleOtp(true)
@@ -81,14 +87,14 @@ export default function RegisterPage() {
       toast.error("Otp length invalid")
       return
     }
-    console.log("otp recived in parent", otp)
 
     try {
       //hit otp verify service
       const result = await AuthService.verifyOtp({ email, purpose, role: registerAs, otp })
       toast.success(result.message)
-      //if success then navigate
-      navigate("/auth/login")
+
+      await registerUser(otp)
+      //if success create user then navigate to login
     } catch (error) {
       toast.error(error.message)
     }
@@ -105,6 +111,23 @@ export default function RegisterPage() {
       toast.error(error.message)
     } finally {
       setloading(false)
+    }
+  }
+
+  const registerUser = async (otp) => {
+
+    try {
+      const { firstName, lastName, email, password, registerAs, dob } = userRegistrationData;
+
+      const isRegistered = await AuthService.register({ firstName, lastName, email, password, registerAs, dob, otp })
+      toast.success(isRegistered.message)
+
+      setTimeout(() => {
+        toast.success("Redirecting to Login page")
+        navigate("/auth/login")
+      }, 2000);
+    } catch (error) {
+      toast.error(error?.message)
     }
   }
 
@@ -154,6 +177,35 @@ export default function RegisterPage() {
             onSubmit={(e) => { toggleOtpForm(e) }}
           // onSubmit={}
           >
+
+            <section className="h-10 w-[80%]  flex gap-5">
+              <InputBox
+                size={"h-10 w-[50%] text-sm"}
+                backgroundColor={currentTheme.cardBackground}
+                color={currentTheme.textPrimary}
+                placeholder={"Enter your firstname"}
+                shadow={` 2px 2px 5px ${currentTheme.border}`}
+                border={`1px solid ${currentTheme.border}`}
+                type={"text"}
+                icon={<IoText className="h-4 w-4" style={{ color: currentTheme.textSecondary }} />}
+                name={"firstName"}
+              />
+
+              <InputBox
+                size={"h-10 w-[50%] text-sm"}
+                backgroundColor={currentTheme.cardBackground}
+                color={currentTheme.textPrimary}
+                placeholder={"Enter your lastname"}
+                shadow={` 2px 2px 5px ${currentTheme.border}`}
+                border={`1px solid ${currentTheme.border}`}
+                type={"text"}
+                icon={<IoText className="h-4 w-4" style={{ color: currentTheme.textSecondary }} />}
+                name={"lastName"}
+              />
+
+            </section>
+
+
             <InputBox
               size={"h-10 w-[80%] text-sm"}
               backgroundColor={currentTheme.cardBackground}
