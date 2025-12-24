@@ -38,10 +38,10 @@ const AuthService = {
         try {
             // console.log("inside service")
             const result = await api.post("/auth/login", data);
-            console.log(result)
+            console.log("service",result)
             return {
                 isSuccess: true,
-                data: result?.data || {},
+                data: result?.data?.data || {},
                 message: "Log-in successfull"
             }
 

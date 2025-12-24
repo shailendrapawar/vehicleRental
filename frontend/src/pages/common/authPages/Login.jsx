@@ -18,6 +18,7 @@ import { toast } from "react-hot-toast"
 
 import AuthService from "../../../services/auth.service.js";
 import BubbleLoader from "../../../components/loaders/bubbleLoader/BubbleLoader";
+// import { roleRouteMapper } from "../../../utils/routeDecider.js";
 
 export default function LoginPage() {
 
@@ -34,7 +35,7 @@ export default function LoginPage() {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    console.log(userLoginData)
+    // console.log(userLoginData)
     setUserLoginData((prev) => ({
       ...prev,
       [name]: value
@@ -43,7 +44,7 @@ export default function LoginPage() {
 
   const handleUserLogin = async (e) => {
 
-    if(loading) {
+    if (loading) {
       toast.error("Already in progress")
       return
     }
@@ -60,6 +61,13 @@ export default function LoginPage() {
     try {
       const result = await AuthService.login(userLoginData)
       toast.success(result.message)
+      const userRole = result?.data?.role
+
+      setTimeout(() => {
+        //reroute from here according to user role
+        // roleRouteMapper(userRole)
+        navigate(`/${userRole}/`)
+      }, 2000);
     } catch (error) {
       toast.error(error.message)
     } finally {

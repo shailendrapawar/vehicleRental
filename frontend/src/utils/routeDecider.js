@@ -1,14 +1,11 @@
+// import {useNavigate, useNavigate}from "react-router"
+// const defaultRoutes={
+//     admin:"/admin/",
+//     owner:"/owner/",
+//     customer:"/customer/"
+// }
 
-// function routeDirector(token){
-
-
-//     switch () {
-//         case value:
-            
-//             break;
-    
-//         default:
-//             break;
-//     }
-
+// export const roleRouteMapper=(role)=>{
+//     const navigate=useNavigate()
+//     navigate(defaultRoutes[role])
 // }

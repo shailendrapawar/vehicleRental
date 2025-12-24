@@ -14,6 +14,10 @@ import { FaMoneyCheckDollar } from "react-icons/fa6";
 
 import { FaUserCircle } from "react-icons/fa";
 
+const ROUTES={
+  
+}
+
 export const OwnerRoutes = [
 
   {path:"/owner/dashboard",element:<Dashboard/>},
