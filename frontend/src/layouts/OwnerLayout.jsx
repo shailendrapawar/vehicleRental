@@ -1,13 +1,25 @@
 import { useSelector } from "react-redux"
-import { Outlet } from "react-router"
+import { Outlet, useNavigate } from "react-router"
 import OwnerNavbar from "../components/ownerNavbar/OwnerNavbar";
 
 import Header from "../components/header/Header";
+import { useEffect } from "react";
 
-const OwnerLayout = ({ childern }) => {
+const OwnerLayout = ({ childern,allowedRoles }) => {
 
   const { currentTheme } = useSelector(s => s.theme);
-  // console.log("Current theme in owner layout:", currentTheme);
+  const {user}=useSelector(s=>s.authUser)
+  const navigate=useNavigate();
+
+  // console.log("user in owner layout:", allowedRoles);
+
+useEffect(()=>{
+  // if(!allowedRoles?.includes(user.role)){
+  //   navigate("/forbidden");
+  //   return
+  // }
+},[])
+
   return (
     <main className=" w-screen h-screen flex p-5 gap-5"
     //  style={{ backgroundColor: currentTheme.background }}

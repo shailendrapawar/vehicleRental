@@ -7,6 +7,8 @@ import Landing from "../pages/landing/Landing";
 import { AuthRoutes } from "./AuthRoutes.jsx";
 import { OwnerRoutes } from "./OwnerRoutes.jsx";
 import Dashboard from "../pages/ownerPages/dashboard/Dashboard.jsx";
+import Forbidden from "../pages/common/forbidden/Forbidden.jsx";
+import ProtectedRoutes from "../components/protectedRoute/ProtectedRoutes.jsx";
 
 
 
@@ -30,7 +32,7 @@ const MainRouter = createBrowserRouter(createRoutesFromElements(
 
 
         {/*OWNER ROUTES===============*/}
-        <Route path="/owner" element={<OwnerLayout />}>
+        <Route path="/owner" element={<ProtectedRoutes allowedRoles={["admin","owner"]}><OwnerLayout/></ProtectedRoutes>}>
             <Route index element={<Navigate to="/owner/dashboard" replace />} replace></Route>
             
             {OwnerRoutes.map(({ path, element }, index) => (
@@ -43,6 +45,11 @@ const MainRouter = createBrowserRouter(createRoutesFromElements(
 
         {/*======customer routes to be added here===========*/}
         {/* <Route path="/customer" element={}></Route> */}
+
+
+
+
+        <Route path="/forbidden" element={<Forbidden/>}/>
     </Route>
 ))
 
