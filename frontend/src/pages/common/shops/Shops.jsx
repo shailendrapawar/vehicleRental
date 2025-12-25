@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import NoResourceImg from "/resource-not-found.svg"
 import KpiCard from "../../../components/kpi/KpiCard";
 import{useNavigate} from "react-router"
+
+import ShopService from "../../../services/shop.service"
 const Shops = () => {
 
   const navigate=useNavigate()
@@ -16,12 +18,12 @@ const Shops = () => {
     // Logic to add a new shop
   }
 
-  const fetchShops = () => {
-
+  const fetchShops = async() => {
+    const shops=await ShopService.search()
   }
 
   useEffect(()=>{
-    
+    fetchShops();
   },[])
 
   return (

@@ -13,7 +13,7 @@ vehicleRouter.get("/get-vehicles",
     VehicleController.searchVehicles
 )
 
-vehicleRouter.get("/get-vehicle/:keyword",
+vehicleRouter.get("/get-vehicles/:keyword",
     authMiddleware,
     checkRoleMiddleware(['admin', 'owner', 'customer']),
     VehicleController.getVehicle

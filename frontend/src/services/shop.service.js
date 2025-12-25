@@ -1,4 +1,4 @@
-
+import api from "../api/api.js"
 
 const VehicleService={
 
@@ -6,7 +6,17 @@ const VehicleService={
 
     },
 
-    search:async()=>{
+    search:async(query)=>{
+        try {
+            const result=await api.get(`/shop/search-shops`)
+            console.log("service=>",result);
+            return {
+                isSuccess:true,
+                // data:result?.data
+            }
+        } catch (error) {
+            
+        }
 
     },
 

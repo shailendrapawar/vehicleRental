@@ -1,14 +1,37 @@
 import { useSelector } from "react-redux"
 import Header from "../../../components/header/Header"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import VehicleCard from "../../../components/vehicleCard/VehicleCard"
 
-
+import VehicleService from "../../../services/vehicle.service"
+import { toast } from "react-hot-toast"
 const Vehicles = () => {
   const { currentTheme } = useSelector(s => s.theme)
-  const [vehicles, allVehicles] = useState([1, 2, 3, 4, 5])
 
-  console.log(vehicles)
+  const [loading, setLoading] = useState(false);
+
+  const [vehicles, setVehicles] = useState([])
+
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+
+  const fetchVehicles = async () => {
+    const result = await VehicleService.search(
+      {type:"scooty",status:"available"},
+      {page:1,limit:10})
+      
+    if (result?.data?.length) {
+      // toast.success(`${result.data.length} shops found..`)
+      setVehicles(result?.data)
+    }
+  }
+
+
+  useEffect(() => {
+    fetchVehicles();
+  }, []);
+
+  // console.log(vehicles)
   return (
     <div
       className=" h-full w-full rounded-md "
@@ -57,9 +80,9 @@ const Vehicles = () => {
       </section>
 
 
-      <section className="w-full h-auto max-h-[calc(100vh-200px)] bg-amber-600 py-5  mt-5 flex justify-center flex-wrap gap-5 overflow-y-scroll hide-scrollbar relative">
+      <section className="w-full h-auto max-h-[calc(100vh-200px)]  py-5  mt-5 flex justify-center flex-wrap gap-5 overflow-y-scroll hide-scrollbar relative">
         {vehicles?.map((v, i) => {
-          return <VehicleCard key={i} />
+          return <VehicleCard key={i} data={v} />
         })}
       </section>
 

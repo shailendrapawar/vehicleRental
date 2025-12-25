@@ -10,7 +10,6 @@ class ShopController extends BaseController {
 
 
     static buildModel = (data, model) => {
-
         console.log(data)
     }
 

@@ -56,7 +56,7 @@ export const VehiclePolicies = {
                 owner: new mongoose.Types.ObjectId(user._id)
             }),
             populate: [{ path: "shop", select: "name location status" }],
-            projections: "shop registrationNumber vehicleType brand model images  status isListed operationalStatus"
+            projections: "shop registrationNumber vehicleType brand model images  status isListed operationalStatus fuelType transmission mileage"
         },
         updateVehicle: {
             query: (user) => ({
