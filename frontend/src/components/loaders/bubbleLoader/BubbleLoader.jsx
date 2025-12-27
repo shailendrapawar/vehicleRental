@@ -15,6 +15,6 @@ const BubbleLoader = ({ size = 12, color = "blue-500", className = "" }) => {
       ))}
     </div>
   );
-};
+}; 
 
 export default BubbleLoader;

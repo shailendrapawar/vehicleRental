@@ -31,3 +31,33 @@
   /* -ms-overflow-style: none;  IE and Edge */
     display: none;/* Firefox */
 }
+
+
+.skeleton {
+  background: #e5e7eb; /* base gray */
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(229,231,235,0) 0%,
+    rgba(255,255,255,0.9) 50%,
+    rgba(229,231,235,0) 100%
+  );
+
+  transform: translateX(-100%);
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

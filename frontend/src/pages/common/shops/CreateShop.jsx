@@ -7,6 +7,9 @@ import { useRef, useState } from "react";
 
 import { MdAddPhotoAlternate } from "react-icons/md";
 import Map from "../../../components/map/Map";
+import SearchBar from "../../../components/searchBar/SearchBar";
+
+import BubbleLoader from "../../../components/loaders/bubbleLoader/BubbleLoader";
 
 function CreateShop() {
 
@@ -14,6 +17,7 @@ function CreateShop() {
   const gstInputRef = useRef(null);
   const shopPhotosInputRef = useRef(null);
 
+  const [loading, setLoading] = useState(false)
   const [listingItems, setListingItems] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -24,11 +28,12 @@ function CreateShop() {
 
     //location details
     address: "",
-    district: "",
+    // district: "",
+    state: "",
     city: "",
-    pincode: "",
+    pinCode: "",
     lat: "",
-    lng: "",
+    lon: "",
   })
 
   const handleFormChange = (e) => {
@@ -39,6 +44,20 @@ function CreateShop() {
       [name]: value
     }))
 
+  }
+
+  const setMapLocationData = async (data) => {
+    // console.log("state uplifted", data)
+    setFormData((prev) => ({
+      ...prev,
+      address: data.formattedAddress,
+      // district:data.district,
+      state: data?.state,
+      city: data?.city,
+      pinCode: data?.pinCode,
+      lat: data?.lat,
+      lon: data?.lon
+    }))
   }
 
   const handleCreateShop = async () => {
@@ -154,7 +173,7 @@ function CreateShop() {
 
 
 
-      <section className={"w-full h-130 md:h-70 p-2 mt-5 rounded-md grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 gap-5"}
+      <section className={"w-full h-130 md:h-70 p-2 mt-5 rounded-md grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 gap-2 md:gap-5"}
         style={{
           backgroundColor: currentTheme.cardBackground,
           border: `1px solid ${currentTheme.border}`,
@@ -162,15 +181,10 @@ function CreateShop() {
         }}
       >
         <main className=" row-span-1 rounded-md">
-          <section className="h-[80%] w-full">
-            <Map />
-          </section>
-          <section className="h-[20%] w-full">
-            search Bar
-          </section>
+          <Map setMapLocationData={setMapLocationData} setLoading={setLoading} loading={loading} />
         </main>
 
-        <aside className="gap-2 relative flex flex-col items-center"
+        <aside className="gap-2 relative flex flex-col items-center justify-evenly"
           style={{
             color: currentTheme.textSecondary
           }}
@@ -182,8 +196,11 @@ function CreateShop() {
 
           > 3: Location Details</h3>
 
-          <section className="w-full h-auto  grid grid-cols-2 grid-rows-3  row-span-1  gap-5 mt-5">
-            <span className="h-10 bg-white col-span-2 relative rounded-md flex  items-center text-xs"
+          {/* {!loading && (<BubbleLoader size={4} color="blue-500"/>)} */}
+
+          <section className="w-full h-auto  grid grid-cols-2 grid-rows-3  row-span-1  gap-5 relative ">
+
+            <span className={` ${loading ? "skeleton " : ""}h-10 bg-white col-span-2 relative rounded-md flex  items-center text-xs`}
               style={{
                 border: `2px solid ${currentTheme.border}`,
               }}
@@ -194,10 +211,10 @@ function CreateShop() {
                 }}
               >Address</h3>
 
-              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some smaple address</span>
+              <span className={`px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap`}>{formData.address || ""}</span>
             </span>
 
-            <span className="h-10 bg-white col-span-1 relative rounded-md text-xs flex items-center"
+            <span className={`  ${loading ? "skeleton" : ""} h-10 bg-white col-span-1 relative rounded-md text-xs flex items-center`}
               style={{
                 border: `2px solid ${currentTheme.border}`,
               }}
@@ -206,12 +223,12 @@ function CreateShop() {
                 style={{
                   backgroundColor: "inherit"
                 }}
-              >District</h3>
+              >State</h3>
 
-              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some sample District</span>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">{formData?.state || ""}</span>
             </span>
 
-            <span className="h-10 bg-white col-span-1 relative rounded-md text-xs flex items-center"
+            <span className={` ${loading ? "skeleton" : ""} h-10 bg-white col-span-1 relative rounded-md text-xs flex items-center`}
               style={{
                 border: `2px solid ${currentTheme.border}`,
               }}
@@ -220,11 +237,11 @@ function CreateShop() {
                 style={{
                   backgroundColor: "inherit"
                 }}>City</h3>
-              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some sample District</span>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">{formData?.city || ""}</span>
 
             </span>
 
-            <span className="h-10 bg-white col-span-1 relative rounded-md flex items-center text-xs"
+            <span className={` ${loading ? "skeleton" : ""} h-10 bg-white col-span-1 relative rounded-md flex items-center text-xs`}
               style={{
                 border: `2px solid ${currentTheme.border}`,
               }}
@@ -233,10 +250,10 @@ function CreateShop() {
                 style={{
                   backgroundColor: "inherit"
                 }}>Pincode</h3>
-              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some smaple address</span>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">{formData?.pinCode || ""}</span>
             </span>
 
-            <span className="h-10 bg-white col-span-1 relative rounded-md flex items-center text-xs"
+            <span className={` ${loading ? "skeleton" : ""} h-10 bg-white col-span-1 relative rounded-md flex items-center text-xs`}
               style={{
                 border: `2px solid ${currentTheme.border}`,
               }}
@@ -245,7 +262,7 @@ function CreateShop() {
                 style={{
                   backgroundColor: "inherit"
                 }}>Lat , Long</h3>
-              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">some smaple address</span>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">{formData?.lat},{formData.lng}</span>
 
             </span>
           </section>
