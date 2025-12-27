@@ -31,6 +31,10 @@ class ShopController extends BaseController {
                 query['gstBill.number'] = data.keyword
             }
         }
+        if(data.status){
+            query.status=data.status
+        }
+
         return query
     }
 
@@ -60,7 +64,7 @@ class ShopController extends BaseController {
 
 
             //hit service
-            const shops = await ShopService.get(ShopModel,
+            const shops = await ShopService.search(ShopModel,
                 { ...query, ...userQuery },
                 {
                     ...options,
@@ -91,7 +95,7 @@ class ShopController extends BaseController {
 
 
             //4: search for shop with filter and keyword
-            const shop = await ShopService.search(ShopModel, { ...query, ...userQuery }, { ...options, populate, lean: true })
+            const shop = await ShopService.get(ShopModel, { ...query, ...userQuery }, { ...options, populate, lean: true })
 
             if (!shop) {
                 return this.handleError(res, 404, { message: "Shop not found" })

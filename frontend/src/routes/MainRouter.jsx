@@ -9,6 +9,7 @@ import { OwnerRoutes } from "./OwnerRoutes.jsx";
 import Dashboard from "../pages/ownerPages/dashboard/Dashboard.jsx";
 import Forbidden from "../pages/common/forbidden/Forbidden.jsx";
 import ProtectedRoutes from "../components/protectedRoute/ProtectedRoutes.jsx";
+import ResourceNotFound from "../pages/common/resourceNotFound/ResourceNotFound.jsx";
 
 
 

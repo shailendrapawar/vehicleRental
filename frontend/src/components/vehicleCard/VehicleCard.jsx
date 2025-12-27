@@ -1,9 +1,14 @@
+import { useEffect } from "react"
 import { useSelector } from "react-redux"
+import { useParams } from "react-router"
 
 const VehicleCard = ({ data }) => {
-  const { } = data
+  // const { } = data
   const { currentTheme } = useSelector(s => s.theme)
-  console.log(data)
+  // console.log(data)
+  const params = useParams();
+
+
   return (
     <div className="w-80 h-80  rounded-md relative cursor-pointer"
       style={{
@@ -20,15 +25,20 @@ const VehicleCard = ({ data }) => {
         </img>
         <span className="absolute top-5 left-5 px-4 rounded-full text-xs py-1"
           style={{ backgroundColor: currentTheme.background }}
-        >{data?.operationalStatus} </span>
+        >
+
+          {data?.operationalStatus || "N/a"}
+        </span>
       </section>
 
       <section className="h-[40%] w-full px-2 pb-2 flex flex-col justify-between gap-2 ">
         <span className=" flex justify-between">
-          <h3 className="font-semibold">{data.model?.toUpperCase()} . <span className="text-xs" style={{color:currentTheme.textSecondary}}>{data.brand.toUpperCase()}</span></h3>
+          <h3 className="font-semibold">{data.model?.toUpperCase()} . <span className="text-xs" style={{ color: currentTheme.textSecondary }}>{data?.brand?.toUpperCase()}</span></h3>
           <span className="w-auto px-3 py-0.5 flex justify-center items-center rounded-full text-white font-semibold  text-xs" style={{
             backgroundColor: currentTheme.secondary
-          }}>₹ {data?.meta?.currentPrice||100}</span>
+          }}>
+            ₹ {data?.meta?.currentPrice || 100}
+          </span>
         </span>
 
         <div className="grid grid-cols-2 h-[40%] text-xs px-2 relative items-center place-content-center gap-1"

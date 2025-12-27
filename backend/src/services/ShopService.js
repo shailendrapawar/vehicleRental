@@ -29,37 +29,36 @@ class ShopService extends BaseService {
     }
 
     // 2: get shops
-    static get=async(model,filters={},options={})=>{
+    static search = async (model, filters = {}, options = {}) => {
+        const result = await model.find(filters)
+            .select(options.select || "")
+            .populate(options.populate)
+            .limit(options.limit || 0)
+            .skip(options.skip || 0).lean()
 
-        const result=await model.find(filters)
-        .select(options.select||"")
-        .populate(options.populate)
-        .limit(options.limit||0)
-        .skip(options.skip||0).lean()
-
-        return result[0]||null;
+        return result || [];
     }
 
 
     // 2: search
-    static search = async (model, filters={},options={}) => {
+    static get = async (model, filters = {}, options = {}) => {
 
         let result;
         // console.log("optoins",options)
-        let query =  model.findOne(filters)
-        .populate(options.populate)
-        .select(options.select||"")
+        let query = model.findOne(filters)
+            .populate(options.populate)
+            .select(options.select || "")
 
-        if(options.lean){
+        if (options.lean) {
             query = query.lean()
         }
 
-        result=await query
+        result = await query
 
         return result
     }
 
-    static update=async(model,data)=>{
+    static update = async (model, data) => {
 
 
 

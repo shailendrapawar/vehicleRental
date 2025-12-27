@@ -28,9 +28,8 @@ class VehicleService {
     async search(data, options) {
         try {
             const query = this.buildQuery({ ...data, ...options })
-            console.log(query)
             const result = await api.get(`/vehicle/get-vehicles?${query}`)
-            // console.log(result)
+
             return {
                 isSuccess: true,
                 message: "Vehicles found",
@@ -47,7 +46,11 @@ class VehicleService {
 
     }
 
-    create() {
+    async get(data, options) {
+
+    }
+
+    async create() {
 
     }
 

@@ -16,6 +16,10 @@ class VehicleController extends BaseController {
 
         const query = {};
 
+        if(params.shopId){
+            query.shop=new mongoose.Types.ObjectId(params.shopId)
+        }
+
         // Add filters based on params  
         if (params.limit) {
             query.limit = parseInt(params.limit);
@@ -77,7 +81,7 @@ class VehicleController extends BaseController {
         try {
             const user = req.user;
             logger.info(`USER: ${user._id} accessing vehicle:searchVehicles as ${user.role}`)
-            const userFilters = {}
+            const userFilters = this.buildQuery(req.query||{})
             //build query based on user filters 
             const userOptions = {
                 lean: true,

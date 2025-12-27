@@ -1,32 +1,53 @@
 import api from "../api/api.js"
 
-const VehicleService={
+class ShopService{
 
-    get:async()=>{
-
-    },
-
-    search:async(query)=>{
+     get=async(id,options={})=>{
         try {
-            const result=await api.get(`/shop/search-shops`)
-            console.log("service=>",result);
+            const result=await api.get(`/shop/get-shops/${id}`)
+            // console.log("result=>",result)
             return {
                 isSuccess:true,
-                // data:result?.data
+                message:"Shop found",
+                data:result?.data?.data
             }
         } catch (error) {
-            
+            throw {
+                isSuccess:false,
+                data:result?.data?.data,
+                count:0,
+                message: error?.response?.data?.message || "Uknown Error"
+            }
+        }
+    }
+
+    search=async(query)=>{
+        try {
+            const result=await api.get(`/shop/get-shops`)
+            // console.log("service=>",result?.data?.data);
+            return {
+                isSuccess:true,
+                data:result?.data?.data,  // count:result?.data?.data.length,
+                message:"Shops found"
+            }
+        } catch (error) {
+            throw {
+                isSuccess:false,
+                data:result?.data?.data,
+                count:0,
+                message: error?.response?.data?.message || "Uknown Error"
+            }
         }
 
-    },
+    }
 
-    update:async()=>{
+    update=async()=>{
 
-    },
+    }
 
-    create:async()=>{
+    create=async()=>{
 
     }
 }
 
-export default VehicleService;
+export default new ShopService;

@@ -13,20 +13,22 @@ import { FaCar } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 
 import { FaUserCircle } from "react-icons/fa";
+import ResourceNotFound from "../pages/common/resourceNotFound/ResourceNotFound"
 
-const ROUTES={
-  
+const ROUTES = {
+
 }
 
 export const OwnerRoutes = [
 
-  {path:"/owner/dashboard",element:<Dashboard/>},
+  { path: "/owner/dashboard", element: <Dashboard /> },
 
   // shops routes
 
   { path: "/owner/shops", element: <Shops /> },
   { path: "/owner/shops/:id", element: <SingleShop /> },
   { path: "/owner/shops/add", element: <CreateShop /> },
+  { path: "/owner/shops/resource-not-found", element: <ResourceNotFound /> },
 
   // vehicles routes
   { path: "/owner/vehicles", element: <Vehicles /> },
@@ -34,15 +36,15 @@ export const OwnerRoutes = [
   { path: "/owner/vehicles/add", element: <AddVehicle /> },
 
   // bookings
-  { path: "/owner/bookings", element: <div/> },
-  { path: "/owner/bookings/:id", element: <div/> },
+  { path: "/owner/bookings", element: <div /> },
+  { path: "/owner/bookings/:id", element: <div /> },
 
 ]
 
 let commonClass = "text-white text-2xl";
 
 export const OwnerNavs = [
-  
+
   {
     title: "Dashboard",
     icon: <MdDashboard className={` ${commonClass}`} />,
@@ -53,14 +55,14 @@ export const OwnerNavs = [
     icon: <FaShop className={` ${commonClass}`} />,
     path: "/owner/shops"
   },
-    {
+  {
     title: "Vehicles",
     icon: <FaCar className={` ${commonClass}`} />,
     path: "/owner/vehicles"
   },
   {
     title: "Bookings",
-    icon: <FaMoneyCheckDollar  className={` ${commonClass}`}/>,
+    icon: <FaMoneyCheckDollar className={` ${commonClass}`} />,
     path: "/owner/bookings"
   },
   // {

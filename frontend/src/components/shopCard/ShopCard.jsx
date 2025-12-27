@@ -5,12 +5,18 @@ import { FaCar } from "react-icons/fa";
 import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { MdLock } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
+import { useNavigate } from "react-router";
 
-const ShopCard = ({ title, city, address }) => {
+const ShopCard = ({data}) => {
     const { currentTheme } = useSelector(s => s.theme);
 
     const [commonTheme] = useState({ color: currentTheme.secondary });
 
+    const navigate=useNavigate();
+
+
+    // console.log(data)
+    // if(!data) return
 
     return (
         <div className="h-80 min-w-80 rounded-[10px] flex flex-col p-2"
@@ -21,14 +27,14 @@ const ShopCard = ({ title, city, address }) => {
             }}
         >
 
-            <img className="h-[60%] w-full bg-gray-500 rounded-[8px]"></img>
+            <img className="h-[55%] w-full bg-gray-500 rounded-[8px]"></img>
 
-            <div className="h-[30%] w-full  flex flex-col">
+            <div className="h-[35%] w-full  flex flex-col justify-evenly">
                 <span className="h-5 text-sm font-semibold w-full">
-                    {title || "Shop Name"}
+                    {data?.name?.toUpperCase()  }
                 </span>
                 <span className="text-xs " style={{ color: currentTheme.textSecondary }}>
-                    {city || "City"}.{address || "address"}
+                    {data?.location?.city?.toUpperCase() || "City"} • {data?.location?.address || "address"}
                 </span>
 
                 <section className="grid grid-cols-2  p-2 gap-1">
@@ -41,8 +47,9 @@ const ShopCard = ({ title, city, address }) => {
 
             </div>
 
-            <button className=" h-[10%] rounded-md text-white hover:opacity-90 cursor-pointer  "
+            <button className=" h-[10%] rounded-md text-white hover:opacity-90 active:opacity-80 cursor-pointer  "
                 style={{ backgroundColor: currentTheme.secondary }}
+                onClick={()=>navigate(`/owner/shops/${data?._id}`)}
             >Visit</button>
 
         </div>

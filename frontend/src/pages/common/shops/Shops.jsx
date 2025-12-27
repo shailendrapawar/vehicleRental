@@ -11,7 +11,6 @@ const Shops = () => {
 
   const navigate=useNavigate()
 
-  const shop = [1, 2, 3]
   const [shops, setShops] = useState([])
 
   const handleAddShop = () => {
@@ -19,8 +18,18 @@ const Shops = () => {
   }
 
   const fetchShops = async() => {
-    const shops=await ShopService.search()
+    try {
+      const result=await ShopService.search()
+      // console.log(result)
+      if(Array.isArray(result.data)){
+        setShops(result.data);
+      }
+      
+    } catch (error) {
+      
+    }
   }
+  // console.log(shops.items)
 
   useEffect(()=>{
     fetchShops();
@@ -44,8 +53,8 @@ const Shops = () => {
           <h3>{"No shop has been added yet"}</h3>
         </div>)
           :
-          (<>{shop.map((s, i) => {
-            return <ShopCard />
+          (<>{shops.map((v, i) => {
+            return <ShopCard data={v} key={i} />
           })}</>)}
       </section>
 
