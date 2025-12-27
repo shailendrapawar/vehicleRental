@@ -16,13 +16,8 @@ class VehicleController extends BaseController {
 
         const query = {};
 
-        if(params.shopId){
-            query.shop=new mongoose.Types.ObjectId(params.shopId)
-        }
-
-        // Add filters based on params  
-        if (params.limit) {
-            query.limit = parseInt(params.limit);
+        if (params.shop) {
+            query.shop = new mongoose.Types.ObjectId(params.shop)
         }
 
         return query;
@@ -81,7 +76,7 @@ class VehicleController extends BaseController {
         try {
             const user = req.user;
             logger.info(`USER: ${user._id} accessing vehicle:searchVehicles as ${user.role}`)
-            const userFilters = this.buildQuery(req.query||{})
+            const userFilters = this.buildQuery(req.query || {})
             //build query based on user filters 
             const userOptions = {
                 lean: true,
@@ -94,11 +89,14 @@ class VehicleController extends BaseController {
 
             // 2: get vehicles with that policies   
             const vehicles = await VehicleService.search(VehicleModel, { ...query, ...userFilters }, { populate: populate, ...userOptions });
-
+            if (vehicles?.length == 0) {
+                return this.handleResponse(res, 404, "No vehicles found", [])
+            }
+            
             //3: map response acc. to user/projection
             const result = responseMapper(projection, vehicles);
 
-            return this.handleResponse(res, 200, "Vehicles found", result);
+            return this.handleResponse(res, 200, "Vehicles found", result || []);
 
         } catch (error) {
             logger.error(error);

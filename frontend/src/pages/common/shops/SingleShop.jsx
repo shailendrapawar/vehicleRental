@@ -7,41 +7,46 @@ import { useNavigate, useParams } from "react-router";
 import ShopService from "../../../services/shop.service";
 import VehicleService from "../../../services/vehicle.service";
 
+import NoResourceImg from "/resource-not-found.svg"
 const SingleShop = () => {
   const { currentTheme } = useSelector(s => s.theme)
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const { id } = useParams()
-  const [vehicles, setVehicles] = useState([1, 2, 3, 4, 5])
+  const [vehicles, setVehicles] = useState([])
 
-  const [shop,setShop]=useState({});
+  const [shop, setShop] = useState({});
 
   const fetchShopVehicles = async (id) => {
 
     try {
-      const result=await VehicleService.search({shop:id})
+      const result = await VehicleService.search({ shop: id }, {})
+      // console.log(result)
+      if (result && result?.data?.length) {
+        setVehicles(result?.data)
+      }
     } catch (error) {
-      
+
     }
 
   }
 
-  const fetchShop=async(id)=>{
+  const fetchShop = async (id) => {
     try {
-      const result=await ShopService.get(id);
-      console.log(result?.data)
-      if(result?.isSuccess && result?.data ){
+      const result = await ShopService.get(id);
+      // console.log(result?.data)
+      if (result?.isSuccess && result?.data) {
         setShop(result?.data)
         fetchShopVehicles(id);
       }
     } catch (error) {
-      navigate("/owner/shops/resource-not-found",{
-        state:{
-          title:"Shop not found",
-          message:"the shop you requested for doesn't exists, or hasn't been listed yet",
-          errorCode:404,
-          path:"/owner/shops",
-          buttonTitle:"Go back"
+      navigate("/owner/shops/resource-not-found", {
+        state: {
+          title: "Shop not found",
+          message: "the shop you requested for doesn't exists, or hasn't been listed yet",
+          errorCode: 404,
+          path: "/owner/shops",
+          buttonTitle: "Go back"
         }
       })
     }
@@ -119,10 +124,16 @@ const SingleShop = () => {
 
 
       <main className="h-100 mt-4 w-full  flex gap-4 flex-wrap overflow-y-scroll hide-scrollbar justify-center items-center">
-        {/* all vehicles */}
-        {vehicles?.map((v, i) => {
-          return <VehicleCard data={v} key={i} />
-        })}
+        {
+          vehicles.length ==0 ? (<div className=" flex flex-col justify-center items-center">
+            <img src={NoResourceImg} className="h-50 w-50"></img>
+            <h3>{"No Vehicle have been added yet"}</h3>
+          </div>)
+          : 
+          (vehicles?.map((v, i) => {
+            return <VehicleCard data={v} key={i} />
+          }))
+        }
       </main>
     </div>
   )

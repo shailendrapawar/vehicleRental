@@ -21,6 +21,9 @@ class VehicleService {
         if (data.limit) {
             params.append("limit", data.limit);
         }
+        if(data.shop){
+            params.append("shop",data.shop)
+        }
 
         return params
     }
