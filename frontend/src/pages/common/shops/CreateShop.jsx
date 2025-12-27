@@ -3,15 +3,43 @@ import { FaShop } from "react-icons/fa6";
 import Header from "../../../components/header/Header";
 import { useSelector } from "react-redux";
 import InputBox from "../../../components/inputBox/InputBox";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { MdAddPhotoAlternate } from "react-icons/md";
+import Map from "../../../components/map/Map";
 
 function CreateShop() {
 
   const { currentTheme } = useSelector(s => s.theme);
   const gstInputRef = useRef(null);
   const shopPhotosInputRef = useRef(null);
+
+  const [listingItems, setListingItems] = useState([]);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    gstNumber: "",
+    listingTypes: [],
+    description: "",
+
+    //location details
+    address: "",
+    district: "",
+    city: "",
+    pincode: "",
+    lat: "",
+    lng: "",
+  })
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }))
+
+  }
 
   const handleCreateShop = async () => {
 
@@ -21,7 +49,9 @@ function CreateShop() {
 
   return (
 
-    <div className=" h-full w-full rounded-md relative">
+    <form className=" h-full w-full rounded-md relative"
+      onChange={(e) => handleFormChange(e)}
+    >
 
       <Header title="Shop Management" action={handleCreateShop} actionTitle="Submit" />
 
@@ -41,10 +71,14 @@ function CreateShop() {
             <InputBox size={"h-8 text-sm"}
               placeholder={"Enter Shop name"}
               border={`2px solid ${currentTheme.border}`}
+
+              name={"name"}
             />
             <InputBox size={"h-8 text-sm"}
               placeholder={"Enter GST Number"}
               border={`2px solid ${currentTheme.border}`}
+
+              name={"gstNumber"}
             />
 
             <input type="file" className="gstBill-input h-6 col-span-2  text-xs hidden"
@@ -67,14 +101,33 @@ function CreateShop() {
               style={{
                 border: `2px solid ${currentTheme.border}`
               }}
+              name={"description"}
             ></textarea>
           </div>
 
           <h3 > 2: Listing types</h3>
-          <aside className="h-6 flex gap-4 text-sm">
-            <span className="bg-amber-500 min-w-15 flex items-center justify-center px-3 rounded-full">Scooty</span>
-            <span className="bg-amber-500 min-w-15 flex items-center justify-center px-3 rounded-full">Bike</span>
-            <span className="bg-amber-500 min-w-15 flex items-center justify-center px-3 rounded-full">Car</span>
+          <aside className="h-8 flex gap-4 text-sm">
+            {Array.from(['Scooty', "Bike", "Car"]).map((item, i) => {
+              return <span
+                key={i}
+                className=" min-w-15 flex items-center justify-center px-3 font-semibold  rounded-full cursor-pointer select-none"
+                style={{
+                  backgroundColor: listingItems.includes(item) ? currentTheme.secondary : currentTheme.background,
+                  border: `2px solid ${currentTheme.secondary}`,
+                  color: listingItems.includes(item) ? "white" : currentTheme.secondary
+                }}
+                title={item}
+                onClick={() => {
+                  if (listingItems.includes(item)) {
+                    setListingItems(s => s.filter((i) => i != item))
+                  } else {
+                    setListingItems(s => [...s, item])
+                  }
+                }}
+              >{item}</span>
+
+            })}
+
           </aside>
 
         </div>
@@ -101,15 +154,20 @@ function CreateShop() {
 
 
 
-      <section className={"w-full h-120 md:h-70 p-2 mt-5 rounded-md grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 gap-5"}
+      <section className={"w-full h-130 md:h-70 p-2 mt-5 rounded-md grid grid-cols-1 grid-rows-2 md:grid-cols-2 md:grid-rows-1 gap-5"}
         style={{
           backgroundColor: currentTheme.cardBackground,
           border: `1px solid ${currentTheme.border}`,
           boxShadow: `2px 2px 5px ${currentTheme.border}`
         }}
       >
-        <main className="bg-red-500 row-span-1 rounded-md">
-
+        <main className=" row-span-1 rounded-md">
+          <section className="h-[80%] w-full">
+            <Map />
+          </section>
+          <section className="h-[20%] w-full">
+            search Bar
+          </section>
         </main>
 
         <aside className="gap-2 relative flex flex-col items-center"
@@ -195,7 +253,7 @@ function CreateShop() {
         </aside>
 
       </section>
-    </div>
+    </form>
   )
 }
 export default CreateShop

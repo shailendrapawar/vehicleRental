@@ -102,7 +102,7 @@ const SingleShop = () => {
           <h3 className="font-semibold text-xl w-[60%]">{shop?.name?.toUpperCase()}</h3>
           <span className="h-8 w-25 flex gap-1 px-1 items-center justify-center rounded-full text-white"
             style={{ backgroundColor: currentTheme.secondary }}
-          ><FaLocationDot/> Location</span>
+          ><FaLocationDot /> Location</span>
         </span>
 
         <span className="w-full h-auto px-4 mt-2"
@@ -118,14 +118,20 @@ const SingleShop = () => {
         </span>
       </section>
 
-      <hr className="font-bold"></hr>
+      <hr className="font-bold"
+        style={{
+          // color:currentTheme.border
+        }}>
+
+      </hr>
 
       <div className="h-10 w-full  mt-4 flex justify-center gap-5 relative">
         <input className="h-10 w-[50%] max-w-100 bg-white rounded-md outline-none px-2 relative"
           placeholder="Search in garage..."
           style={{
             backgroundColor: currentTheme.cardBackground,
-            boxShadow: `2px 2px 5px ${currentTheme.border}`
+            boxShadow: `2px 2px 5px ${currentTheme.border}`,
+            border: `1px solid ${currentTheme.border}`
           }}
         />
         <button className="h-10 w-10 rounded-full cursor-pointer hover:opacity-90 active:opacity-80 flex justify-center items-center"
