@@ -11,7 +11,6 @@ const useGetUserLocation = ({position,setPosition}) => {
             const { latitude, longitude } = pos.coords;
             setPosition({lat:latitude,lon:longitude,lng:longitude})
             console.log("user current", pos.coords)
-            setIsAvailable(true)
         },
             (error) => {
                 console.error("Location error:", err.message);

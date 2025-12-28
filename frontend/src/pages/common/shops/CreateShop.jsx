@@ -261,8 +261,8 @@ function CreateShop() {
               <h3 className="text-[10px] absolute -top-2 left-2 px-1 "
                 style={{
                   backgroundColor: "inherit"
-                }}>Lat , Long</h3>
-              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">{formData?.lat},{formData.lng}</span>
+                }}>Lat , Lon</h3>
+              <span className="px-2 w-full overflow-hidden text-ellipsis whitespace-nowrap">{Number(formData?.lat)?.toFixed(2)} <b>,</b> {Number(formData?.lng ?? formData?.lon)?.toFixed(2)}</span>
 
             </span>
           </section>

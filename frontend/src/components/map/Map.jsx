@@ -105,7 +105,7 @@ const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, 
                                     console.log("clicked", v)
                                     setMapLocationData(v)
                                     // setQuery("")
-                                    setPosition({ lat: v.lat, lng: v.lon })
+                                    setPosition({ lat: v.lat, lng: v.lon,lon:v.lon })
                                     setQueryResult([])
                                 }}
                             >{v.formattedAddress}</li>
@@ -131,8 +131,13 @@ const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, 
                     </TileLayer>
 
                     <MapEvents onCenterChange={(center) => {
-                        console.log(center)
-                        setPosition(center)
+                        console.log("center",center)
+                        // setPosition(center)
+                        setPosition({
+                            lat:center.lat,
+                            lon:center.lng,
+                            lng:center.lng
+                        })
                     }} />
 
                     <FlyToLocation position={position}/>
