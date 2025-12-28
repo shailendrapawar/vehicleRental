@@ -9,6 +9,8 @@ import Map from "../../../components/map/Map";
 import SearchBar from "../../../components/searchBar/SearchBar";
 
 import FileUploader from "../../../components/fileUploader/FileUploader";
+import toast from "react-hot-toast";
+import { payloadChecker } from "../../../utils/payloadChecker.js";
 
 function CreateShop() {
 
@@ -21,12 +23,12 @@ function CreateShop() {
   const [formData, setFormData] = useState({
     name: "",
     gstNumber: "",
-    listingTypes: [],
     description: "",
+    listingTypes: [],
 
     //location details
     address: "",
-    // district: "",
+    district: "",
     state: "",
     city: "",
     pinCode: "",
@@ -35,10 +37,7 @@ function CreateShop() {
   })
 
   const [shopImages, setShopImages] = useState([])
-
-  const checkPayload = async () => {
-
-  }
+  const [gstBill,setGstBill]=useState({});
 
   const handleFormChange = (e) => {
     const { name, value } = e.target
@@ -67,11 +66,19 @@ function CreateShop() {
   const handleCreateShop = async (e) => {
 
     e.preventDefault();
-    // if()
+    console.log(formData)
+    const result = payloadChecker(formData, "Shop");
+
+    if (result.isSuccess == false) {
+      console.log("called")
+      toast.error(result.message)
+      return
+    }
 
   }
 
 
+  // console.log(formData)
 
   return (
 
@@ -147,8 +154,16 @@ function CreateShop() {
                 onClick={() => {
                   if (listingItems.includes(item)) {
                     setListingItems(s => s.filter((i) => i != item))
+                    setFormData((prev) => ({
+                      ...prev,
+                      listingTypes: listingItems
+                    }))
                   } else {
                     setListingItems(s => [...s, item])
+                    setFormData((prev) => ({
+                      ...prev,
+                      listingTypes: listingItems
+                    }))
                   }
                 }}
               >{item}</span>
