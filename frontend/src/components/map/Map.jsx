@@ -5,6 +5,7 @@ import "./map.css"
 import { useSelector } from "react-redux";
 import SearchBar from "../searchBar/SearchBar";
 import GeoLocationService from "../../services/geoLocation.service";
+import useGetUserLocation from "../../hooks/useGetUserLocation";
 const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, loading }) => {
 
     const { currentTheme } = useSelector(s => s.theme)
@@ -70,18 +71,23 @@ const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, 
         return () => clearTimeout(t1)
     }, [query])
 
+    // for auto get current adddress
+    useGetUserLocation({setPosition,position})
+
     console.log("rendered")
+
     return (
         <div className="h-[100%] w-[100%] flex flex-col justify-between "
             style={{
                 // heig
             }}
         >
-            <section className={`h-[15%] flex justify-center relative ${loading ? "skeleton" : ""}`}>
+            <section className={`h-[15%] flex justify-center relative`}>
                 <SearchBar
-                    placeholder={"Enter some location"}
+                    placeholder={"Search location..."}
                     query={query}
                     setQuery={setQuery}
+                    loading={loading}
                 />
 
                 {(!loading && query.length > 0 && queryResult.length > 0) && (

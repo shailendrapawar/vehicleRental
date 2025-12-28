@@ -3,12 +3,12 @@ import { RxCross2 } from "react-icons/rx";
 
 
 const SearchBar = (props) => {
-  const { placeholder, query, setQuery, setQueryResult } = props
+  const { placeholder, query, setQuery, setQueryResult,loading=false } = props
   const { currentTheme } = useSelector(s => s.theme)
 
   // console.log(query)
   return (
-    <div className="w-full h-full max-w-80  rounded-md overflow-hidden flex items-center relative">
+    <div className={`${loading?"skeleton":""} w-full h-full max-w-80  rounded-md overflow-hidden flex items-center relative`}>
       <input
         style={{
           backgroundColor: currentTheme.border,
