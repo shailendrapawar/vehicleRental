@@ -5,17 +5,15 @@ import { useSelector } from "react-redux";
 import InputBox from "../../../components/inputBox/InputBox";
 import { useRef, useState } from "react";
 
-import { MdAddPhotoAlternate } from "react-icons/md";
 import Map from "../../../components/map/Map";
 import SearchBar from "../../../components/searchBar/SearchBar";
 
-import BubbleLoader from "../../../components/loaders/bubbleLoader/BubbleLoader";
+import FileUploader from "../../../components/fileUploader/FileUploader";
 
 function CreateShop() {
 
   const { currentTheme } = useSelector(s => s.theme);
   const gstInputRef = useRef(null);
-  const shopPhotosInputRef = useRef(null);
 
   const [loading, setLoading] = useState(false)
   const [listingItems, setListingItems] = useState([]);
@@ -35,6 +33,12 @@ function CreateShop() {
     lat: "",
     lon: "",
   })
+
+  const [shopImages, setShopImages] = useState([])
+
+  const checkPayload = async () => {
+
+  }
 
   const handleFormChange = (e) => {
     const { name, value } = e.target
@@ -60,7 +64,10 @@ function CreateShop() {
     }))
   }
 
-  const handleCreateShop = async () => {
+  const handleCreateShop = async (e) => {
+
+    e.preventDefault();
+    // if()
 
   }
 
@@ -70,6 +77,7 @@ function CreateShop() {
 
     <form className=" h-full w-full rounded-md relative"
       onChange={(e) => handleFormChange(e)}
+      onSubmit={(e) => handleCreateShop(e)}
     >
 
       <Header title="Shop Management" action={handleCreateShop} actionTitle="Submit" />
@@ -152,21 +160,15 @@ function CreateShop() {
         </div>
 
         {/* // updaloding SHOP photos  */}
-        <div className="rounded-md flex justify-center items-center"
-          style={{
-            border: `2px solid ${currentTheme.secondary}`
-          }}
-        >
-          <input type="file" className="gstBill-input h-6 col-span-2  text-xs hidden"
-            ref={shopPhotosInputRef}
-          ></input>
+        <div className="rounded-md flex justify-center items-center">
+          <FileUploader
+            files={shopImages}
+            setFiles={setShopImages}
+            multiple={true}
+            size={5}
+            acceptType={"image"}
+          />
 
-          <span className="flex flex-col items-center justify-center cursor-pointer"
-            onClick={(e) => shopPhotosInputRef?.current?.click()}
-          >
-            <MdAddPhotoAlternate className="h-15 w-15" style={{ color: currentTheme.secondary }} />
-            <h3 style={{ color: currentTheme.textSecondary }}>Add Shop Images</h3>
-          </span>
         </div>
       </section>
 

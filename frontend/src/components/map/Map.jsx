@@ -16,8 +16,8 @@ const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, 
 
     const reverseGeoCode = async (coords) => {
         try {
-            console.log("reverse",position)
-            console.log("coords",coords)
+            // console.log("reverse",position)
+            // console.log("coords",coords)
             setLoading(true)
             
             const result = await GeoLocationService.reverseLocate({ ...coords })
@@ -74,7 +74,7 @@ const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, 
     // for auto get current adddress
     useGetUserLocation({setPosition,position})
 
-    console.log("rendered")
+    // console.log("rendered")
 
     return (
         <div className="h-[100%] w-[100%] flex flex-col justify-between "
@@ -102,7 +102,7 @@ const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, 
                             return <li key={i}
                                 className=" cursor-pointer h-auto max-h-5 overflow-clip break-keep text-ellipsis text-xs"
                                 onClick={() => {
-                                    console.log("clicked", v)
+                                    // console.log("clicked", v)
                                     setMapLocationData(v)
                                     // setQuery("")
                                     setPosition({ lat: v.lat, lng: v.lon,lon:v.lon })
@@ -122,6 +122,8 @@ const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, 
                     zoom={13}
                     style={{ height, width }}
                     zoomControl={false}
+                    scrollWheelZoom={false}
+                    touchZoom={true}
                 >
                     <TileLayer
                         // attribution='&copy; OpenStreetMap contributors'
@@ -131,7 +133,7 @@ const Map = ({ height = "100%", width = "100%", setMapLocationData, setLoading, 
                     </TileLayer>
 
                     <MapEvents onCenterChange={(center) => {
-                        console.log("center",center)
+                        // console.log("center",center)
                         // setPosition(center)
                         setPosition({
                             lat:center.lat,

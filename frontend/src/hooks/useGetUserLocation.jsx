@@ -10,10 +10,10 @@ const useGetUserLocation = ({position,setPosition}) => {
         navigator.geolocation.getCurrentPosition((pos) => {
             const { latitude, longitude } = pos.coords;
             setPosition({lat:latitude,lon:longitude,lng:longitude})
-            console.log("user current", pos.coords)
+            // console.log("user current", pos.coords)
         },
             (error) => {
-                console.error("Location error:", err.message);
+                // console.error("Location error:", err.message);
                 toast.error("Error in getting location")
             },
             {
