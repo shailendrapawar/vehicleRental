@@ -1,4 +1,4 @@
-const scooty = [
+export const scooty = [
     {
         name: "hero",
         models: [

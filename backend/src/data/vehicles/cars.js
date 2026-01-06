@@ -1,5 +1,5 @@
 
-const cars = [
+export const cars = [
     {
         brand: "maruti suzuki",
         models: [
