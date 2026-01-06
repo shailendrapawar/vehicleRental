@@ -46,12 +46,6 @@ app.get("/", (req, res) => {
     res.send("Server working")
 })
 
-
-
-
-
-
-
 const PORT = process.env.PORT || 5000;
 
 connectDb().then(() => {
