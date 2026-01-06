@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import OtpModel from "../models/OtpModel.js";
+import OtpModel from "./otp.model.js";
 class OtpService {
 
     static create = async (model, data = {}) => {

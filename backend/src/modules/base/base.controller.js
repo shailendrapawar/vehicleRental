@@ -1,4 +1,4 @@
-import logger from "../utils/logger.js";
+// import logger from "../utils/logger.js";
 
 class BaseController {
     static handleResponse(res, status = 200, message = "Success", data = null) {

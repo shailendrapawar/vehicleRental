@@ -1,7 +1,7 @@
 import express from "express"
-import authMiddleware from "../middlewares/authMiddleware.js"
-import VehicleApplicationController from "../controllers/VehicleApplicationController.js"
-import upload from "../middlewares/uploadMiddleware.js"
+import authMiddleware from "../../middlewares/authMiddleware.js"
+import VehicleApplicationController from "./vehicle.application.controller.js"
+import upload from "../../middlewares/uploadMiddleware.js"
 const vehicleApplicationRouter = express.Router()
 
 

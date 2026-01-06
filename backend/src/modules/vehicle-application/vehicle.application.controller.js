@@ -1,16 +1,18 @@
-import mongoose, { mongo } from "mongoose";
-import { createVehicleApplicationSchema, updateVehicleApplicationSchema } from "../validators/VehicleApplicationValidator.js";
-import logger from "../utils/logger.js";
-import ShopService from "../services/ShopService.js";
+import mongoose from "mongoose";
+import { createVehicleApplicationSchema, updateVehicleApplicationSchema } from "./vehicle.application.validator.js";
+import logger from "../../utils/logger.js";
 
-import ShopModel from "../models/ShopModel.js";
-import VehicleApplicationModel from "../models/VehicleApplicationModel.js";
-import BaseController from "./BaseController.js";
-import VehicleApplicationService from "../services/VehicleApplicationService.js";
+import ShopService from "../shop/shop.service.js";
+import ShopModel from "../shop/shop.model.js";
 
-import policyEngine from "../policies/policyEngine.js"
-import { responseMapper } from "../handlers/responseMapper.js";
-import { updateMapper } from "../handlers/updateMapper.js";
+import VehicleApplicationModel from "./vehicle.application.model.js";
+import BaseController from "../base/base.controller.js";
+import VehicleApplicationService from "./vehicle.application.service.js";
+
+import policyEngine from "../../policies/policyEngine.js"
+import { responseMapper } from "../../handlers/responseMapper.js";
+import { updateMapper } from "../../handlers/updateMapper.js";
+
 class VehicleApplicationController extends BaseController {
 
     //export methods===============

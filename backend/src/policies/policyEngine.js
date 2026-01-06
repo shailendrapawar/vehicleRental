@@ -1,7 +1,7 @@
-import { type } from "os";
-import {ShopPolicy} from "./shopPolicies.js";
-import { VehiclePolicies } from "./vehiclePolicies.js";
-import { VehicleApplicationPolicies } from "./vehicleApplicationPolicies.js";
+
+import {ShopPolicy} from "../modules/shop/shop.policy.js";
+import { VehiclePolicies } from "../modules/vehicle/vehicle.policy.js";
+import { VehicleApplicationPolicies } from "../modules/vehicle-application/vehicle.application.policy.js";
 
 const POLICIES = {
     shop: ShopPolicy,

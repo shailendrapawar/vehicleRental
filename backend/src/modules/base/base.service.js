@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 class BaseService {
 
     static getEntity = async (model, filter = {}, options = {}) => {

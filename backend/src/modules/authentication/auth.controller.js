@@ -1,7 +1,7 @@
-import UserModel from "../models/UserModel.js";
-import logger from "../utils/logger.js";
-import { initializeAdminSchema, sendOTPSchema, userLoginSchema, userRegistrationSchema, verifyOTPSchema } from "../validators/AuthValidator.js";
-import BaseController from "./BaseController.js";
+import UserModel from "../user/user.model.js";
+import logger from "../../utils/logger.js";
+import { initializeAdminSchema, sendOTPSchema, userLoginSchema, userRegistrationSchema, verifyOTPSchema } from "./auth.validators.js";
+import BaseController from "../base/base.controller.js";
 import { configDotenv } from "dotenv";
 configDotenv()
 
@@ -9,10 +9,10 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 // import REGEX from "../utils/regex.js";
-import generateSecureOTP from "../utils/generateOtp.js";
-import OtpModel from "../models/OtpModel.js";
-import OtpService from "../services/OtpService.js";
-import { EmailService } from "../providers/emails/index.js";
+import generateSecureOTP from "../../utils/generateOtp.js";
+import OtpModel from "./otp.model.js";
+import OtpService from "./otp.service.js";
+import { EmailService } from "../../providers/emails/index.js";
 
 class AuthController extends BaseController {
 

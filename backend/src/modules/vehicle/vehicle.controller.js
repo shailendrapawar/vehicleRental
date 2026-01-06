@@ -1,16 +1,19 @@
-import BaseController from "./BaseController.js";
-import logger from "../utils/logger.js";
-import { createVehicleSchema, updateVehicleSchema } from "../validators/VehicleValidators.js";
-import ShopService from "../services/ShopService.js";
-import ShopModel from "../models/ShopModel.js";
-import mongoose from "mongoose";
-import policyEngine from "../policies/policyEngine.js";
-import VehicleService from "../services/VehicleService.js";
-import VehicleModel from "../models/VehicleModel.js";
+import BaseController from "../base/base.controller.js"
+import logger from "../../utils/logger.js";
 
-import { responseMapper } from "../handlers/responseMapper.js";
-import path from "path";
-import { updateMapper } from "../handlers/updateMapper.js";
+import { createVehicleSchema, updateVehicleSchema } from "./vehicle.validator.js";
+import ShopService from "../shop/shop.service.js";
+import ShopModel from "../shop/shop.model.js";
+import mongoose from "mongoose";
+
+import policyEngine from "../../policies/policyEngine.js";
+
+import VehicleService from "./vehicle.service.js";
+import VehicleModel from "./vehicle.model.js";
+
+import { responseMapper } from "../../handlers/responseMapper.js";
+import { updateMapper } from "../../handlers/updateMapper.js";
+
 class VehicleController extends BaseController {
     static buildQuery = (params) => {
 

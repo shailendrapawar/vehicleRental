@@ -9,10 +9,12 @@ import cookieParser from "cookie-parser"
 import { configDotenv } from "dotenv"
 
 // ===========importing routes==============
-import authRouter from './routes/authRoutes.js';
-import shopRouter from './routes/shopRoutes.js';
-import vehicleRouter from './routes/vehicleRoutes.js';
-import vehicleApplicationRouter from './routes/vehicleApplicationRoutes.js';
+import authRouter from './modules/authentication/auth.routes.js';
+import shopRouter from "./modules/shop/shop.routes.js"
+import vehicleRouter from "./modules/vehicle/vehicle.routes.js"
+import vehicleApplicationRouter from "./modules/vehicle-application/vehicle.application.routes.js"
+
+import fileRouter from "./modules/files/file.routes.js"
 
 configDotenv();
 
@@ -36,6 +38,7 @@ app.use("/auth", authRouter);
 app.use("/shop", shopRouter);
 app.use("/vehicle", vehicleRouter);
 app.use("/application", vehicleApplicationRouter)
+app.use("/file",fileRouter)
 
 
 

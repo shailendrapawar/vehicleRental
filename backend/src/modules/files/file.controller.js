@@ -8,8 +8,13 @@ class FileController {
     static search = async () => {
 
     }
-    static create = async () => {
-
+    static create = async (req,res) => {
+        try {
+            
+            
+        } catch (error) {
+            
+        }
     }
 
     static update = async () => {

@@ -1,13 +1,13 @@
-import BaseController from "./BaseController.js";
-import ShopModel from "../models/ShopModel.js";
+import BaseController from "../base/base.controller.js"
+import ShopModel from "./shop.model.js"
 import mongoose from "mongoose";
-import ShopService from "../services/ShopService.js";
-import logger from "../utils/logger.js";
-import { createShopSchema, updateShopSchema } from "../validators/ShopValidators.js";
-import policyEngine from "../policies/policyEngine.js";
-import { responseMapper } from "../handlers/responseMapper.js";
-class ShopController extends BaseController {
+import ShopService from "./shop.service.js"
+import logger from "../../utils/logger.js";
+import {createShopSchema,updateShopSchema} from "./shop.validator.js"
+import policyEngine from "../../policies/policyEngine.js"
+import {responseMapper} from "../../handlers/responseMapper.js"
 
+class ShopController extends BaseController {
 
     static buildModel = (data, model) => {
         console.log(data)

@@ -1,12 +1,10 @@
 import express from "express";
-import ShopController from "../controllers/ShopController.js";
-import authMiddleware from "../middlewares/authMiddleware.js";
-import { checkRoleMiddleware } from "../middlewares/checkRoleMiddleware.js";
+import ShopController from "./shop.contoller.js";
+import authMiddleware from "../../middlewares/authMiddleware.js";
+import { checkRoleMiddleware } from "../../middlewares/checkRoleMiddleware.js";
 
-
-import upload from "../middlewares/uploadMiddleware.js";
+import upload from "../../middlewares/uploadMiddleware.js";
 const shopRouter = express.Router();
-
 
 shopRouter.get("/get-shops",
     authMiddleware,

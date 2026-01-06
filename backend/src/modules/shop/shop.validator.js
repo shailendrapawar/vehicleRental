@@ -1,7 +1,8 @@
 import Joi from "joi"
 
 
-import { stateArr } from "../utils/statesData.js";
+import { stateArr } from "../../utils/statesData.js";
+
 const mobileNumberRegex = /^[6-9]\d{9}$/;
 const gstNumberRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
 

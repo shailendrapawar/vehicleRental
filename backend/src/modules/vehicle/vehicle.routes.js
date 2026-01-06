@@ -1,8 +1,8 @@
 import express from "express"
-import VehicleController from "../controllers/VehicleController.js";
-import authMiddleware from "../middlewares/authMiddleware.js";
-import { checkRoleMiddleware } from "../middlewares/checkRoleMiddleware.js";
-import upload from "../middlewares/uploadMiddleware.js";
+import VehicleController from "./vehicle.controller.js";
+import authMiddleware from "../../middlewares/authMiddleware.js";
+import { checkRoleMiddleware } from "../../middlewares/checkRoleMiddleware.js";
+import upload from "../../middlewares/uploadMiddleware.js";
 
 const vehicleRouter = express.Router();
 

@@ -1,6 +1,5 @@
 import mongoose, { mongo } from "mongoose";
-import BaseService from "./BaseService.js";
-import ShopModel from "../models/ShopModel.js";
+import BaseService from "../base/base.service.js";
 class ShopService extends BaseService {
 
     // 1: create shop================
