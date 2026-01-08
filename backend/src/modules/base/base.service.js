@@ -2,16 +2,20 @@ import mongoose from "mongoose";
 
 class BaseService {
 
-    static getEntity = async (model, filter = {}, options = {}) => {
-        return model.find(filter, options)
+     static handleResponse(res, status = 200, message = "Success", data = null) {
+        return res.status(status).json({
+            success: true,
+            message,
+            data,
+        });
     }
 
-
-    static searchEntityById = async(model, id) => {
-
-        console.log(id)
+     static handleError(res, status = 500, error) {
+        return res.status(status).json({
+            success: false,
+            message: error.message || "Something went wrong",
+        });
     }
-
 
 
 }

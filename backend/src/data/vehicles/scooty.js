@@ -8,7 +8,6 @@ export const scooty = [
             { "name": "destini 125", "type": "scooty", "years": "2016–present" },
             { "name": "maestro edge 125", "type": "scooty", "years": "2010–present" }
         ]
-
     },
     {
         name: "honda",
@@ -19,7 +18,6 @@ export const scooty = [
             { "name": "dio", "type": "scooty", "years": "2001–present" },
             { "name": "aviator", "type": "scooty", "years": "2003–2015" }
         ]
-
     },
     {
         name: "tvs",
@@ -56,7 +54,6 @@ export const scooty = [
             { "name": "platina 100", "type": "scooty", "years": "2006–present" },
             { "name": "ct 110", "type": "scooty", "years": "2010–present" }
         ]
-
     },
     {
         name: "ather electric",
