@@ -54,8 +54,9 @@ class ShopController extends BaseController {
             }
             options.skip = (options.page - 1) * options.limit
 
-            const shop = await ShopService.search(req.query, context)
+            const data = await ShopService.search(req.query, context, options)
 
+            return this.handleResponse(res, 200, "Shops found", data);
 
         } catch (error) {
             return this.handleError(res, 500, error)

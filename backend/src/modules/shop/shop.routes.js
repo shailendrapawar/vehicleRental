@@ -12,10 +12,10 @@ shopRouter.get("/:id",
 )
 
 
-// shopRouter.get("/get-shops",
-//     authMiddleware,
-//     checkRoleMiddleware(['admin', 'owner', 'customer']),
-//     ShopController.getShops)
+shopRouter.get("/",
+    authMiddleware,
+    checkRoleMiddleware(['admin', 'owner', 'customer']),
+    ShopController.search)
 
 // shopRouter.post("/create-shop",
 //     authMiddleware,
