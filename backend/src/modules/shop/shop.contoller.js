@@ -10,15 +10,13 @@ import { responseMapper } from "../../handlers/responseMapper.js"
 import contextBuilder from "../../utils/contextBuilder.js"
 class ShopController extends BaseController {
 
-    module = "SHOP";
-    // constructor() {
-    //     this.module = "SHOP";
-    // }
+    static MODULE = "SHOP";
+
     static get = async (req, res) => {
         try {
             let context = contextBuilder(req)
             const log = context.logger;
-            log.info(`USER: ${context?.user?._id} as ${context?.user?.role}`)
+            log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:get module as ${context?.user?.role}`)
 
             if (!ShopService.get) {
                 throw new Error("Method not supported");
@@ -36,6 +34,32 @@ class ShopController extends BaseController {
         } catch (error) {
             console.log(error)
             return this.handleError(res, 500, error)
+        }
+    }
+
+    static search = async (req, res) => {
+        try {
+            const context = contextBuilder(req);
+            const log = context.logger;
+            log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:search module as ${context?.user?.role}`)
+
+
+            if (!ShopService.search) {
+                throw new Error("Method not supported");
+            }
+
+            let options = {
+                page: Number.parseInt(req.query.page) || 1,
+                limit: Number.parseInt(req.query.limit) || 10,
+            }
+            options.skip = (options.page - 1) * options.limit
+
+            const shop = await ShopService.search(req.query, context)
+
+
+        } catch (error) {
+            return this.handleError(res, 500, error)
+
         }
     }
 
