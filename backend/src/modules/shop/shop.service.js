@@ -47,6 +47,7 @@ class ShopService extends BaseService {
         let sort = {
             timestamps: 1
         }
+        let { page, limit, skip } = options.pagination;
 
         // 1: acc to city for admin and customer
         if (query.city) {
@@ -57,12 +58,13 @@ class ShopService extends BaseService {
             where.status = query.status
         }
 
+        //3: run query
         const totalShops = ShopModel.countDocuments(where);
-        const shops = ShopModel.find(where).sort(sort).skip(options.skip || 0).limit(options.skip || 10);
+        const shops = ShopModel.find(where).sort(sort).skip(skip).limit(limit);
 
-        const [count, items] = await Promise.all([shops, totalShops])
-        log.info(`Found ${count} shops for query ${where?.toString()}`)
-        return { count, items }
+        const [total, items] = await Promise.all([totalShops, shops])
+        log.info(`Found ${items.length} shops for query ${where?.toString()}`)
+        return { total, items, count: items.length }
     }
 }
 

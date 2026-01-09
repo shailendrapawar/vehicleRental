@@ -6,7 +6,7 @@ import logger from "../../utils/logger.js";
 import { createShopSchema, updateShopSchema } from "./shop.validator.js"
 import policyEngine from "../../policies/policyEngine.js"
 import { responseMapper } from "../../handlers/responseMapper.js"
-
+import { buildPagination } from "../../helpers/requestHelper.js"
 import contextBuilder from "../../utils/contextBuilder.js"
 class ShopController extends BaseController {
 
@@ -43,16 +43,12 @@ class ShopController extends BaseController {
             const log = context.logger;
             log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:search module as ${context?.user?.role}`)
 
-
             if (!ShopService.search) {
                 throw new Error("Method not supported");
             }
 
-            let options = {
-                page: Number.parseInt(req.query.page) || 1,
-                limit: Number.parseInt(req.query.limit) || 10,
-            }
-            options.skip = (options.page - 1) * options.limit
+            let options = {};
+            options.pagination = buildPagination(req)
 
             const data = await ShopService.search(req.query, context, options)
 
