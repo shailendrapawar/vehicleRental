@@ -17,11 +17,11 @@ shopRouter.get("/",
     checkRoleMiddleware(['admin', 'owner', 'customer']),
     ShopController.search)
 
-// shopRouter.post("/create-shop",
-//     authMiddleware,
-//     checkRoleMiddleware(['admin', 'owner']),
-//     // upload.single("gstBill"),
-//     ShopController.createShop)
+shopRouter.post("/",
+    authMiddleware,
+    checkRoleMiddleware(['admin', 'owner']),
+    // upload.single("gstBill"),
+    ShopController.create)
 
 
 // shopRouter.put("/update-shop/:shopId",

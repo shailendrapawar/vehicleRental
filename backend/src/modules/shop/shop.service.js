@@ -1,28 +1,33 @@
 import mongoose from "mongoose";
 import BaseService from "../base/base.service.js";
 import ShopModel from "./shop.model.js";
+import AppError from "../../utils/app-error.js"
 class ShopService extends BaseService {
 
-    static model = ShopModel;
+    // static ENTITY = ShopModel;
     static populate = [
         {
             path: "owner"
         }
     ]
 
-    static get = async (query, context, options = {}) => {
-        if (!query) { return }
+    static set = (model, entity) => {
+
+    }
+
+    static get = async (id, context, options = {}) => {
+        if (!id) { return }
         const log = context.logger;
 
         let where = {}
         let entity = null
 
-        if (typeof (query) === "string") {
-            log.silly(`Getting shop with: ${query}`)
-            if (mongoose.Types.ObjectId.isValid(query)) {
-                entity = ShopModel.findById(query);
+        if (typeof (id) === "string") {
+            log.silly(`Getting shop with: ${id}`)
+            if (mongoose.Types.ObjectId.isValid(id)) {
+                entity = ShopModel.findById(id);
             } else {
-                entity = ShopModel.findOne({ gstNumber: query });
+                entity = ShopModel.findOne({ "gstBill.number": id?.toUpperCase() });
             }
         }
 
@@ -36,12 +41,10 @@ class ShopService extends BaseService {
             }
             entity = await entity
         }
-
-        log.info(`Shop found with query ${query}`)
         return entity
     }
 
-    static search = async (query, context, options) => {
+    static search = async (query, context, options = {}) => {
         const log = context.logger;
 
         let where = {};
@@ -67,6 +70,31 @@ class ShopService extends BaseService {
 
         log.info(`Found ${items.length} shops for query ${where?.toString()}`)
         return { total, items, count: items.length }
+    }
+
+    static create = async (model, context, options = {}) => {
+        const log = context.logger;
+        // 1: find shop with incoming GST
+        const shop = await this.get(model.gstNumber, context)
+        if (shop) {
+            log.warn(`Shop Already exists with GST: ${model.gstNumber}, returning back...`)
+            throw new AppError("Shop Already exists with this GST", 400, "Bad Request");
+        }
+
+        const entity = new ShopModel({
+            name: model.name,
+            owner: new mongoose.Types.ObjectId(context.user?._id),
+            contact: {
+                email: context?.user?.email
+            },
+            gstBill: {
+                number: model.name
+            },
+        })
+
+        await entity.save()
+        //TODO: from here hit an event with rabbitmq for admin or owner email
+        return entity;
     }
 }
 

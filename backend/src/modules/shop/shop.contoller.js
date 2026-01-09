@@ -28,7 +28,6 @@ class ShopController extends BaseController {
                 return this.handleResponse(res, 404, `No shop found with ${req?.params?.id}.`)
             }
 
-
             //handle with response mapper
             return this.handleResponse(res, 200, "Shop found", shop)
         } catch (error) {
@@ -56,7 +55,31 @@ class ShopController extends BaseController {
 
         } catch (error) {
             return this.handleError(res, 500, error)
+        }
+    }
 
+    static create = async (req, res) => {
+
+        try {
+            const context = contextBuilder(req);
+            const log = context.logger;
+            log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:search module as ${context?.user?.role}`)
+
+            if (!ShopService.create) {
+                throw new Error("Method not supported");
+            }
+
+            //# VALIDATE body
+            const { error, value } = createShopSchema.validate(req.body)
+            if (error) {
+                log.error(error)
+                return this.handleError(res, 400, error)
+            }
+
+            const data = await ShopService.create(value, context);
+
+        } catch (error) {
+            return this.handleError(res, 500, error)
         }
     }
 
