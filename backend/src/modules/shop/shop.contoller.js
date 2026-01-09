@@ -22,7 +22,7 @@ class ShopController extends BaseController {
                 throw new Error("Method not supported");
             }
 
-            const shop = await ShopService.get(req.params.id, context);
+            const shop = await ShopService.get(req.params.id, context, { lean: false, populate: true });
 
             if (!shop) {
                 return this.handleResponse(res, 404, `No shop found with ${req?.params?.id}.`)

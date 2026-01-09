@@ -24,7 +24,7 @@ configDotenv();
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     // origin: "*",
-    credentials:true
+    credentials: true
 }))
 
 app.set('trust proxy', true);
@@ -35,10 +35,10 @@ app.use(express.urlencoded({ extended: true }))
 
 // ===== routes middleware=========
 app.use("/auth", authRouter);
-app.use("/shop", shopRouter);
-app.use("/vehicle", vehicleRouter);
-app.use("/application", vehicleApplicationRouter)
-app.use("/file",fileRouter)
+app.use("/shops", shopRouter);
+app.use("/vehicles", vehicleRouter);
+app.use("/applications", vehicleApplicationRouter)
+app.use("/files", fileRouter)
 
 
 

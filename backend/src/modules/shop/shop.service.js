@@ -6,11 +6,11 @@ class ShopService extends BaseService {
     static model = ShopModel;
     static populate = [
         {
-            path: "user"
+            path: "owner"
         }
     ]
 
-    static get = async (query, context, options) => {
+    static get = async (query, context, options = {}) => {
         if (!query) { return }
         const log = context.logger;
 
@@ -27,11 +27,12 @@ class ShopService extends BaseService {
         }
 
         if (entity) {
-            if (options.lean) {
-                entity = entity.lean();
-            }
+
             if (options.populate) {
                 entity = entity.populate(this.populate)
+            }
+            if (options.lean) {
+                entity = entity.lean();
             }
             entity = await entity
         }
@@ -47,7 +48,7 @@ class ShopService extends BaseService {
         let sort = {
             timestamps: 1
         }
-        let { page, limit, skip } = options.pagination;
+        let { limit, skip } = options.pagination;
 
         // 1: acc to city for admin and customer
         if (query.city) {
@@ -63,6 +64,7 @@ class ShopService extends BaseService {
         const shops = ShopModel.find(where).sort(sort).skip(skip).limit(limit);
 
         const [total, items] = await Promise.all([totalShops, shops])
+
         log.info(`Found ${items.length} shops for query ${where?.toString()}`)
         return { total, items, count: items.length }
     }
