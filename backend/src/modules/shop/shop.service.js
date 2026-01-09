@@ -11,7 +11,55 @@ class ShopService extends BaseService {
         }
     ]
 
-    static set = (model, entity) => {
+    static set = (model, entity, context) => {
+        const log = context.logger;
+        log.info(`processing ${Object.keys(model)?.length} fields, to update shop: ${entity._id}`)
+
+        if (model.name) {
+            entity.name = model.name
+        }
+
+        if (model.status) {
+            entity.status = model.status
+        }
+        if (model.statusMessage) {
+            entity.statusMessage = model.statusMessage
+        }
+
+        if (model.address) {
+            entity.location = {
+                ...entity.location,
+                address: model.address
+            }
+        }
+
+        if (model.pinCode) {
+            entity.location = {
+                ...entity.location,
+                pincode: model.pinCode
+            }
+        }
+
+        if (model.state) {
+            entity.location = {
+                ...entity.location,
+                state: model.state
+            }
+        }
+
+        if (model.lat) {
+            entity.coords = {
+                ...entity.coords,
+                latitude: lat
+            }
+        }
+
+        if (model.lon) {
+            entity.coords = {
+                ...entity.coords,
+                longitude: lon
+            }
+        }
 
     }
 
@@ -88,13 +136,34 @@ class ShopService extends BaseService {
                 email: context?.user?.email
             },
             gstBill: {
-                number: model.name
+                number: model.gstNumber
             },
+            location: {
+                address: model.address,
+                city: model.city,
+                state: model.state,
+                pincode: model.pinCode,
+                coords: { latitude: model.lat, longitude: model.lon }
+            }
         })
 
         await entity.save()
         //TODO: from here hit an event with rabbitmq for admin or owner email
         return entity;
+    }
+
+    static update = async (id, context, options = {}) => {
+        if (!id) { return }
+        const log = context.logger;
+
+        let entity = await this.get(id, context, options);
+        if (!entity) {
+            log.warn(`No shop found with: ${id}, returning back`)
+            throw new AppError("No Shop found", 404, "RESOURCE_NOT_FOUND")
+        }
+
+
+
     }
 }
 

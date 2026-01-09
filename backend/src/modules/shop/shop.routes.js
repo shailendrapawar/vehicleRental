@@ -24,9 +24,9 @@ shopRouter.post("/",
     ShopController.create)
 
 
-// shopRouter.put("/update-shop/:shopId",
-//     authMiddleware,
-//     checkRoleMiddleware(['owner', 'admin']),
-//     ShopController.updateShop
-// )
+shopRouter.put("/id",
+    authMiddleware,
+    checkRoleMiddleware(['owner', 'admin']),
+    ShopController.update
+)
 export default shopRouter

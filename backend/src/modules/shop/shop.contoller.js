@@ -59,7 +59,6 @@ class ShopController extends BaseController {
     }
 
     static create = async (req, res) => {
-
         try {
             const context = contextBuilder(req);
             const log = context.logger;
@@ -78,11 +77,34 @@ class ShopController extends BaseController {
 
             const data = await ShopService.create(value, context);
 
+            if (!data) {
+                return this.handleError(res, 400, { message: "Shop creation failed, please try later" })
+            }
+
+            return this.handleResponse(res, 201, "Shop creation successfull", data)
         } catch (error) {
             return this.handleError(res, 500, error)
         }
     }
 
+    static update = async (req, res) => {
+        try {
+            const context = contextBuilder(req);
+            const log = context.logger;
+            log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:search module as ${context?.user?.role}`)
+
+            if (!ShopService.update) {
+                throw new Error("Method not supported");
+            }
+
+            const data = await ShopService.update(req.params.id, context, {})
+
+            return this.handleResponse(res, 200, "Shop updated successfully,", data)
+
+        } catch (error) {
+            return this.handleError(res, 500, error)
+        }
+    }
 }
 
 export default ShopController

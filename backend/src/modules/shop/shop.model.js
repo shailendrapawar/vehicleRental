@@ -14,27 +14,27 @@ const shopSchema = new mongoose.Schema(
         },
 
         contact: {
-            phone: { type: String,trim: true },
-            email: { type: String, lowercase: true, trim: true },
+            phone: { type: String, trim: true, default: "" },
+            email: { type: String, lowercase: true, trim: true, default: "" },
         },
 
         photos: [{
             url: String,
-            publicId:{
-                type:String,
-                default:""
+            publicId: {
+                type: String,
+                default: ""
             }
         }],
 
         gstBill: {
             number: {
-                type:String,
-                unique:true 
+                type: String,
+                unique: true
             },
             image: {
                 url: String,
-                publicId:{
-                    type:String,
+                publicId: {
+                    type: String,
                 }
             }
         },
@@ -56,7 +56,7 @@ const shopSchema = new mongoose.Schema(
                 type: String,
                 required: true,
             },
-            pincode:Number,
+            pincode: Number,
             coords: {
                 latitude: Number,
                 longitude: Number
@@ -68,9 +68,9 @@ const shopSchema = new mongoose.Schema(
             enum: ["pending", "approved", "banned", "inactive"],
             default: "pending",
         },
-        statusMessage:{
-            type:String,
-            default:""
+        statusMessage: {
+            type: String,
+            default: ""
         }
     },
     { timestamps: true }
