@@ -7,29 +7,28 @@ import upload from "../../middlewares/uploadMiddleware.js";
 const vehicleRouter = express.Router();
 
 
-vehicleRouter.get("/get-vehicles",
+vehicleRouter.get("/:id",
     authMiddleware,
     checkRoleMiddleware(['admin', 'owner', 'cutomer']),
-    VehicleController.searchVehicles
+    VehicleController.get
 )
 
-vehicleRouter.get("/get-vehicles/:keyword",
+vehicleRouter.get("/",
     authMiddleware,
     checkRoleMiddleware(['admin', 'owner', 'customer']),
-    VehicleController.getVehicle
+    VehicleController.search
 )
 
-vehicleRouter.post("/add-vehicle",
+vehicleRouter.post("/",
     authMiddleware,
     checkRoleMiddleware(['admin', 'owner']),
-    upload.array('vehicleImages', 3),
-    VehicleController.createVehicle
+    VehicleController.create
 )
 
-vehicleRouter.put("/update-vehicle/:vehicleId",
+vehicleRouter.put("/:id",
     authMiddleware,
     checkRoleMiddleware(['admin', 'owner']),
-    VehicleController.updateVehicle
+    VehicleController.update
 )
 
 

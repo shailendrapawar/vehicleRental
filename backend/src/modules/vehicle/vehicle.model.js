@@ -1,4 +1,10 @@
 import mongoose from "mongoose"
+import {
+    VEHICLE_STATUSES, DEFAULT_VEHICLE_STATUS,
+    OPERATIONAL_STATUSES, DEFAULT_OPERATION_STATUS,
+    VEHICLE_TYPES,
+    FUEL_TYPES
+} from "../../constants/vehicle.js"
 
 const vehicleSchema = new mongoose.Schema({
 
@@ -14,8 +20,6 @@ const vehicleSchema = new mongoose.Schema({
         required: true
     },
 
-
-
     // Identification fields======================
     registrationNumber: {
         type: String,
@@ -25,7 +29,7 @@ const vehicleSchema = new mongoose.Schema({
     },
     vehicleType: {
         type: String,
-        enum: ["bike", "scooty", "car"],
+        enum: VEHICLE_TYPES,
         required: true
     },
     brand: {
@@ -38,7 +42,10 @@ const vehicleSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-
+    colo: {
+        type: String,
+        deafault: ""
+    },
     images: {
         type: [{
             url: { type: String, default: "" },
@@ -51,7 +58,7 @@ const vehicleSchema = new mongoose.Schema({
     // specs fields===========================
     fuelType: {
         type: String,
-        enum: ["petrol", "diesel", "electric", "hybrid"],
+        enum: FUEL_TYPES,
         required: true,
     },
     transmission: {
@@ -78,28 +85,23 @@ const vehicleSchema = new mongoose.Schema({
     //status fields================
     status: {
         type: String,
-        enum: ['pending', 'approved', 'rejected', "banned"],
-        default: 'pending'
+        enum: VEHICLE_STATUSES,
+        default: DEFAULT_VEHICLE_STATUS
     },
 
     statusMessage: {
         type: String,
         default: ""
     },
-
-    isListed: {
-        type: Boolean,
-        default: false
-    },
     operationalStatus: {
         type: String,
-        enum: ['available', 'booked', 'maintenance', 'out_of_service'],
-        default: 'available'
+        enum: OPERATIONAL_STATUSES,
+        default: DEFAULT_OPERATION_STATUS
     },
 
-    meta:{
-        type:Object,
-        default:{}
+    meta: {
+        type: Object,
+        default: {}
     }
 }, {
     timestamps: true

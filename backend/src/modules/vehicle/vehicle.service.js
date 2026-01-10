@@ -1,57 +1,79 @@
 import mongoose from "mongoose"
 
+import VehicleModel from "./vehicle.model.js"
+import AppError from "../../utils/app-error.js"
 class VehicleService {
-    static create = async (model, data) => {
-        const newVehicle = new model({
-            registrationNumber: data.registrationNumber,
-            vehicleType: data.vehicleType,
-            brand: data.brand,
-            model: data.model,
-            year: data.year,
-            color: data.color,
-            fuelType: data.fuelType,
-            transmission: data.transmission,
-            seatingCapacity: data.seatingCapacity,
-            mileage: data.mileage,
-            owner: data?.user?._id,
-            shop: data?.shop?._id
-        });
-        return newVehicle.save();
-    }
+
+    static populate = [
+        {
+            path: "owner",
+            select: "name email _id profilePicture"
+        },
+        {
+            path: "shop",
+            select: "name location"
+        }
+    ]
 
 
-    static get = async (model, filters = {}, options = {}) => {
-        let result;
-        const query = model.findOne(filters)
-            .populate(options.populate)
-            .select(options.select || "")
+    static get = async (id, context, options = {}) => {
+        if (!id) return
+        const log = context.logger;
+        log.silly(`Inside GET service, with keyword:${id}`)
 
-        if (options.lean) {
-            query.lean();
+        let where = {}
+        let entity = null
+
+        if (typeof (id) == "string") {
+            if (mongoose.Types.ObjectId.isValid(id)) {
+                entity = VehicleModel.findById(id.toLowerCase());
+            } else {
+                entity = VehicleModel.findOne({ registrationNumber: id.toLowerCase() })
+            }
         }
 
-        result = await query;
-        return result;
-    }
-
-    static search = async (model, filters = {}, options = {}) => {
-
-        console.log("filters", filters)
-        console.log("options", options)
-        let result;
-        const query = model.find(filters)
-            .select(options.select || "")
-            .skip(options.skip || 0)
-            .limit(options.limit || 10)
-            .populate(options.populate);
-        if (options.lean) {
-            query.lean();
+        if (entity) {
+            if (options.populate) {
+                entity = entity.populate(this.populate)
+            }
+            if (options.lean) {
+                entity = entity.lean()
+            }
         }
 
-        result = await query;
-        return result;
+        entity = await entity
+        return entity;
     }
 
+    static create = async (model, context, options = {}) => {
+        const log = context.logger;
+
+        const vehicle = await this.get(model.registrationNumber, context, {});
+        if (vehicle) {
+            log.warn(`Vehicle already exists with this Registration: ${model.registrationNumber}, returning back...`)
+            throw new AppError(`Vehicle already exists with Registration: ${id}`, 400, "Bad Request");
+        }
+
+        const entity = new VehicleModel({
+            owner: new mongoose.Types.ObjectId(context?.user?._id),
+            shop: new mongoose.Types.ObjectId(model.shopId),
+            registrationNumber: model.registrationNumber.toLowerCase(),
+            vehicleType: model.vehicleType,
+            brand: model.brand,
+            model: model.model,
+            year: model.year,
+            color: model.color,
+
+            fuelType: model.fuelType,
+            transmission: model.transmission,
+            seatingCapacity: model.seatingCapacity,
+            mileage: model.mileage,
+        })
+
+        await entity.save()
+
+        return entity;
+    }
 
 }
 
