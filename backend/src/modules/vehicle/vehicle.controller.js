@@ -4,8 +4,10 @@ import contextBuilder from "../../utils/contextBuilder.js"
 import mongoose from "mongoose";
 
 import ShopService from "../shop/shop.service.js";
-import { createVehicleSchema } from "./vehicle.validator.js";
+import { createVehicleSchema, updateVehicleSchema } from "./vehicle.validator.js";
 import VehicleService from "./vehicle.service.js";
+import { buildPagination } from "../../helpers/requestHelper.js";
+
 class VehicleController extends BaseController {
 
     static MODULE = "VEHICLE";
@@ -29,11 +31,22 @@ class VehicleController extends BaseController {
         }
     }
 
-    static search = (req, res) => {
+    static search = async (req, res) => {
         try {
             let context = contextBuilder(req)
             const log = context.logger;
             log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:search module as ${context?.user?.role}`)
+
+            if (!VehicleService.search) {
+                throw new Error("Method not supported");
+            }
+
+            let options = {};
+            options.pagination = buildPagination(req)
+
+            const data = await VehicleService.search(req.query, context, options)
+
+            return this.handleResponse(res, 200, "Vehicles found", data);
 
         } catch (error) {
             logger.error(error)
@@ -65,12 +78,22 @@ class VehicleController extends BaseController {
             return this.handleError(res, 500, error)
         }
     }
-    static update = (req, res) => {
+
+    static update = async (req, res) => {
         try {
             let context = contextBuilder(req)
             const log = context.logger;
             log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:update module as ${context?.user?.role}`)
 
+            const { error, value } = updateVehicleSchema.validate(req.body);
+            if (error) {
+                log.error(error)
+                return this.handleError(res, 400, error)
+            }
+
+            const data = await VehicleService.update(req.params.id, value, context);
+
+            return this.handleResponse(res, 200, "Vehicle updated sucessfully", data)
         } catch (error) {
             logger.error(error)
             return this.handleError(res, 500, error)

@@ -8,7 +8,7 @@ export const DEFAULT_OPERATION_STATUS = "available"
 
 export const TERMINAL_STATUSES = ["inactive"]
 
-export const SHOP_STATUS_TRANSITION_MAP = {
+export const VEHICLE_STATUS_TRANSITION_MAP = {
     draft: ["active", "inactive"],
     active: ['suspended', 'inactive'],
     suspended: ['active', 'inactive'],
