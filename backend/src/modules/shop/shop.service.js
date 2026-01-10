@@ -7,13 +7,14 @@ import { canTransition } from "../../utils/statusTransition.js";
 
 class ShopService extends BaseService {
 
+    static ShopTransitionMap = SHOP_STATUS_TRANSITION_MAP
+
     // static ENTITY = ShopModel;
     static populate = [
         {
             path: "owner"
         }
     ]
-    static ShopTransitionMap = SHOP_STATUS_TRANSITION_MAP
 
     static set = (model, entity, context) => {
         const log = context.logger;
@@ -79,12 +80,15 @@ class ShopService extends BaseService {
                 entity[key] = model[key]
             })
         }
+
+        //TODO: later keep journal about changes for audit
         return entity;
     }
 
     static get = async (id, context, options = {}) => {
         if (!id) { return }
         const log = context.logger;
+        log.silly(`Inside GET service, with keyword:${id}`)
 
         let where = {}
         let entity = null
@@ -99,7 +103,7 @@ class ShopService extends BaseService {
         }
 
         if (entity) {
-
+            log.info(`Resource found, processing it for options`)
             if (options.populate) {
                 entity = entity.populate(this.populate)
             }
@@ -130,6 +134,7 @@ class ShopService extends BaseService {
         }
 
         //3: run query
+        log.silly(`Searching for resource with, where=>${where}`)
         const totalShops = ShopModel.countDocuments(where);
         const shops = ShopModel.find(where).sort(sort).skip(skip).limit(limit);
 
@@ -174,6 +179,7 @@ class ShopService extends BaseService {
     static update = async (id, model = {}, context) => {
         if (!id) { return }
         const log = context.logger;
+        log.silly(`Inside UPDATE service, with keyword:${id}`)
 
         let entity = await this.get(id, context, {});
         if (!entity) {
@@ -184,9 +190,7 @@ class ShopService extends BaseService {
         entity = await this.set(model, entity, context);
         await entity.save();
 
-
-        // TODO: run any events with rabbit mq 
-
+        // TODO: run any events with rabbit mq eg(status update: notify owner)
         return entity
     }
 }
