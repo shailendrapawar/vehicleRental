@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
-
+import {
+    SHOP_STATUSES, DEFAULT_SHOP_STATUS,
+    OPERATIONAL_STATUSES, DEFAULT_OPERATION_STATUS
+} from "../../constants/shop.js"
 const shopSchema = new mongoose.Schema(
     {
         name: {
@@ -65,12 +68,17 @@ const shopSchema = new mongoose.Schema(
 
         status: {
             type: String,
-            enum: ["pending", "approved", "banned", "inactive"],
-            default: "pending",
+            enum: [...SHOP_STATUSES],
+            default: DEFAULT_SHOP_STATUS,
         },
         statusMessage: {
             type: String,
             default: ""
+        },
+        operationalStatus: {
+            type: String,
+            enum: [...OPERATIONAL_STATUSES],
+            default: DEFAULT_OPERATION_STATUS
         }
     },
     { timestamps: true }

@@ -3,6 +3,8 @@ import Joi from "joi"
 
 import { stateArr } from "../../utils/statesData.js";
 
+import { SHOP_STATUSES, OPERATIONAL_STATUSES } from "../../constants/shop.js"
+
 const mobileNumberRegex = /^[6-9]\d{9}$/;
 const gstNumberRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
 
@@ -67,7 +69,7 @@ export const updateShopSchema = Joi.object({
     }),
     status: Joi.string()
         .lowercase()
-        .valid("approved", "pending", "banned", "inactive").$.messages({
+        .valid(...SHOP_STATUSES).$.messages({
             "string.base": "Status must be a text value",
             "any.only": "Invalid status code",
             "string.empty": "Status cannot be empty"
@@ -78,4 +80,12 @@ export const updateShopSchema = Joi.object({
         "string.min": "Status message must be at least 10 characters",
         "string.max": "Status message cannot exceed 200 characters"
     }),
+
+    operationalStatus: Joi.string()
+        .lowercase()
+        .valid(...OPERATIONAL_STATUSES).$.messages({
+            "string.base": "Operational status must be a text value",
+            "any.only": "Invalid operational status code",
+            "string.empty": "Operational status cannot be empty"
+        }),
 }).unknown(false)

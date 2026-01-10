@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 import BaseService from "../base/base.service.js";
 import ShopModel from "./shop.model.js";
 import AppError from "../../utils/app-error.js"
+import { SHOP_STATUS_TRANSITION_MAP, TERMINAL_STATUSES } from "../../constants/shop.js"
+import { canTransition } from "../../utils/statusTransition.js";
+
 class ShopService extends BaseService {
 
     // static ENTITY = ShopModel;
@@ -10,6 +13,7 @@ class ShopService extends BaseService {
             path: "owner"
         }
     ]
+    static ShopTransitionMap = SHOP_STATUS_TRANSITION_MAP
 
     static set = (model, entity, context) => {
         const log = context.logger;
@@ -20,10 +24,18 @@ class ShopService extends BaseService {
         }
 
         if (model.status) {
+            if (!canTransition(entity.status, model.status, entity, this.ShopTransitionMap)) {
+                throw new AppError(`Entity's status cannot be changed from ${entity.status} to ${model.status}`)
+            }
             entity.status = model.status
         }
+
         if (model.statusMessage) {
             entity.statusMessage = model.statusMessage
+        }
+
+        if (model.operationalStatus && !TERMINAL_STATUSES.includes(entity.status)) {
+            entity.operationalStatus = model.operationalStatus
         }
 
         if (model.address) {
@@ -60,7 +72,14 @@ class ShopService extends BaseService {
                 longitude: lon
             }
         }
-
+        //for meta update
+        if (model.meta) {
+            entity.meta = entity.meta || {}
+            Object.keys(model.meta).forEach((key, i) => {
+                entity[key] = model[key]
+            })
+        }
+        return entity;
     }
 
     static get = async (id, context, options = {}) => {
@@ -152,18 +171,23 @@ class ShopService extends BaseService {
         return entity;
     }
 
-    static update = async (id, context, options = {}) => {
+    static update = async (id, model = {}, context) => {
         if (!id) { return }
         const log = context.logger;
 
-        let entity = await this.get(id, context, options);
+        let entity = await this.get(id, context, {});
         if (!entity) {
             log.warn(`No shop found with: ${id}, returning back`)
             throw new AppError("No Shop found", 404, "RESOURCE_NOT_FOUND")
         }
 
+        entity = await this.set(model, entity, context);
+        await entity.save();
 
 
+        // TODO: run any events with rabbit mq 
+
+        return entity
     }
 }
 

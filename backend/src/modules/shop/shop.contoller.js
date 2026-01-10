@@ -1,6 +1,4 @@
 import BaseController from "../base/base.controller.js"
-import ShopModel from "./shop.model.js"
-import mongoose from "mongoose";
 import ShopService from "./shop.service.js"
 import logger from "../../utils/logger.js";
 import { createShopSchema, updateShopSchema } from "./shop.validator.js"
@@ -11,6 +9,7 @@ import contextBuilder from "../../utils/contextBuilder.js"
 class ShopController extends BaseController {
 
     static MODULE = "SHOP";
+    static log = logger
 
     static get = async (req, res) => {
         try {
@@ -31,7 +30,7 @@ class ShopController extends BaseController {
             //handle with response mapper
             return this.handleResponse(res, 200, "Shop found", shop)
         } catch (error) {
-            console.log(error)
+            this.log.error(error)
             return this.handleError(res, 500, error)
         }
     }
@@ -54,6 +53,7 @@ class ShopController extends BaseController {
             return this.handleResponse(res, 200, "Shops found", data);
 
         } catch (error) {
+            this.log.error(error)
             return this.handleError(res, 500, error)
         }
     }
@@ -83,6 +83,7 @@ class ShopController extends BaseController {
 
             return this.handleResponse(res, 201, "Shop creation successfull", data)
         } catch (error) {
+            this.log.error(error)
             return this.handleError(res, 500, error)
         }
     }
@@ -97,11 +98,18 @@ class ShopController extends BaseController {
                 throw new Error("Method not supported");
             }
 
-            const data = await ShopService.update(req.params.id, context, {})
+            const { error, value } = updateShopSchema.validate(req.body)
+            if (error) {
+                log.error(error)
+                return this.handleError(res, 400, error)
+            }
+
+            const data = await ShopService.update(req.params.id, value, context)
 
             return this.handleResponse(res, 200, "Shop updated successfully,", data)
 
         } catch (error) {
+            this.log.error(error)
             return this.handleError(res, 500, error)
         }
     }
