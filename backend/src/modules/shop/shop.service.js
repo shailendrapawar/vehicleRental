@@ -176,7 +176,6 @@ class ShopService extends BaseService {
         return entity;
     }
 
-
     static update = async (id, model = {}, context) => {
         if (!id) { return }
         const log = context.logger;

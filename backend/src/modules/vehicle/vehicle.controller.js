@@ -12,13 +12,13 @@ class VehicleController extends BaseController {
 
     static MODULE = "VEHICLE";
 
-    static get = (req, res) => {
+    static get = async (req, res) => {
         try {
             let context = contextBuilder(req)
             const log = context.logger;
             log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:get module as ${context?.user?.role}`)
 
-            const data = VehicleService.get(req.params.id, context)
+            const data = await VehicleService.get(req.params.id, context)
 
             if (!data) {
                 return this.handleError(res, 400, { message: "Vehicle not created" });

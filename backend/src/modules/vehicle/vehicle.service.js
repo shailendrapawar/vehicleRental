@@ -59,9 +59,9 @@ class VehicleService {
 
         if (typeof (id) == "string") {
             if (mongoose.Types.ObjectId.isValid(id)) {
-                entity = VehicleModel.findById(id.toLowerCase());
+                entity = await VehicleModel.findById(id.toLowerCase());
             } else {
-                entity = VehicleModel.findOne({ registrationNumber: id.toLowerCase() })
+                entity =await VehicleModel.findOne({ registrationNumber: id.toLowerCase() })
             }
         }
 
