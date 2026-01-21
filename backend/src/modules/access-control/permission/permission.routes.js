@@ -12,7 +12,6 @@ permissionRouter.get("/:id",
     PermissionController.get
 )
 
-
 permissionRouter.get("/",
     authMiddleware,
     checkRoleMiddleware(['admin']),
@@ -23,10 +22,9 @@ permissionRouter.post("/",
     checkRoleMiddleware(['admin']),
     PermissionController.create)
 
-
 permissionRouter.put("/:id",
     authMiddleware,
     checkRoleMiddleware(['admin']),
     PermissionController.update
 )
-export default shopRouter
+export default permissionRouter

@@ -18,7 +18,7 @@ const schema = new mongoose.Schema({
         index: true,
     },
 
-    //description for human -readable
+    //description for human-readable
     description: {
         type: String,
         trim: true

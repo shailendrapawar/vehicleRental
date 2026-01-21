@@ -12,6 +12,8 @@ import { configDotenv } from "dotenv"
 import authRouter from './modules/authentication/auth.routes.js';
 import shopRouter from "./modules/shop/shop.routes.js"
 import vehicleRouter from "./modules/vehicle/vehicle.routes.js"
+import permissionRouter from "./modules/access-control/permission/permission.routes.js"
+
 import vehicleApplicationRouter from "./modules/vehicle-application/vehicle.application.routes.js"
 
 import fileRouter from "./modules/files/file.routes.js"
@@ -37,6 +39,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/auth", authRouter);
 app.use("/shops", shopRouter);
 app.use("/vehicles", vehicleRouter);
+app.use("/permissions", permissionRouter)
+
 app.use("/applications", vehicleApplicationRouter)
 app.use("/files", fileRouter)
 

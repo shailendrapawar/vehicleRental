@@ -1,6 +1,6 @@
 import Joi from "joi"
-
-const createPermissionSchema = Joi.object({
+import { ROOT_MODULES } from "../../../constants/modules.js"
+export const createPermissionSchema = Joi.object({
     key: Joi.string()
         .trim()
         .lowercase()
@@ -13,6 +13,7 @@ const createPermissionSchema = Joi.object({
 
     module: Joi.string()
         .trim()
+        .valid(...ROOT_MODULES)
         .required()
         .messages({
             'string.empty': 'Module name is required'
@@ -26,13 +27,10 @@ const createPermissionSchema = Joi.object({
         .messages({
             'string.max': 'Description cannot exceed 255 characters'
         }),
-
-    isActive: Joi.boolean()
-        .optional()
 });
 
 
-const updatePermissionSchema = Joi.object({
+export const updatePermissionSchema = Joi.object({
     key: Joi.string()
         .trim()
         .lowercase()

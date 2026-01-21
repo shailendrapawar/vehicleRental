@@ -1,0 +1,1 @@
+export const ROOT_MODULES = ['shop', 'vehicle', 'user', 'rating', 'notification', 'files']
