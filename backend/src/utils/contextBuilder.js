@@ -1,4 +1,5 @@
 import logger from "./logger.js"
+import { toObjectId } from "./mongoose.js"
 const contextBuilder = (req) => {
   return {
     user: req.user || null,
@@ -7,6 +8,8 @@ const contextBuilder = (req) => {
       path: req.originalUrl
     },
     logger: logger,
+    toObjectId: toObjectId,
+
     meta: {
       ip: req.ip || null,
       userAgent: req.headers["user-agent"]

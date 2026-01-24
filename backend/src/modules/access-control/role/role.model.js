@@ -1,7 +1,5 @@
 import mongoose from "mongoose"
 
-import mongoose from "mongoose";
-
 const RoleSchema = new mongoose.Schema(
     {
         key: {
@@ -45,13 +43,13 @@ const RoleSchema = new mongoose.Schema(
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            required:true
+            required: true
         },
 
         updatedBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            required:true
+            required: true
         }
     },
     {
@@ -60,6 +58,6 @@ const RoleSchema = new mongoose.Schema(
 );
 
 // Indexes
-RoleSchema.index({ key: 1, tenantId: 1 }, { unique: true });
+// RoleSchema.index({ key: 1, tenantId: 1 }, { unique: true });
 
-export const Role = mongoose.model("Role", RoleSchema);
+export default mongoose.model("Role", RoleSchema);

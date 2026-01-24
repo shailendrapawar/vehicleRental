@@ -13,6 +13,7 @@ import authRouter from './modules/authentication/auth.routes.js';
 import shopRouter from "./modules/shop/shop.routes.js"
 import vehicleRouter from "./modules/vehicle/vehicle.routes.js"
 import permissionRouter from "./modules/access-control/permission/permission.routes.js"
+import roleRouter from "./modules/access-control/role/role.routes.js"
 
 import vehicleApplicationRouter from "./modules/vehicle-application/vehicle.application.routes.js"
 
@@ -40,6 +41,7 @@ app.use("/auth", authRouter);
 app.use("/shops", shopRouter);
 app.use("/vehicles", vehicleRouter);
 app.use("/permissions", permissionRouter)
+app.use("/role",roleRouter);
 
 app.use("/applications", vehicleApplicationRouter)
 app.use("/files", fileRouter)
