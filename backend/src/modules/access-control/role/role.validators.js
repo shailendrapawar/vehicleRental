@@ -1,5 +1,24 @@
 import Joi from "joi"
 
+
+const permissionString = Joi.string()
+    .trim()
+    .regex(/^[a-z0-9_-]+:[a-z0-9_-]+$/i)
+    .messages({
+        "string.pattern.base":
+            "Permission must be in format 'entity:action' (e.g., 'shop:create')"
+    });
+
+const objectId = Joi.string()
+    .hex()
+    .length(24)
+    .messages({
+        "string.hex": "Permission id must be a valid ObjectId",
+        "string.length": "Permission id must be a 24 character ObjectId"
+
+    });
+
+
 export const createRoleSchema = Joi.object({
 
     key: Joi.string()
@@ -41,11 +60,15 @@ export const createRoleSchema = Joi.object({
         }),
 
     permissions: Joi.array()
-        .items(Joi.string().regex(/^[a-z0-9_-]+:[a-z0-9_-]+$/i))
+        .items(
+            Joi.alternatives().try(
+                permissionString,
+                objectId
+            )
+        )
         .optional()
         .messages({
-            "array.base": "Permissions must be an array",
-            "string.pattern.base": "Each permission must be in format 'entity:action' (e.g., 'shop:create')"
+            "array.base": "Permissions must be an array"
         }),
 
     metadata: Joi.object()
@@ -94,11 +117,15 @@ export const updateRoleSchema = Joi.object({
         }),
 
     permissions: Joi.array()
-        .items(Joi.string().regex(/^[a-z0-9_-]+:[a-z0-9_-]+$/i))
+        .items(
+            Joi.alternatives().try(
+                permissionString,
+                objectId
+            )
+        )
         .optional()
         .messages({
-            "array.base": "Permissions must be an array",
-            "string.pattern.base": "Each permission must be in format 'entity:action' (e.g., 'shop:create')"
+            "array.base": "Permissions must be an array"
         }),
 
     isActive: Joi.boolean()

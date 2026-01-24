@@ -16,12 +16,14 @@ export default class RoleService extends BaseService {
             select: "name email"
         },
         {
-            path: "permissions"
+            path: "permissions",
+            select: "key module isActive"
         }
     ]
 
-    static set = (model, entity, context) => {
-        const log = context.logger;
+    static set = async (model, entity, context) => {
+        const { user, logger: log, toObjectId } = context;
+
         log.info(`processing ${Object.keys(model)?.length} fields, to update role: ${entity._id}`)
 
         if (model.name) {
@@ -37,7 +39,8 @@ export default class RoleService extends BaseService {
         }
 
         if (model.permissions && Array.isArray(model.permissions)) {
-            entity.permissions = model.permissions.map(p => new mongoose.Types.ObjectId(p))
+            let permission = await getMappedPermissions(model.permissions, context)
+            entity.permissions = permission;
         }
 
         if (model.metadata) {
@@ -51,7 +54,7 @@ export default class RoleService extends BaseService {
             entity.isActive = model.isActive
         }
 
-        entity.updatedBy = new mongoose.Types.ObjectId(context.user?._id);
+        entity.updatedBy = toObjectId(user?._id);
 
         return entity;
     }
@@ -202,7 +205,7 @@ export default class RoleService extends BaseService {
 }
 
 const getMappedPermissions = async (payload, context) => {
-
+    // takes either(objectId, or permission key)
     let result = payload?.map((item) => {
         return PermissionService.get(item, context);
     })
