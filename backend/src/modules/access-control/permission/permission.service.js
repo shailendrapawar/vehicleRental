@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 // import BaseService from "../base/base.service.js";
 import PermissionModel from "./permission.model.js";
 import AppError from "../../../utils/app-error.js";
+import logger from "../../../utils/logger.js";
 
 class PermissionService {
 
@@ -100,6 +101,7 @@ class PermissionService {
         if (existingPermission) {
             log.warn(`Permission already exists with key: ${model.key}, returning back...`);
             throw new AppError("Permission already exists with this key", 400, "Bad Request");
+
         }
 
         const entity = new PermissionModel({
@@ -132,21 +134,27 @@ class PermissionService {
         return entity;
     }
 
-    // static delete = async (id, context) => {
-    //     if (!id) { return }
-    //     const log = context.logger;
-    //     log.silly(`Inside DELETE service, with keyword: ${id}`);
+    static bulkCreate = async (data, context) => {
+        const log = context.logger;
+        log.silly(`Inside BULK service, with payload: ${JSON.stringify(data)}`);
 
-    //     let entity = await this.get(id, context, {});
-    //     if (!entity) {
-    //         log.warn(`No permission found with: ${id}, returning back`);
-    //         throw new AppError("No Permission found", 404, "RESOURCE_NOT_FOUND");
-    //     }
+        let result = data?.actions?.map((action) => {
+            const model = {
+                key: `${data.module}:${action}`,
+                module: data.module,
+                description: ` Permission for ${action} of ${data.module}`
+            }
+            return this.create(model, context, {});
+        })
 
-    //     await PermissionModel.findByIdAndDelete(entity._id);
-    //     log.info(`Permission deleted successfully: ${entity._id}`);
-    //     return entity;
-    // }
+        result = await Promise.allSettled(result);
+        // console.log(result)
+        log.debug(`BULK PERMISSION RESULT: ${JSON.stringify(result)}`)
+        return result.filter((item) => item.status === "fulfilled")
+
+    }
+
+
 }
 
 export default PermissionService

@@ -27,4 +27,11 @@ permissionRouter.put("/:id",
     checkRoleMiddleware(['admin']),
     PermissionController.update
 )
+//====================================
+
+permissionRouter.post("/bulk-create",
+    authMiddleware,
+    checkRoleMiddleware(['admin']),
+    PermissionController.bulkCreate
+)
 export default permissionRouter

@@ -42,7 +42,13 @@ export const updatePermissionSchema = Joi.object({
 
     module: Joi.string()
         .trim()
-        .optional(),
+        .valid(...ROOT_MODULES)
+        .lowercase()
+        .required()
+        .messages({
+            'any.only': "Invalid module",
+            'string.empty': 'Module name is required'
+        }),
 
     description: Joi.string()
         .trim()
@@ -56,7 +62,21 @@ export const updatePermissionSchema = Joi.object({
     isActive: Joi.boolean()
         .optional()
 })
-// .min(1) // At least one field must be provided to update
-// .messages({
-//     'object.min': 'At least one field must be provided for update'
-// });
+
+export const bulkCreatePermissionSchema = Joi.object({
+
+    module: Joi.string()
+        .trim()
+        .valid(...ROOT_MODULES)
+        .lowercase()
+        .required()
+        .messages({
+            'any.only': "Invalid module",
+            'string.empty': 'Module name is required',
+        }),
+
+    actions: Joi.array()
+        .min(1)
+        .required()
+
+})

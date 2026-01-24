@@ -2,7 +2,7 @@ import BaseController from "../../base/base.controller.js"
 import logger from "../../../utils/logger.js";
 import { buildPagination } from "../../../helpers/requestHelper.js"
 import contextBuilder from "../../../utils/contextBuilder.js"
-import { createPermissionSchema, updatePermissionSchema } from "./permission.validators.js";
+import { bulkCreatePermissionSchema, createPermissionSchema, updatePermissionSchema } from "./permission.validators.js";
 import PermissionService from "./permission.service.js";
 
 
@@ -73,6 +73,32 @@ class PermissionController extends BaseController {
 
             return this.handleResponse(res, 200, "Permission  updated successfully,", data)
 
+
+        } catch (error) {
+            logger.error(error)
+            return this.handleError(res, 500, error)
+        }
+    }
+
+    static bulkCreate = async (req, res) => {
+        try {
+            const context = contextBuilder(req);
+            const log = context.logger;
+
+            log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:bulkCreate module as ${context?.user?.role}`)
+
+            const { error, value } = bulkCreatePermissionSchema.validate(req.body)
+            if (error) {
+                log.error(error)
+                return this.handleError(res, 400, error)
+            }
+
+            const result = await PermissionService.bulkCreate(value, context);
+
+            return this.handleResponse(res, 201, `Bulk permission created for ${value.module}`, {
+                count: result.length,
+                item: result
+            })
 
         } catch (error) {
             logger.error(error)
