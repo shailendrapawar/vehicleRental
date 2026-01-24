@@ -41,9 +41,6 @@ export default class RoleController extends BaseController {
             const log = context.logger;
             log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:search module as ${context?.user?.role}`)
 
-            if (!RoleService.search) {
-                throw new Error("Method not supported");
-            }
 
             let options = {};
             options.pagination = buildPagination(req)
@@ -91,9 +88,6 @@ export default class RoleController extends BaseController {
             const log = context.logger;
             log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:update module as ${context?.user?.role}`)
 
-            if (!RoleService.update) {
-                throw new Error("Method not supported");
-            }
 
             // #VALIDATE body
             const { error, value } = updateRoleSchema.validate(req.body)
@@ -105,26 +99,6 @@ export default class RoleController extends BaseController {
             const data = await RoleService.update(req.params.id, value, context)
 
             return this.handleResponse(res, 200, "Role updated successfully", data)
-
-        } catch (error) {
-            logger.error(error)
-            return this.handleError(res, 500, error)
-        }
-    }
-
-    static delete = async (req, res) => {
-        try {
-            const context = contextBuilder(req);
-            const log = context.logger;
-            log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:delete module as ${context?.user?.role}`)
-
-            if (!RoleService.delete) {
-                throw new Error("Method not supported");
-            }
-
-            const data = await RoleService.delete(req.params.id, context)
-
-            return this.handleResponse(res, 200, "Role deleted successfully", data)
 
         } catch (error) {
             logger.error(error)

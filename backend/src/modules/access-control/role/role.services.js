@@ -182,26 +182,6 @@ export default class RoleService extends BaseService {
         return entity
     }
 
-    static delete = async (id, context) => {
-        if (!id) { return }
-        const log = context.logger;
-        log.silly(`Inside DELETE service, with keyword:${id}`)
-
-        let entity = await this.get(id, context, {});
-        if (!entity) {
-            log.warn(`No role found with: ${id}, returning back`)
-            throw new AppError("No Role found", 404, "RESOURCE_NOT_FOUND")
-        }
-
-        // Prevent system roles from being deleted
-        if (entity.isSystem) {
-            log.warn(`Cannot delete system role: ${id}`)
-            throw new AppError("System roles cannot be deleted", 400, "Bad Request")
-        }
-
-        await RoleModel.findByIdAndDelete(id);
-        return { message: "Role deleted successfully" }
-    }
 }
 
 const getMappedPermissions = async (payload, context) => {

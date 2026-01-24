@@ -31,11 +31,5 @@ roleRouter.put("/:id",
     RoleController.update
 )
 
-// Delete role
-roleRouter.delete("/:id",
-    authMiddleware,
-    checkRoleMiddleware(['admin']),
-    RoleController.delete
-)
 
 export default roleRouter
