@@ -4,7 +4,7 @@ import RoleModel from "./role.model.js";
 import AppError from "../../../utils/app-error.js";
 import PermissionService from "../permission/permission.service.js";
 
-class RoleService extends BaseService {
+export default class RoleService extends BaseService {
 
     static populate = [
         {
@@ -121,7 +121,7 @@ class RoleService extends BaseService {
     }
 
     static create = async (model, context, options = {}) => {
-        const { toObjectId, log: logger } = context;
+        const { toObjectId, logger: log, user } = context;
 
         // Check if role with same key already exists
         const existingRole = await this.get(model.key, context)
@@ -130,34 +130,26 @@ class RoleService extends BaseService {
             throw new AppError("Role Already exists with this key", 400, "Bad Request");
         }
 
+        //normalise permissions
         let permissions = [];
         if (model?.permissions?.length > 0) {
-            let result = model?.permissions?.map((item) => {
-                return PermissionService.get(item, context);
-            })
 
-            result = await Promise.allSettled(result)
-            permissions = result.map((item) => {
-                if (item.status == "fulfilled") {
-                    return item?.value?._id
-                }
-            });
+            permissions = await getMappedPermissions(model.permissions, context)
 
-            if (result.length === 0) {
-                log.warn(`${result.length} permisisons exits with given permisison paylod`)
-                throw new AppError("No given permissions exists in the system")
+            if (permissions.length === 0) {
+                log.warn(`${result.length} permisisons exits with given paylod`)
+                // throw new AppError("No given permissions exists in the system")
             }
-
         }
 
+        // create entity
         const entity = new RoleModel({
             key: model.key.toLowerCase(),
             name: model.name,
             description: model.description,
             permissions: permissions || [],
-            metadata: model.metadata || {},
-            createdBy: toObjectId(context.user?._id),
-            updatedBy: toObjectId(context.user?._id)
+            createdBy: toObjectId(user?._id),
+            updatedBy: toObjectId(user?._id)
         })
 
         await entity.save()
@@ -209,5 +201,19 @@ class RoleService extends BaseService {
     }
 }
 
+const getMappedPermissions = async (payload, context) => {
 
-export default RoleService
+    let result = payload?.map((item) => {
+        return PermissionService.get(item, context);
+    })
+
+    result = await Promise.allSettled(result)
+
+    let permissions = result.map((item) => {
+        if (item.status == "fulfilled") {
+            return item?.value?._id
+        }
+    });
+
+    return permissions || [];
+}

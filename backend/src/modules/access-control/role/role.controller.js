@@ -8,7 +8,7 @@ import { createRoleSchema, updateRoleSchema } from "./role.validators.js"
 import policyEngine from "../../../policies/policyEngine.js"
 import { responseMapper } from "../../../handlers/responseMapper.js"
 
-class RoleController extends BaseController {
+export default class RoleController extends BaseController {
 
     static MODULE = "ROLE";
 
@@ -79,6 +79,7 @@ class RoleController extends BaseController {
 
             return this.handleResponse(res, 201, "Role creation successful", data)
         } catch (error) {
+            console.log(error)
             logger.error(error)
             return this.handleError(res, 500, error)
         }
@@ -132,4 +133,5 @@ class RoleController extends BaseController {
     }
 }
 
-export default RoleController
+
+// export default RoleController

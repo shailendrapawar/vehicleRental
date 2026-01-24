@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken"
-import mongoose, { mongo } from "mongoose";
 const authMiddleware = async (req, res, next) => {
     try {
 
@@ -9,11 +8,6 @@ const authMiddleware = async (req, res, next) => {
         }
         const decode = await jwt.verify(token, process.env.JWT_SECRET)
         // console.log(decode)
-
-        // let user = {
-        //     ...decode,
-        //     _id: mongoose.Types.ObjectId.createFromHexString(decode?._id)
-        // }
 
         req.user = decode;
         next();
