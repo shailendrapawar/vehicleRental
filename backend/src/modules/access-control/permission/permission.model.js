@@ -34,6 +34,6 @@ const schema = new mongoose.Schema({
         timestamps: true
     })
 
-const PermissionModel = mongoose.model("permission", schema);
+const PermissionModel = mongoose.model("Permission", schema);
 
 export default PermissionModel;
