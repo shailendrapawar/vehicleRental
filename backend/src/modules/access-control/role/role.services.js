@@ -207,13 +207,14 @@ const getMappedPermissions = async (payload, context) => {
 }
 
 const handlerPermissionUpdate = async (model, entity, context) => {
+    const { logger: log } = context;
     const { mode, values } = model.permissions
 
+    log.info(`tranforming permission for entity:${entity?._id} for MODE:${model?.permissions?.mode || "add"}`)
     const mappedPermissions = await getMappedPermissions(values, context);
 
     switch (mode) {
         case "add": {
-
             //convert exisiting permissions to string id(for better compare)
             const existingPerm = entity?.permissions?.map((item) => item.toString());
             //comvert incoming mapped-permission to string id(for better compare)
@@ -224,9 +225,9 @@ const handlerPermissionUpdate = async (model, entity, context) => {
             //convert all string id back to object id
             const finalUniquePerm = [...permSet]?.map((item) => context?.toObjectId(item))
 
+            log.debug(`Final permission setting to entity: ${JSON.stringify(finalUniquePerm)}`)
             //set  object id's to model's permissions field
             entity.permissions = finalUniquePerm;
-
             break;
         }
 
@@ -243,14 +244,16 @@ const handlerPermissionUpdate = async (model, entity, context) => {
                     return item
                 }
 
-            }).map((item) => context.toObjectId(item))
+            })?.map((item) => context.toObjectId(item))
 
-            entity.permissions = filteredPerm
+            log.debug(`Final filtered permission setting to entity: ${JSON.stringify(filteredPerm)}`)
+            entity.permissions = filteredPerm || []
 
             break;
         }
 
         default:
+            context.logger.debug(`Invalid mode to tranform pemrission for entity:${entity._id}`)
             break;
     }
 }
