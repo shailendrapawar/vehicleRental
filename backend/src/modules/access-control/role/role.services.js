@@ -38,9 +38,12 @@ export default class RoleService extends BaseService {
             entity.description = model.description
         }
 
-        if (model.permissions && Array.isArray(model.permissions)) {
-            let permission = await getMappedPermissions(model.permissions, context)
-            entity.permissions = permission;
+        if (model.permissions && model.permissions.mode && model.permissions.values.length > 0) {
+            // let permission = await getMappedPermissions(model.permissions, context)
+            // entity.permissions = permission;
+            // entity.permissions.push(permission)
+            // entity=
+            await handlerPermissionUpdate(model, entity, context)
         }
 
         if (model.metadata) {
@@ -55,7 +58,6 @@ export default class RoleService extends BaseService {
         }
 
         entity.updatedBy = toObjectId(user?._id);
-
         return entity;
     }
 
@@ -185,18 +187,70 @@ export default class RoleService extends BaseService {
 }
 
 const getMappedPermissions = async (payload, context) => {
-    // takes either(objectId, or permission key)
-    let result = payload?.map((item) => {
+    // takes only string of permission
+    const uniqueSet = new Set(payload);
+
+    // transform uniqueSet=>array for iteration
+    let result = [...uniqueSet]?.map((item) => {
         return PermissionService.get(item, context);
     })
 
     result = await Promise.allSettled(result)
 
-    let permissions = result.map((item) => {
-        if (item.status == "fulfilled") {
+    let permissions = result.filter((item) => {
+        if (item.status == "fulfilled" && item.value) {
             return item?.value?._id
         }
-    });
+    }).map((item) => item?.value?._id);
 
     return permissions || [];
+}
+
+const handlerPermissionUpdate = async (model, entity, context) => {
+    const { mode, values } = model.permissions
+
+    const mappedPermissions = await getMappedPermissions(values, context);
+
+    switch (mode) {
+        case "add": {
+
+            //convert exisiting permissions to string id(for better compare)
+            const existingPerm = entity?.permissions?.map((item) => item.toString());
+            //comvert incoming mapped-permission to string id(for better compare)
+            const incomingPerm = mappedPermissions?.map((item) => item?.toString());
+
+            //make unique set for all permission's object id
+            const permSet = new Set([...existingPerm, ...incomingPerm]);
+            //convert all string id back to object id
+            const finalUniquePerm = [...permSet]?.map((item) => context?.toObjectId(item))
+
+            //set  object id's to model's permissions field
+            entity.permissions = finalUniquePerm;
+
+            break;
+        }
+
+        case "remove": {
+
+            //convert exisiting permissions to string id(for better compare)
+            const existingPerm = entity?.permissions?.map((item) => item.toString());
+
+            //comvert incoming mapped-permission to string id(for better compare)
+            const incomingPerm = mappedPermissions?.map((item) => item?.toString());
+
+            const filteredPerm = existingPerm.filter((item) => {
+                if (!incomingPerm.includes(item)) {
+                    return item
+                }
+
+            }).map((item) => context.toObjectId(item))
+
+            entity.permissions = filteredPerm
+
+            break;
+        }
+
+        default:
+            break;
+    }
 }

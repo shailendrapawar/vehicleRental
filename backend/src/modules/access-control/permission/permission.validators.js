@@ -1,5 +1,7 @@
 import Joi from "joi"
 import { ROOT_MODULES } from "../../../constants/modules.js"
+import { ROOT_MODULES_ACTIONS } from "../../../constants/actions.js";
+
 export const createPermissionSchema = Joi.object({
     key: Joi.string()
         .trim()
@@ -28,8 +30,6 @@ export const createPermissionSchema = Joi.object({
             'string.max': 'Description cannot exceed 255 characters'
         }),
 });
-
-
 export const updatePermissionSchema = Joi.object({
     key: Joi.string()
         .trim()
@@ -63,6 +63,9 @@ export const updatePermissionSchema = Joi.object({
         .optional()
 })
 
+
+//enforce the bulk write for permissions due to
+// module and actions separation
 export const bulkCreatePermissionSchema = Joi.object({
 
     module: Joi.string()
@@ -77,6 +80,14 @@ export const bulkCreatePermissionSchema = Joi.object({
 
     actions: Joi.array()
         .min(1)
+        .items(
+            Joi.string().valid(...ROOT_MODULES_ACTIONS)
+        )
         .required()
+        .messages({
+            "array.base": "Actions must be an array",
+            "array.min": "At least one action is required",
+            "any.only": "Invalid action provided"
+        })
 
 })

@@ -32,7 +32,8 @@ const RoleSchema = new mongoose.Schema(
         },
         permissions: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Permission"
+            ref: "Permission",
+            unique: true
         }],
 
         metadata: {

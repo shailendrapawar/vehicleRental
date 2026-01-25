@@ -71,6 +71,21 @@ export const createRoleSchema = Joi.object({
             "array.base": "Permissions must be an array"
         }),
 
+    // permissions: {
+    //     mode: Joi.string().valid("add", "remove").required(),
+    //     values: Joi.array()
+    //         .items(
+    //             Joi.alternatives().try(
+    //                 permissionString,
+    //                 objectId
+    //             )
+    //         )
+    //         .optional()
+    //         .messages({
+    //             "array.base": "Permissions must be an array"
+    //         }),
+    // },
+
     metadata: Joi.object()
         .optional()
         .messages({
@@ -116,17 +131,21 @@ export const updateRoleSchema = Joi.object({
             "string.max": "Description cannot exceed 500 characters"
         }),
 
-    permissions: Joi.array()
-        .items(
-            Joi.alternatives().try(
-                permissionString,
-                objectId
+
+    permissions: {
+        mode: Joi.string().valid("add", "remove").required(),
+        values: Joi.array()
+            .items(
+                Joi.alternatives().try(
+                    permissionString,
+                    // objectId
+                )
             )
-        )
-        .optional()
-        .messages({
-            "array.base": "Permissions must be an array"
-        }),
+            .optional()
+            .messages({
+                "array.base": "Permissions must be an array"
+            }),
+    },
 
     isActive: Joi.boolean()
         .optional()
