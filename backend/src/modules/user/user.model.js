@@ -14,16 +14,19 @@ const userSchema = new mongoose.Schema(
             unique: true,
             trim: true,
         },
+
         password: {
             type: String,
             minlength: 6,
             select: false,
         },
+
         googleId: {
             type: String,
             unique: true,
             sparse: true,
         },
+
         profilePicture: {
             url: {
                 type: String,
@@ -34,13 +37,22 @@ const userSchema = new mongoose.Schema(
                 default: ""
             }
         },
+
         role: {
             type: String,
             required: true,
             enum: USER_ROLES,
             default: DEFAULT_USER_ROLE,
         },
+
+        additionalRoles: [{
+            type: mongoose.Types.ObjectId,
+            ref: "Role",
+            default: []
+        }],
+
         dob: Date,
+
         status: {
             type: String,
             enum: USER_STATUSES,
@@ -51,6 +63,7 @@ const userSchema = new mongoose.Schema(
             //banned: by admin,
             // inactive: by user itself for deactivation
         },
+
         statusMessage: {
             type: String,
             default: ""

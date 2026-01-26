@@ -5,7 +5,6 @@ import AppError from "../../../utils/app-error.js";
 import PermissionService from "../permission/permission.service.js";
 
 export default class RoleService extends BaseService {
-
     static populate = [
         {
             path: "createdBy",
@@ -39,10 +38,6 @@ export default class RoleService extends BaseService {
         }
 
         if (model.permissions && model.permissions.mode && model.permissions.values.length > 0) {
-            // let permission = await getMappedPermissions(model.permissions, context)
-            // entity.permissions = permission;
-            // entity.permissions.push(permission)
-            // entity=
             await handlerPermissionUpdate(model, entity, context)
         }
 
@@ -183,9 +178,9 @@ export default class RoleService extends BaseService {
 
         return entity
     }
-
 }
 
+//get permisison from object id's
 const getMappedPermissions = async (payload, context) => {
     // takes only string of permission
     const uniqueSet = new Set(payload);
@@ -206,6 +201,7 @@ const getMappedPermissions = async (payload, context) => {
     return permissions || [];
 }
 
+//add or remove permisison form entity
 const handlerPermissionUpdate = async (model, entity, context) => {
     const { logger: log } = context;
     const { mode, values } = model.permissions
