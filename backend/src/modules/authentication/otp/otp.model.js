@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { OTP_PUROPSES } from "../../../constants/otp"
 const schema = new mongoose.Schema({
     email: {
         type: String,
@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
     purpose: {
         type: String,
         required: true,
-        enum: ["signup", "reset_password"],
+        enum: OTP_PUROPSES,
 
     },
     otp: {
@@ -16,18 +16,18 @@ const schema = new mongoose.Schema({
         length: 6,
         required: true
     },
-    role:{
+    role: {
         type: String,
         required: true,
-        enum: ["owner", "customer","admin"],
+        enum: ["owner", "customer", "admin"],
     },
     expiresIn: {
         type: Date,
         required: true
     },
-    isVerified:{
-        type:Boolean,
-        default:false
+    isUsed: {
+        type: Boolean,
+        default: false
     },
     createdAt: {
         type: Date,
@@ -37,5 +37,5 @@ const schema = new mongoose.Schema({
 
 })
 
-const OtpModel = mongoose.model("OtpModel", schema);
+const OtpModel = mongoose.model("Otp", schema);
 export default OtpModel;

@@ -46,8 +46,10 @@ const userSchema = new mongoose.Schema(
         },
 
         additionalRoles: [{
-            type: mongoose.Types.ObjectId,
-            ref: "Role",
+            // type: mongoose.Types.ObjectId,
+            // ref: "Role",
+            // default: []
+            type: String,
             default: []
         }],
 

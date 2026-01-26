@@ -14,6 +14,7 @@ import shopRouter from "./modules/shop/shop.routes.js"
 import vehicleRouter from "./modules/vehicle/vehicle.routes.js"
 import permissionRouter from "./modules/access-control/permission/permission.routes.js"
 import roleRouter from "./modules/access-control/role/role.routes.js"
+import userRouter from "./modules/user/user.routes.js"
 
 import vehicleApplicationRouter from "./modules/vehicle-application/vehicle.application.routes.js"
 
@@ -37,11 +38,15 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
 
 // ===== routes middleware=========
+
 app.use("/auth", authRouter);
+app.use("/users", userRouter)
+
 app.use("/shops", shopRouter);
 app.use("/vehicles", vehicleRouter);
+
+app.use("/role", roleRouter);
 app.use("/permissions", permissionRouter)
-app.use("/role",roleRouter);
 
 app.use("/applications", vehicleApplicationRouter)
 app.use("/files", fileRouter)
