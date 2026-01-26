@@ -1,1 +1,1 @@
-export const OTP_PUROPSES = ['login', 'signup']
+export const OTP_PUROPSES = ['signup', 'reset_password']

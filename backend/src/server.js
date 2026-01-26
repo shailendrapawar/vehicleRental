@@ -9,12 +9,16 @@ import cookieParser from "cookie-parser"
 import { configDotenv } from "dotenv"
 
 // ===========importing routes==============
-import authRouter from './modules/authentication/auth.routes.js';
+// import authRouter from './modules/authentication/auth.routes.js';
 import shopRouter from "./modules/shop/shop.routes.js"
 import vehicleRouter from "./modules/vehicle/vehicle.routes.js"
 import permissionRouter from "./modules/access-control/permission/permission.routes.js"
 import roleRouter from "./modules/access-control/role/role.routes.js"
 import userRouter from "./modules/user/user.routes.js"
+
+
+import authRouter from './modules/authentication/auth/auth.routes.js';
+import otpRouter from './modules/authentication/otp/otp.routes.js';
 
 import vehicleApplicationRouter from "./modules/vehicle-application/vehicle.application.routes.js"
 
@@ -39,7 +43,8 @@ app.use(express.urlencoded({ extended: true }))
 
 // ===== routes middleware=========
 
-app.use("/auth", authRouter);
+app.use("/auth/otp", otpRouter);
+app.use("/auth", authRouter)
 app.use("/users", userRouter)
 
 app.use("/shops", shopRouter);

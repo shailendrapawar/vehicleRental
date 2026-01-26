@@ -10,8 +10,8 @@ import jwt from "jsonwebtoken"
 
 // import REGEX from "../utils/regex.js";
 import generateSecureOTP from "../../../utils/generateOtp.js";
-import OtpModel from "./otp.model.js";
-import OtpService from "./otp.service.js";
+import OtpModel from "../otp/otp.model.js";
+import OtpService from ".././otp/otp.service.js";
 import { EmailService } from "../../../providers/emails/index.js";
 
 class AuthController extends BaseController {

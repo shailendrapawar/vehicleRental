@@ -85,10 +85,11 @@ class OtpService extends BaseService {
             where.isVerified = query.isVerified
         }
 
+
         // Filter by expiration
         if (query.isExpired === true) {
             where.expiresIn = { $lt: new Date() }
-        } else if (query.isExpired === false) {
+        } else {
             where.expiresIn = { $gte: new Date() }
         }
 
@@ -109,8 +110,11 @@ class OtpService extends BaseService {
         log.info(`Creating OTP for email: ${email}, purpose: ${purpose}`)
 
         // Check if OTP already exists and is not expired
-        const existingOtp = await this.get({ email: email.toLowerCase(), purpose, role, isVerified: false, expiresIn: { $gt: new Date() } }, context, { lean: true })
-        if (existingOtp) {
+        const existingOtp = await this.search({ email: email.toLowerCase(), purpose, role, isVerified: false, expiresIn: false },
+            context,
+            { lean: true, pagination: { limit: 2 } })
+
+        if (existingOtp?.count > 0) {
             log.warn(`OTP already exists for ${email} with purpose ${purpose}`)
             throw new AppError(`OTP already sent to ${email} for ${purpose}. Please try again after some time.`, 400, "OTP_ALREADY_SENT");
         }

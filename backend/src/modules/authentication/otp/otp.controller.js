@@ -29,32 +29,11 @@ class OtpController extends BaseController {
                 return this.handleError(res, 400, error)
             }
 
-            const { email, purpose, role } = value
-
-            // Generate OTP
-            const { otp, expiresIn, createdAt } = generateSecureOTP()
+            const { email, purpose } = value
 
             log.info(`OTP request received for ${email} for ${purpose}`)
 
-            // Check if OTP already exists and is not expired
-            const existingOtp = await OtpService.get(
-                { email: email.toLowerCase(), purpose, role, isVerified: false, expiresIn: { $gt: new Date() } },
-                context,
-                { lean: true }
-            )
-            if (existingOtp) {
-                log.warn(`OTP was already sent to ${email} for ${purpose}`)
-                return this.handleError(res, 400, { message: `OTP already sent to ${email} for ${purpose}. Please try again after some time.` })
-            }
-
-            // Send OTP via email
-            const isMailSent = await EmailService({ to: email, purpose, otp });
-            if (!isMailSent.success || isMailSent.success === false) {
-                log.error(`Failed to send OTP email to ${email} for ${purpose}`)
-                return this.handleError(res, 500, { message: "Failed to send OTP email. Please try again later." })
-            }
-
-            // Save OTP to database
+            // Send to otp servive
             const data = await OtpService.create(value, context)
 
             if (!data) {
