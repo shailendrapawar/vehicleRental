@@ -16,6 +16,14 @@ class PermissionController extends BaseController {
             const log = context.logger;
             log.info(`USER: ${context?.user?._id} accessing ${this.MODULE}:get module as ${context?.user?.role}`)
 
+            const permission = await PermissionService.get(req.params.id, context, { lean: false, populate: true })
+
+            if (!permission) {
+                return this.handleResponse(res, 404, `No permission found with ${req?.params?.id}.`)
+            }
+
+            //handle with response mapper
+            return this.handleResponse(res, 200, "Shop found", permission)
         } catch (error) {
             logger.error(error)
             return this.handleError(res, 500, error)

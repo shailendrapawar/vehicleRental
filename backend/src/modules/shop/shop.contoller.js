@@ -5,8 +5,7 @@ import contextBuilder from "../../utils/contextBuilder.js"
 
 import ShopService from "./shop.service.js"
 import { createShopSchema, updateShopSchema } from "./shop.validator.js"
-import policyEngine from "../../policies/policyEngine.js"
-import { responseMapper } from "../../handlers/responseMapper.js"
+
 class ShopController extends BaseController {
 
     static MODULE = "SHOP";

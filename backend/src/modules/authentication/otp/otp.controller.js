@@ -18,10 +18,6 @@ class OtpController extends BaseController {
             const log = context.logger;
             log.info(`Accessing ${this.MODULE}:sendOTP module`)
 
-            if (!OtpService.create) {
-                throw new Error("Method not supported");
-            }
-
             // Validate request body
             const { error, value } = sendOTPSchema.validate(req.body)
             if (error) {
@@ -53,10 +49,6 @@ class OtpController extends BaseController {
             let context = contextBuilder(req)
             const log = context.logger;
             log.info(`Accessing ${this.MODULE}:verifyOTP module`)
-
-            if (!OtpService.verify) {
-                throw new Error("Method not supported");
-            }
 
             // Validate request body
             const { error, value } = verifyOTPSchema.validate(req.body)
@@ -94,6 +86,7 @@ class OtpController extends BaseController {
         }
     }
 
+    //for admins
     static search = async (req, res) => {
         try {
             const context = contextBuilder(req);

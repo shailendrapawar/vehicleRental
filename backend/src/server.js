@@ -19,9 +19,6 @@ import userRouter from "./modules/user/user.routes.js"
 
 import authRouter from './modules/authentication/auth/auth.routes.js';
 import otpRouter from './modules/authentication/otp/otp.routes.js';
-
-import vehicleApplicationRouter from "./modules/vehicle-application/vehicle.application.routes.js"
-
 import fileRouter from "./modules/files/file.routes.js"
 
 configDotenv();
@@ -53,7 +50,6 @@ app.use("/vehicles", vehicleRouter);
 app.use("/role", roleRouter);
 app.use("/permissions", permissionRouter)
 
-app.use("/applications", vehicleApplicationRouter)
 app.use("/files", fileRouter)
 
 
